@@ -35,11 +35,17 @@
 
 * Problems:
     1. Only results in `true` or `false`, not more info
-    2. Very slow to evaluate
+    2. Very slow to evaluate. 
+        ```
+        searchSpace = 2^numVariables`
+        ```
 
 ### 2.2 `Traveling Salesman (TSP)`
 > Minimum distance traveled while traveling through each destination once  
 * Size of the problem exponentiates as the number of destinations traveled increases
+    ```
+    possibleRoutes = (n - 1)! / 2
+    ```
 
 <br>
 
