@@ -37,7 +37,7 @@
     1. Only results in `true` or `false`, not more info
     2. Very slow to evaluate. 
         ```
-        searchSpace = 2^numVariables`
+        searchSpace = 2^numVariables
         ```
 
 ### 2.2 `Traveling Salesman (TSP)`
@@ -75,5 +75,10 @@ Operator | Operand | Final Evalutation
 
 ## 4. Describe the `problem-solving paradigm` used in the course
 
-<br>
-<img src = "Images/probPar.png" width = 550>
+### The fundamental paradigm to approaching optimization problems
+1. Acquire information, data, specifications to `define a problem`
+2. Then visualize, simplify and `formulate a model`
+3. Finally, decide on an approach to `produce a solution`.
+
+    <br>
+    <img src = "Images/probPar.png" width = 550>
