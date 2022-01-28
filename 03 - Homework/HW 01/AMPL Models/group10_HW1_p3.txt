@@ -24,7 +24,7 @@
 
 # OBJECTIVE --------------------------------------------------------------------
 	
-	## Objective is to Maximize the Expected Earnings of the bond.
+	## Objective is to Maximize the Expected Earnings of the porfolio.
 	## Coefficients resemble the expected return on the bonds, in the form of decimal
 	maximize expectedEarnings: 0.043*bondA + 0.027*bondB + 0.025*bondC + 0.022*bondD + 0.045*bondE;
 
@@ -57,15 +57,15 @@
 	print 'Decision Variables for Bond A, B, C, D, and E, Respectively';
 	display bondA, bondB, bondC, bondD, bondE;
 
-	print 'C1: Budget Constraint and Range of Feasibility';
-	display budget, budget.up, budget.down;
-
-	print 'C2: Govt. Agency Bonds Constraint and Range of Feasibility';
-	display govtAndAgency, govtAndAgency.up, govtAndAgency.down;
-	
-	print 'C3: Average Quality of the Portfolio Constraint and Range of Feasibility';
-	display avgQuality, avgQuality.up, avgQuality.down;
-	
-	print 'C4: Average Maturity Constraint and Range of Feasibility';
-	display avgMaturity, avgMaturity.up, avgMaturity.down;
+#	print 'C1: Budget Constraint and Range of Feasibility';
+#	display budget, budget.up, budget.down;
+#
+#	print 'C2: Govt. Agency Bonds Constraint and Range of Feasibility';
+#	display govtAndAgency, govtAndAgency.up, govtAndAgency.down;
+#	
+#	print 'C3: Average Quality of the Portfolio Constraint and Range of Feasibility';
+#	display avgQuality, avgQuality.up, avgQuality.down;
+#	
+#	print 'C4: Average Maturity Constraint and Range of Feasibility';
+#	display avgMaturity, avgMaturity.up, avgMaturity.down;
 
