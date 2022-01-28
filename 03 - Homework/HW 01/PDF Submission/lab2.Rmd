@@ -1,0 +1,142 @@
+---
+title:  "Homework 1"
+author: "Daniel Carpenter"
+date:   "January 2022"
+fontsize: 12pt
+geometry: margin=1in
+output:
+ 
+  html_document:
+    toc: yes
+    toc_float: yes
+    number_sections: yes
+  md_document: default
+  pdf_document: 
+    toc: TRUE
+    number_sections: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+---
+
+# Problem `1`
+
+---
+
+# Problem `2`
+
+---
+
+# Problem `3`
+
+---
+
+# Problem `4`
+
+---
+
+<br>
+
+## Task `a` 
+
+### Decision Variables
+
+`tv` = the number of minutes to air advertising on the *television* medium  
+`magazine` = the number of pages to to advertise on the *magazine* medium
+
+### Objective Function
+$$
+Z = (1.8\times tv) + (1.0 \times magazine)
+$$
+
+### Constraints
+
+**C1**: Must not Exceed Budget of 1 Million dollars  
+$$
+budget: (20,000 \times tv) + (10,000 \times magazine) \leq 1,000,000
+$$
+
+**C2**: Must have at least 10 minutes of air time on the TV medium  
+$$
+minTimeTV: tv \geq 10
+$$
+
+
+---
+
+<br>
+
+
+## Task `b`
+
+### Additional Constraint: Labor Time
+
+**C3**: Only 100 person weeks available, given it takes three weeks and one week to create a `tv` and `magazine` minute for advertisement, respectively.  
+$$
+personWeeks: (3 \times tv) + (1 \times magazine) \leq 100
+$$
+
+
+---
+
+<br>
+
+
+## Task `c`
+
+### Additional Constraint: Radio Advertising Medium
+
+### Decision Variables
+
+`tv` = the number of minutes to air advertising on the *television* medium  
+`magazine` = the number of pages to to advertise on the *magazine* medium
+`radio` = the number of minutes to air advertising on the *radio* medium
+
+
+### Objective Function
+$$
+Z = (1.80\times tv) + (1.00 \times magazine) + (0.25 \times radio)
+$$
+
+### New Constraints
+
+**C1**: Must not Exceed Budget of 1 Million dollars 
+$$
+budget: (20,000 \times tv) + (10,000 \times magazine) + (2,000 \times radio) \leq 1,000,000
+$$
+
+**C2**: Must have at least 10 minutes of air time on the TV medium  
+$$
+minTimeTV: tv \geq 10
+$$
+
+**C3**: Only 100 person weeks available, given it takes three weeks and one week to create a `tv` and `magazine` minute for advertisement, respectively. It only takes one day for `radio`.  
+$$
+personWeeks: (3 \times tv) + (1 \times magazine) + (\frac{1}{7} \times radio) \leq 100
+$$
+
+
+---
+
+<br>
+
+
+## Task `d`
+
+### Additional Constraints: Miminum Magazine and Maximum Radio Requirements
+
+**C4**: Must sign up for at least 2 magazine pages
+$$
+minMagazines: magazine \geq 2
+$$
+
+**C5**: Must to exceed 120 minutes of radio
+$$
+maxRadio: radio <= 120
+$$
+
+
+
