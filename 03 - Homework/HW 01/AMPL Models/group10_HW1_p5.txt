@@ -1,0 +1,78 @@
+# Problem 5 - HW1
+# Portfolio Constraint Problem Revisited
+# Daniel Carpenter
+
+# MODEL SETUP ------------------------------------------------------------------
+
+	## Reset Environment
+	reset;
+	
+	## Set up options and the solver
+	option solver cplex;
+	option cplex_options 'sensitivity';
+
+
+# DECISION VARIABLES -----------------------------------------------------------
+
+	## Dollars Invested in Respective Bonds (A, B, C, D, E)
+	var bondA >= 0;
+	var bondB >= 0;
+	var bondC >= 0;
+	var bondD >= 0;
+	var bondE >= 0;
+
+
+# OBJECTIVE --------------------------------------------------------------------
+	
+	## Objective is to Maximize the Expected Earnings of the porfolio.
+	## Coefficients resemble the expected return on the bonds, in the form of decimal
+	maximize expectedEarnings: 0.043*bondA + 0.027*bondB + 0.025*bondC + 0.022*bondD + 0.045*bondE;
+
+
+# CONSTRAINTS ------------------------------------------------------------------
+
+	## Constraint 1: Budget to invest is $10 MM or less
+	subject to budget: bondA + bondB + bondC + bondD + bondE <= 10;
+	
+	## Constraint 2: At least $4 million must be invested in government and agency bonds
+	subject to govtAndAgency: bondB + bondC + bondD >= 4;
+	
+	## Constraint 3: Average Quality of the Portfolio must not exceed 1.4
+	subject to avgQuality: 0.6*bondA + 0.6*bondB - 0.4*bondC - 0.4*bondD + 3.6*bondE <= 0;
+	
+	## Constraint 4: The Average Maturity must not Exceed Five Years
+	subject to avgMaturity: 4*bondA + 10*bondB - bondC - 2*bondD - 3*bondE <= 0;
+
+	## Constraint 5: Only select Bonds A and D (Don't select B, C, or E)
+	subject to onlyAandB: bondB + bondC + bondE == 0;
+
+	## Constraint 6: Municiple Bonds must be less than or equal to $3 MM
+	subject to municipal: bondA <= 3;
+	
+
+# SOLVE ------------------------------------------------------------------------
+
+	## Solve the model
+	solve;
+	
+	print;
+	print 'Objective: Optimal Solution for Expected Earnings (millions of dollars)';
+	display expectedEarnings;
+
+	print 'Decision Variables for Bond A, B, C, D, and E, Respectively';
+	display bondA, bondD;
+
+	print 'Shadow Price of the municipal limit:';
+	display municipal;
+
+	print 'Range of the Municipal Limit before it becomes infeasible';
+	print '(assuming nothing else changes)';
+	display municipal.up, municipal.down;
+
+	print 'You may not borrow more than 2.83%, since that is the expected';
+	print 'yield to maturity (30% of bondA * 4.3%) + (70% of bondD * 2.2%)';
+
+	print;
+	print 'If you borrowed at a rate greater than the expected YTM, then the)';
+	print 'venture would not be profitable.';
+
