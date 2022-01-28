@@ -1,5 +1,5 @@
 ---
-title:  "Homework 1"
+title:  "Homework 1 - Truth Tables & Linear Programming with AMPL"
 author: "Daniel Carpenter"
 date:   "January 2022"
 fontsize: 12pt
@@ -44,12 +44,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Decision Variables
 
-`tv` = the number of minutes to air advertising on the *television* medium  
-`magazine` = the number of pages to to advertise on the *magazine* medium
+`tv` = the number of minutes $\in Real$ to air advertising on the *television* medium  
+`magazine` = the number of pages $\in Integer$ to to advertise on the *magazine* medium
 
 ### Objective Function
+* Maximize the total audience reach
+
 $$
-Z = (1.8\times tv) + (1.0 \times magazine)
+Maximize \ Z = (1.8\times tv) + (1.0 \times magazine)
 $$
 
 ### Constraints
@@ -63,6 +65,13 @@ $$
 $$
 minTimeTV: tv \geq 10
 $$
+
+### Code 
+<img src = "Output_Images/codeProblem4a.png">
+
+
+### Output
+<img src = "Output_Images/group10_HW1_p4a.txt OUTPUT.png">
 
 
 ---
@@ -79,6 +88,11 @@ $$
 personWeeks: (3 \times tv) + (1 \times magazine) \leq 100
 $$
 
+### Code 
+<img src = "Output_Images/codeProblem4b.png">
+
+### Output
+<img src = "Output_Images/group10_HW1_p4b.txt OUTPUT.png">
 
 ---
 
@@ -91,14 +105,16 @@ $$
 
 ### Decision Variables
 
-`tv` = the number of minutes to air advertising on the *television* medium  
-`magazine` = the number of pages to to advertise on the *magazine* medium
-`radio` = the number of minutes to air advertising on the *radio* medium
+`tv` = the number of minutes $\in Real$ to air advertising on the *television* medium  
+`magazine` = the number of pages $\in Integer$ to to advertise on the *magazine* medium
+`radio` = the number of minutes $\in Real$ to air advertising on the *radio* medium
 
 
 ### Objective Function
+* Maximize the total audience reach
+
 $$
-Z = (1.80\times tv) + (1.00 \times magazine) + (0.25 \times radio)
+Maximize \ Z = (1.80\times tv) + (1.00 \times magazine) + (0.25 \times radio)
 $$
 
 ### New Constraints
@@ -118,6 +134,11 @@ $$
 personWeeks: (3 \times tv) + (1 \times magazine) + (\frac{1}{7} \times radio) \leq 100
 $$
 
+### Code 
+<img src = "Output_Images/codeProblem4c.png">
+
+### Output
+<img src = "Output_Images/group10_HW1_p4c.txt OUTPUT.png">
 
 ---
 
@@ -135,8 +156,13 @@ $$
 
 **C5**: Must to exceed 120 minutes of radio
 $$
-maxRadio: radio <= 120
+maxRadio: radio \leq 120
 $$
 
+### Code 
+<img src = "Output_Images/codeProblem4d.png">
+
+### Output
+<img src = "Output_Images/group10_HW1_p4d.txt OUTPUT.png">
 
 
