@@ -50,6 +50,10 @@
 	solve;
 	
 	print;
+
+	print 'Objective: Expected Earnings';
+	display expectedEarnings;
+
 	print 'Decision Variables for Bond A, B, C, D, and E, Respectively';
 	display bondA, bondB, bondC, bondD, bondE;
 

@@ -1,4 +1,4 @@
-# Problem 4(a) - HW1
+# Problem 4(c) - HW1
 # Advertising Campaign - Medium Selection
 # Daniel Carpenter and Effouehi Moody
 
@@ -20,28 +20,40 @@
 	## magazine = the number of pages to to advertise on the magazine medium
 	var magazine integer >= 0;
 
+	## radio = the number of minutes to air advertising on the radio medium
+	var radio >= 0;
+
 
 # OBJECTIVE --------------------------------------------------------------------
 	
 	## Objective is to Maximize the total audience reach
-	maximize audienceReach: (1.8*tv) + (1.0*magazine);
+	maximize audienceReach: (1.8*tv) + (1.0*magazine) + (0.25*radio);
 
 
 # CONSTRAINTS ------------------------------------------------------------------
 
 	## C1: Must not Exceed Budget of 1 Million dollars
-	subject to budget: (20000*tv) + (10000*magazine) <= 1000000;
+	subject to budget: (20000*tv) + (10000*magazine) + (2000*radio) <= 1000000;
 
 	## C2: Must have at least 10 minutes of air time on the TV medium
 	subject to minTimeTV: tv >= 10;
-	
+
+	## C3: Only 100 person weeks available, given it takes three weeks and one 
+	## week to create a tv and magazine minute for advertisement, respectively.
+	subject to personWeeks: (3*tv) + (1*magazine) + (1/7*radio) <= 100;
+
+	## C4: Must sign up for at least 2 magazine pages
+	subject to minMagazines: magazine >= 2;
+
+	## C5: Must to exceed 120 minutes of radio
+	subject to maxRadio: radio <= 120;
 
 # SOLVE ------------------------------------------------------------------------
 
 	## Solve the model
 	solve;
 	
-	printf '\nPROBLEM 4(a) SOLUTIONS -------------------------------------- \n\n';
+	printf '\nPROBLEM 4(d) SOLUTIONS -------------------------------------- \n\n';
 
 	## Print the Objective
 	print 'Optimal / Maximum Audience Reach in Millions:';
@@ -49,8 +61,8 @@
 
 	## Print the decision variables
 	print 'Number of minutes dedicated to TV, and pages of Magazines:';
-	display tv, magazine;
+	display tv, magazine, radio;
 
 	## Print the Budget Used
 	print 'Total Budget Used (US Dollars):';
-	display 20000*tv + 10000*magazine;
+	display 20000*tv + 10000*magazine + 2000*radio;

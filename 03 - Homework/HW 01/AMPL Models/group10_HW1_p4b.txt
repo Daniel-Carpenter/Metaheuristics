@@ -1,4 +1,4 @@
-# Problem 4(a) - HW1
+# Problem 4(b) - HW1
 # Advertising Campaign - Medium Selection
 # Daniel Carpenter and Effouehi Moody
 
@@ -34,6 +34,10 @@
 
 	## C2: Must have at least 10 minutes of air time on the TV medium
 	subject to minTimeTV: tv >= 10;
+
+	## C3: Only 100 person weeks available, given it takes three weeks and one 
+	## week to create a tv and magazine minute for advertisement, respectively.
+	subject to personWeeks: (3*tv) + (1*magazine) <= 100;
 	
 
 # SOLVE ------------------------------------------------------------------------
@@ -41,7 +45,7 @@
 	## Solve the model
 	solve;
 	
-	printf '\nPROBLEM 4(a) SOLUTIONS -------------------------------------- \n\n';
+	printf '\nPROBLEM 4(b) SOLUTIONS -------------------------------------- \n\n';
 
 	## Print the Objective
 	print 'Optimal / Maximum Audience Reach in Millions:';
