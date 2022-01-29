@@ -21,32 +21,34 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
----
 
+\newpage
 # Problem `1`
 
----
 
-<img src = "Output_Images/problem1.1.jpg">
 
-<img src = "Output_Images/problem1.2.jpeg">  
+![ ]("Output_Images/problem1.1.jpg")
+
+![ ]("Output_Images/problem1.2.jpeg")  
 
 
 <br>
 
----
 
+
+\newpage
 # Problem `2`
 
----
 
-<img src = "Output_Images/problem2.jpg">  
+
+![ ]("Output_Images/problem2.jpg")  
 
 <br>
 
+\newpage
 # Problem `3`
 
----
+
 
 ## Task `a` 
 
@@ -92,20 +94,21 @@ $$
 <br>
 
 ### Code 
-<img src = "Output_Images/codeProblem3.png">
+![ ]("Output_Images/codeProblem3.png")
 
 
 ### Output
-<img src = "Output_Images/outputProblem3.png">
+![ ]("Output_Images/outputProblem3.png")
 
 
 <br>
 
----
 
+
+\newpage
 # Problem `4`
 
----
+
 
 ## Task `a` 
 
@@ -136,23 +139,24 @@ $$
 <br>
 
 ### Code 
-<img src = "Output_Images/codeProblem4a.png">
+![ ]("Output_Images/codeProblem4a.png")
 
 
 ### Output
-<img src = "Output_Images/group10_HW1_p4a.txt OUTPUT.png">
+![ ]("Output_Images/group10_HW1_p4a.txt OUTPUT.png")
 
 <br>
 
 ### Solving Problem `4(a)` Graphically by Hand
-<img src = "Output_Images/problem4a.1.jpg">
+![ ]("Output_Images/problem4a.1.jpg")
 
 
----
+
 
 <br>
 
 
+\newpage
 ## Task `b`
 
 ### Additional Constraint: Labor Time
@@ -165,16 +169,17 @@ $$
 <br>
 
 ### Code 
-<img src = "Output_Images/codeProblem4b.png">
+![ ]("Output_Images/codeProblem4b.png")
 
 ### Output
-<img src = "Output_Images/group10_HW1_p4b.txt OUTPUT.png">
+![ ]("Output_Images/group10_HW1_p4b.txt OUTPUT.png")
 
----
+
 
 <br>
 
 
+\newpage
 ## Task `c`
 
 ### Additional Constraint: Radio Advertising Medium
@@ -213,16 +218,17 @@ $$
 <br>
 
 ### Code 
-<img src = "Output_Images/codeProblem4c.png">
+![ ]("Output_Images/codeProblem4c.png")
 
 ### Output
-<img src = "Output_Images/group10_HW1_p4c.txt OUTPUT.png">
+![ ]("Output_Images/group10_HW1_p4c.txt OUTPUT.png")
 
----
+
 
 <br>
 
 
+\newpage
 ## Task `d`
 
 ### Additional Constraints: Miminum Magazine and Maximum Radio Requirements
@@ -240,29 +246,32 @@ $$
 <br>
 
 ### Code 
-<img src = "Output_Images/codeProblem4d.png">
+![ ]("Output_Images/codeProblem4d.png")
 
 ### Output
-<img src = "Output_Images/group10_HW1_p4d.txt OUTPUT.png">
+![ ]("Output_Images/group10_HW1_p4d.txt OUTPUT.png")
 
 <br>
 
----
+
+
+\newpage
 
 # Problem `5`
 
----
+
 
 
 ## Base Mathematical Formulation and Code
 * *Each task shows a separate change to the base model. Therefore, each change should not accumulate.*
 
 ### Mathematical Formulation
-<img src = "Output_Images/mathProblem5.png">
+![ ]("Output_Images/mathProblem5.png")
 
 ### Code for Model `.mod` and Input Data `.dat`
-<img src = "Output_Images/codeProblem5base.png">
+![ ]("Output_Images/codeProblem5base.png")
 
+\newpage
 ## Task `a`
 
 ### Changed Constraint for Total Hours
@@ -272,17 +281,18 @@ $$
 <br>
 
 ### Code 
-<img src = "Output_Images/codeProblem5a.png">
+![ ]("Output_Images/codeProblem5a.png")
 
 
 ### Output
 > There is no difference in the optimal solution because the range of Time before there is a change in optimal remains the same, and the hours available have not changed.  
 
-<img src = "Output_Images/outputProblem5a.png">
+![ ]("Output_Images/outputProblem5a.png")
 
 
 <br>
 
+\newpage
 ## Task `b`
 
 ### New Constraint for Max Weight
@@ -296,17 +306,18 @@ $$
 <br>
 
 ### Code 
-<img src = "Output_Images/codeProblem5b.png">
+![ ]("Output_Images/codeProblem5b.png")
 
 
 ### Output
 > The total number of tons has reduced from 7,000 to 6,500 per week
 
-<img src = "Output_Images/outputProblem5b.png">
+![ ]("Output_Images/outputProblem5b.png")
 
 
 <br>
 
+\newpage
 ## Task `c`
 
 ### Changed Objective Function
@@ -319,17 +330,18 @@ $$
 <br>
 
 ### Code 
-<img src = "Output_Images/codeProblem5c.png">
+![ ]("Output_Images/codeProblem5c.png")
 
 
 ### Output
 > The data file does not make a diference in the optimal (assuming that is what the question is asking). Please note that the total number of tons produced are the same as in the `base` model; however, the allocation of tons have shifted among each of the products.
 
-<img src = "Output_Images/outputProblem5c.png">
+![ ]("Output_Images/outputProblem5c.png")
 
 
 <br>
 
+\newpage
 ## Task `d`
 
 ### New Constraint
@@ -344,48 +356,50 @@ $$
 <br>
 
 ### Code (Part I)
-<img src = "Output_Images/codeProblem5d.png">
+![ ]("Output_Images/codeProblem5d.png")
 
 
 ### Output (Part I)
 > Note that bands represent ~49.99%, coils: 40%, and plates: 10%
 
-<img src = "Output_Images/outputProblem5d.png">
+![ ]("Output_Images/outputProblem5d.png")
 
 
 <br>
 
 ### Code (Part II)
-<img src = "Output_Images/codeProblem5d1.png">
+![ ]("Output_Images/codeProblem5d1.png")
 
 
 ### Output (Part II)
 > Profit is zero because it is impossible for bands to reach 50% of the share. 
 
-<img src = "Output_Images/outputProblem5d1.png">
+![ ]("Output_Images/outputProblem5d1.png")
 
 
 <br>
 
+\newpage
 ## Task `e`
 
 ### Changing Input Data via `.dat` File
 > Simply add the new item within the set called `finishing`, then add the its the associate values to the `rate` and `avail` parameters.
 
-<img src = "Output_Images/codeProblem5e.png">
+![ ]("Output_Images/codeProblem5e.png")
 
 
 ### Output
-<img src = "Output_Images/outputProblem5e.png">
+![ ]("Output_Images/outputProblem5e.png")
 
 
 <br>
 
----
 
+
+\newpage
 # Problem `6`
 
----
+
 
 ## Task `a` - `c`
 
@@ -441,12 +455,13 @@ $$
 <br>
 
 ### Code 
-<img src = "Output_Images/codeProblem6.png">
+![ ]("Output_Images/codeProblem6.png")
 
 
 ### Output
-<img src = "Output_Images/outputProblem6.png">
+![ ]("Output_Images/outputProblem6.png")
 
+\newpage
 ## Task `d`:  
 You may not borrow more than 2.83%, since that is the expected  
 yield to maturity (30% of bondA * 4.3%) + (70% of bondD * 2.2%)  
