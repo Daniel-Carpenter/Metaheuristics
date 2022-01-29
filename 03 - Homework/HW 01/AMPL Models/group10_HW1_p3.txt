@@ -1,6 +1,6 @@
 # Problem 2 - HW1
 # Portfolio Constraint Problem
-# Daniel Carpenter
+# Daniel Carpenter and Effouehi Moody
 
 # MODEL SETUP ------------------------------------------------------------------
 
