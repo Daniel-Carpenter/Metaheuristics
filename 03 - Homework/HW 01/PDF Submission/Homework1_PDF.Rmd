@@ -88,9 +88,6 @@ $$
 ### Output
 <img src = "Output_Images/outputProblem3.png">
 
-## Task `b`
-
-### Formulate Problem by Hand Using Graphical Method
 
 <br>
 
@@ -137,7 +134,7 @@ $$
 
 <br>
 
-### Solving Problem 4(a) Graphically by Hand
+### Solving Problem `4(a)` Graphically by Hand
 <img src = "Output_Images/problem4a.1.jpg">
 
 
@@ -243,6 +240,122 @@ $$
 ---
 
 # Problem `5`
+
+---
+
+
+## Base Mathematical Formulation
+* *Each task shows a separate change to the base model. Therefore, each change should not accumulate.*
+
+### Sets
+
+### Parameters
+
+### Decision Variables
+
+`var` = ***description***
+
+### Objective Function
+* Maximize ***description***
+
+$$
+Maximize \ Z = 
+$$
+
+### Constraints
+
+**C1**: ***description***  
+$$
+constraintName: 
+$$
+
+<br>
+
+## Task `a`
+
+### Changed Constraint for Total Hours
+* *Change the constraints so that total hours used by all products must equal the total hours available for each stage*
+
+
+<br>
+
+### Code 
+<!-- <img src = "Output_Images/codeProblem5a.png"> -->
+
+
+### Output
+<!-- <img src = "Output_Images/group10_HW1_p5a.txt OUTPUT.png"> -->
+
+
+<br>
+
+## Task `b`
+
+### New Constraint for Max Weight
+* *Restrict the total weight of all products to be less than a new parameter, max_weight = 6,500*
+
+
+<br>
+
+### Code 
+<!-- <img src = "Output_Images/codeProblem5a.png"> -->
+
+
+### Output
+<!-- <img src = "Output_Images/group10_HW1_p5a.txt OUTPUT.png"> -->
+
+
+<br>
+
+## Task `c`
+
+### Changed Objective Function
+* *Change the objective function to maximize total tons*
+
+
+<br>
+
+### Code 
+<!-- <img src = "Output_Images/codeProblem5a.png"> -->
+
+
+### Output
+<!-- <img src = "Output_Images/group10_HW1_p5a.txt OUTPUT.png"> -->
+
+
+<br>
+
+## Task `d`
+
+### New Constraint
+
+
+<br>
+
+### Code 
+<!-- <img src = "Output_Images/codeProblem5a.png"> -->
+
+
+### Output
+<!-- <img src = "Output_Images/group10_HW1_p5a.txt OUTPUT.png"> -->
+
+
+<br>
+
+## Task `e`
+
+### Changing Input Data via `.dat` File
+
+
+<br>
+
+### Code 
+<!-- <img src = "Output_Images/codeProblem5a.png"> -->
+
+
+### Output
+<!-- <img src = "Output_Images/group10_HW1_p5a.txt OUTPUT.png"> -->
+
 
 <br>
 
