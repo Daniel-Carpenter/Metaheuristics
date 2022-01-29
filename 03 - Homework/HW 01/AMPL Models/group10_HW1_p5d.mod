@@ -22,12 +22,12 @@
 	param avail {STAGE} >= 0; 	 # hours available/week in each stage 
 	param profit {PROD}; 		 # profit per ton
 
-	param commit {PROD} >= 0; # lower limit on tons sold in week 
+	param share {PROD} >= 0; # lower limit on tons sold in week 
 	param market {PROD} >= 0; # upper limit on tons sold in week
 
 
 # DECISION VARS -------------------------------------------------
-	var Make {p in PROD} >= commit[p], <= market[p]; # tons produced 
+	var Make {p in PROD} <= market[p]; # tons produced 
 
 
 # OBJECTIVE: total profits from all products --------------------
@@ -39,10 +39,14 @@
 	# products may not exceed hours available
 	subject to Time {s in STAGE}: sum {p in PROD} (1/rate[p,s]) * Make[p] <= avail[s];
 
+	# Minimum Share of Tons for each Product
+	subject to Share_of_Products {j in PROD}:
+		Make[j] >= share[j] * sum {k in PROD} Make[k];
+
 
 # DATA INPUTS --------------------------------------------------
-	data group10_HW1_p5base.dat; 
+	data group10_HW1_p5d.dat; 
 
 # SOLVE --------------------------------------------------------
 	solve;
-	display Make;
+	display Time,

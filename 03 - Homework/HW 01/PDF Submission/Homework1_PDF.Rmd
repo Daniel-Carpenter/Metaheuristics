@@ -324,16 +324,36 @@ $$
 ## Task `d`
 
 ### New Constraint
+* *Minimum Share of Tons for each Product*
+
+$$
+Share\_of\_Products: Make_{j} \geq share_{j} \times 
+\sum_{k \ \in \ PROD} Make_{k}, \ \  \forall \ j \ \in \ PROD
+$$
 
 
 <br>
 
-### Code 
-<!-- <img src = "Output_Images/codeProblem5a.png"> -->
+### Code (Part I)
+<img src = "Output_Images/codeProblem5d.png">
 
 
-### Output
-<!-- <img src = "Output_Images/outputProblem5a.png"> -->
+### Output (Part I)
+> Note that bands represent ~49.99%, coils: 40%, and plates: 10%
+
+<img src = "Output_Images/outputProblem5d.png">
+
+
+<br>
+
+### Code (Part II)
+<img src = "Output_Images/codeProblem5d1.png">
+
+
+### Output (Part II)
+> Profit is zero because it is impossible for bands to reach 50% of the share. 
+
+<img src = "Output_Images/outputProblem5d1.png">
 
 
 <br>
