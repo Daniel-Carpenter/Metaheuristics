@@ -88,6 +88,10 @@ $$
 ### Output
 <img src = "Output_Images/outputProblem3.png">
 
+## Task `b`
+
+### Formulate Problem by Hand Using Graphical Method
+
 <br>
 
 ---
@@ -130,6 +134,11 @@ $$
 
 ### Output
 <img src = "Output_Images/group10_HW1_p4a.txt OUTPUT.png">
+
+<br>
+
+### Solving Problem 4(a) Graphically by Hand
+<img src = "Output_Images/problem4a.1.jpg">
 
 
 ---
