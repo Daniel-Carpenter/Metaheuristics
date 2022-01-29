@@ -1,5 +1,5 @@
-    # Problem 5 
-# BASE DATA FILE
+# Problem 5 
+# BASE DATA FILE 
 # Steel Mill 
 # Daniel Carpenter and Effouehi Moody
 
@@ -19,5 +19,5 @@
         plate   29      750     3500 ;
     
     param avail := 
-        reheat  35    
-        roll    40 ;
+        reheat 35    
+        roll 40 ;

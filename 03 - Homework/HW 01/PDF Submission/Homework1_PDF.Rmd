@@ -278,15 +278,21 @@ $$
 ### New Constraint for Max Weight
 * *Restrict the total weight of all products to be less than a new parameter, max_weight = 6,500*
 
+$$
+totalWeight: \sum_{p \ \in \ PROD} Make_{p} \leq max\_weight
+$$
+
 
 <br>
 
 ### Code 
-<!-- <img src = "Output_Images/codeProblem5a.png"> -->
+<img src = "Output_Images/codeProblem5b.png">
 
 
 ### Output
-<!-- <img src = "Output_Images/group10_HW1_p5a.txt OUTPUT.png"> -->
+> The total number of tons has reduced from 7,000 to 6,500 per week
+
+<img src = "Output_Images/outputProblem5b.png">
 
 
 <br>
@@ -304,7 +310,7 @@ $$
 
 
 ### Output
-<!-- <img src = "Output_Images/group10_HW1_p5a.txt OUTPUT.png"> -->
+<!-- <img src = "Output_Images/outputProblem5a.png"> -->
 
 
 <br>
@@ -321,7 +327,7 @@ $$
 
 
 ### Output
-<!-- <img src = "Output_Images/group10_HW1_p5a.txt OUTPUT.png"> -->
+<!-- <img src = "Output_Images/outputProblem5a.png"> -->
 
 
 <br>
@@ -338,7 +344,7 @@ $$
 
 
 ### Output
-<!-- <img src = "Output_Images/group10_HW1_p5a.txt OUTPUT.png"> -->
+<!-- <img src = "Output_Images/outputProblem5a.png"> -->
 
 
 <br>

@@ -19,5 +19,9 @@
         plate   29      750     3500 ;
     
     param avail := 
-        reheat 35    
-        roll 40 ;
+        reheat  35    
+        roll    40 ;
+
+    # Sum of tons for all products all stages less 
+    # than 6,500 tons (for both stages)
+    param max_weight =  6500;
