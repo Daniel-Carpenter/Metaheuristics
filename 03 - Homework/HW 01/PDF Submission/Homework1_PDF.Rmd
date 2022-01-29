@@ -6,15 +6,15 @@ fontsize: 12pt
 geometry: margin=1in
 output:
  
+  pdf_document: 
+    toc: TRUE
+    number_sections: TRUE
+  md_document: default
   html_document: 
     toc: yes
     toc_float: yes
     number_sections: yes
     theme: yeti
-  md_document: default
-  pdf_document: 
-    toc: TRUE
-    number_sections: TRUE
 ---
 
 ```{r setup, include=FALSE}
@@ -27,11 +27,20 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ---
 
+<img src = "Output_Images/problem1.1.jpg">
+
+<img src = "Output_Images/problem1.2.jpeg">  
+
+
 <br>
+
+---
 
 # Problem `2`
 
 ---
+
+<img src = "Output_Images/problem2.jpg">  
 
 <br>
 
