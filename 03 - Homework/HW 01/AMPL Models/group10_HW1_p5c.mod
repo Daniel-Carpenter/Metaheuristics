@@ -30,8 +30,8 @@
 	var Make {p in PROD} >= commit[p], <= market[p]; # tons produced 
 
 
-# OBJECTIVE: total profits from all products --------------------
-	maximize Total_Profit: sum {p in PROD} profit[p] * Make[p]; 
+# OBJECTIVE: total TONS from all products -----------------------
+	maximize Total_Tons: sum {p in PROD} Make[p]; 
 
 
 # CONSTRAINTS ---------------------------------------------------
@@ -41,7 +41,7 @@
 
 
 # DATA INPUTS --------------------------------------------------
-	data group10_HW1_p5base.dat; 
+	data group10_HW1_p5c.dat; 
 
 # SOLVE --------------------------------------------------------
 	solve;

@@ -1,15 +1,16 @@
 ---
 title:  "Homework 1 - Truth Tables & Linear Programming with AMPL"
-author: "Daniel Carpenter"
+author: "Daniel Carpenter and Effouehi Moody"
 date:   "January 2022"
 fontsize: 12pt
 geometry: margin=1in
 output:
  
-  html_document:
+  html_document: 
     toc: yes
     toc_float: yes
     number_sections: yes
+    theme: yeti
   md_document: default
   pdf_document: 
     toc: TRUE
@@ -302,15 +303,20 @@ $$
 ### Changed Objective Function
 * *Change the objective function to maximize total tons*
 
+$$
+maximize \ Total\_Tons = \sum_{p \ \in \ PROD} Make_{p}
+$$
 
 <br>
 
 ### Code 
-<!-- <img src = "Output_Images/codeProblem5a.png"> -->
+<img src = "Output_Images/codeProblem5c.png">
 
 
 ### Output
-<!-- <img src = "Output_Images/outputProblem5a.png"> -->
+> The data file does not make a diference in the optimal (assuming that is what the question is asking). Please note that the total number of tons produced are the same as in the `base` model; however, the allocation of tons have shifted among each of the products.
+
+<img src = "Output_Images/outputProblem5c.png">
 
 
 <br>
