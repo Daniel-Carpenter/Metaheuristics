@@ -361,16 +361,13 @@ $$
 ## Task `e`
 
 ### Changing Input Data via `.dat` File
+> Simply add the new item within the set called `finishing`, then add the its the associate values to the `rate` and `avail` parameters.
 
-
-<br>
-
-### Code 
-<!-- <img src = "Output_Images/codeProblem5a.png"> -->
+<img src = "Output_Images/codeProblem5e.png">
 
 
 ### Output
-<!-- <img src = "Output_Images/outputProblem5a.png"> -->
+<img src = "Output_Images/outputProblem5e.png">
 
 
 <br>

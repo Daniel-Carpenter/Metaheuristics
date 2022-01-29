@@ -5,13 +5,13 @@
 
 # SETS ----------------------------------------------------------
     set PROD := bands coils plate; 
-    set STAGE := reheat roll;
+    set STAGE := reheat roll finishing;
 
 # PARAMETERS ----------------------------------------------------
-    param rate: reheat  roll := 
-        bands   200     200
-        coils   200     140
-        plate   200     160 ;
+    param rate: reheat  roll    finishing := 
+        bands   200     200     150
+        coils   200     140     150
+        plate   200     160     150 ;
 
     param:      profit  commit  market := 
         bands   25      1000    6000
@@ -19,5 +19,6 @@
         plate   29      750     3500 ;
     
     param avail := 
-        reheat 35    
-        roll 40 ;
+        reheat    35    
+        roll      40 
+        finishing 20 ;
