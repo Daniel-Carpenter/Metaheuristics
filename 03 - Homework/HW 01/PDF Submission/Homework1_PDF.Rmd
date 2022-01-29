@@ -244,32 +244,14 @@ $$
 ---
 
 
-## Base Mathematical Formulation
+## Base Mathematical Formulation and Code
 * *Each task shows a separate change to the base model. Therefore, each change should not accumulate.*
 
-### Sets
+### Mathematical Formulation
+<img src = "Output_Images/mathProblem5.png">
 
-### Parameters
-
-### Decision Variables
-
-`var` = ***description***
-
-### Objective Function
-* Maximize ***description***
-
-$$
-Maximize \ Z = 
-$$
-
-### Constraints
-
-**C1**: ***description***  
-$$
-constraintName: 
-$$
-
-<br>
+### Code for Model `.mod` and Input Data `.dat`
+<img src = "Output_Images/codeProblem5base.png">
 
 ## Task `a`
 
