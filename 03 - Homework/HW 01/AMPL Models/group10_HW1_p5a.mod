@@ -37,11 +37,13 @@
 # CONSTRAINTS ---------------------------------------------------
 	# In each stage: total of hours used by all
 	# products may not exceed hours available
-	subject to Time {s in STAGE}: sum {p in PROD} (1/rate[p,s]) * Make[p] <= avail[s];
+	subject to Time {s in STAGE}: sum {p in PROD} (1/rate[p,s]) * Make[p] == avail[s];
 
 
 # DATA INPUTS --------------------------------------------------
-	data group10_HW1_p5base.dat; 
+	data group10_HW1_p5a.dat; 
 
 # SOLVE --------------------------------------------------------
 	solve;
+	display Make, Make.up, Make.down;
+	display Time, Time.up, Time.down;

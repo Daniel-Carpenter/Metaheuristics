@@ -262,11 +262,13 @@ $$
 <br>
 
 ### Code 
-<!-- <img src = "Output_Images/codeProblem5a.png"> -->
+<img src = "Output_Images/codeProblem5a.png">
 
 
 ### Output
-<!-- <img src = "Output_Images/group10_HW1_p5a.txt OUTPUT.png"> -->
+> There is no difference in the optimal solution because the range of Time before there is a change in optimal remains the same, and the hours available have not changed.  
+
+<img src = "Output_Images/outputProblem5a.png">
 
 
 <br>

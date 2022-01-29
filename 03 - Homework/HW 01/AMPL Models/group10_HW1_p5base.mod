@@ -1,5 +1,5 @@
 # Problem 5 
-# BASE MODEL
+# BASE MODEL 
 # Steel Mill 
 # Daniel Carpenter and Effouehi Moody
 
@@ -45,3 +45,5 @@
 
 # SOLVE --------------------------------------------------------
 	solve;
+	## display Make, Make.up, Make.down;
+	## display Time, Time.up, Time.down;
