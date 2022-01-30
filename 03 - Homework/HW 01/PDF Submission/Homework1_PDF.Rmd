@@ -7,8 +7,9 @@ geometry: margin=1in
 output:
  
   pdf_document: 
-    toc: TRUE
-    number_sections: TRUE
+    toc: yes
+    number_sections: yes
+    highlight: kate
   md_document: default
   html_document: 
     toc: yes
@@ -29,7 +30,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ![ ]("Output_Images/problem1.1.jpg")
 
-![ ]("Output_Images/problem1.2.jpeg")  
+![ ]("Output_Images/problem1.2.jpg")  
 
 
 <br>
@@ -243,10 +244,10 @@ $$
 maxRadio: radio \leq 120
 $$
 
-<br>
-
+<!-- <br> -->
+<!-- \newpage -->
 ### Code 
-![ ]("Output_Images/codeProblem4d.png")
+![ ]("Output_Images/codeProblem4d.png"){ width=90% }
 
 ### Output
 ![ ]("Output_Images/group10_HW1_p4d.txt OUTPUT.png")
@@ -283,7 +284,7 @@ $$
 ### Code 
 ![ ]("Output_Images/codeProblem5a.png")
 
-
+\newpage
 ### Output
 > There is no difference in the optimal solution because the range of Time before there is a change in optimal remains the same, and the hours available have not changed.  
 
@@ -308,7 +309,7 @@ $$
 ### Code 
 ![ ]("Output_Images/codeProblem5b.png")
 
-
+\newpage
 ### Output
 > The total number of tons has reduced from 7,000 to 6,500 per week
 
@@ -332,7 +333,7 @@ $$
 ### Code 
 ![ ]("Output_Images/codeProblem5c.png")
 
-
+\newpage
 ### Output
 > The data file does not make a diference in the optimal (assuming that is what the question is asking). Please note that the total number of tons produced are the same as in the `base` model; however, the allocation of tons have shifted among each of the products.
 
@@ -353,8 +354,9 @@ Share\_of\_Products: Make_{j} \geq share_{j} \times
 $$
 
 
-<br>
+<!-- <br> -->
 
+\newpage
 ### Code (Part I)
 ![ ]("Output_Images/codeProblem5d.png")
 
@@ -365,8 +367,9 @@ $$
 ![ ]("Output_Images/outputProblem5d.png")
 
 
-<br>
+<!-- <br> -->
 
+\newpage
 ### Code (Part II)
 ![ ]("Output_Images/codeProblem5d1.png")
 
@@ -398,8 +401,6 @@ $$
 
 \newpage
 # Problem `6`
-
-
 
 ## Task `a` - `c`
 
@@ -452,14 +453,15 @@ $$
 municipal: bondA \leq 3;
 $$
 
-<br>
+<!-- <br> -->
 
 ### Code 
-![ ]("Output_Images/codeProblem6.png")
+![ ]("Output_Images/codeProblem6.png"){ width=90% }
 
 
 ### Output
 ![ ]("Output_Images/outputProblem6.png")
+
 
 \newpage
 ## Task `d`:  
