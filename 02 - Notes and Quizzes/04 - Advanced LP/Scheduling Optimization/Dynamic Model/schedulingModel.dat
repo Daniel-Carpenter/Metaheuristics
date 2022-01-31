@@ -1,0 +1,19 @@
+#AMPL data for "Macrosoft" problem DSA/ISE 5113
+
+data;
+
+set T := 1 2 3 4 5 6;
+
+param:   FTE :=
+    1   15  
+    2   10  
+    3   40   
+    4   70    
+    5   40   
+    6   35   ; 
+
+param c_FT := 121.6;
+param c_PT := 51.8;
+param PT_FTE := 0.83333333333;
+param HRfraq := 0.66666666667;
+ 

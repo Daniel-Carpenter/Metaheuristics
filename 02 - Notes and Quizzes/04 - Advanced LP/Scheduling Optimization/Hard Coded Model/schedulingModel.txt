@@ -1,0 +1,49 @@
+#AMPL code for the "Macrosoft" problem DSA/ISE 5113 
+
+reset;
+
+#OPTIONS ---------------------------------------
+
+options solver cplex;
+
+#DECISION VARIABLES ----------------------------
+
+var x1 >=0; #number of FT employees starting in each time period
+var x2 >=0;
+var x3 >=0;
+var x4 >=0;
+var x5 >=0;
+var x6 >=0;
+
+var y1 >=0; #number of PT employees starting in each time period
+var y2 >=0;
+var y3 >=0;
+var y4 >=0;
+var y5 >=0;
+var y6 >=0;
+
+
+#OBJECTIVE --------------------------------------
+minimize cost: 121.6*(x1+x2+x3+x4+x5+x6) + 51.8*(y1+y2+y3+y4+y5+y6);
+
+
+#CONSTRAINTS ------------------------------------
+
+subject to FTE1: x1 + x6 + 5/6*y1 >= 15;
+subject to FTE2: x1 + x2 + 5/6*y2 >= 10;
+subject to FTE3: x2 + x3 + 5/6*y3 >= 40;
+subject to FTE4: x3 + x4 + 5/6*y4 >= 70;
+subject to FTE5: x4 + x5 + 5/6*y5 >= 40;
+subject to FTE6: x5 + x6 + 5/6*y6 >= 35;
+
+subject to HR1: x1 + x6 >= 2/3*(x1 + x6 + y1);
+subject to HR2: x1 + x2 >= 2/3*(x1 + x2 + y2);
+subject to HR3: x2 + x3 >= 2/3*(x2 + x3 + y3);
+subject to HR4: x3 + x4 >= 2/3*(x3 + x4 + y4);
+subject to HR5: x4 + x5 >= 2/3*(x4 + x5 + y5);
+subject to HR6: x5 + x6 >= 2/3*(x5 + x6 + y6);
+
+#COMMANDS --------------------------------------
+solve;
+display x1,x2,x3,x4,x5,x6;
+display y1,y2,y3,y4,y5,y6;
