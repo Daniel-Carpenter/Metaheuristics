@@ -37,7 +37,7 @@
 
 	## C3: Only 100 person weeks available, given it takes three weeks and one 
 	## week to create a tv and magazine minute for advertisement, respectively.
-	subject to personWeeks: (3*tv) + (1*magazine) <= 100;
+	subject to personWeeks: (1*tv) + (3*magazine) <= 100;
 	
 
 # SOLVE ------------------------------------------------------------------------

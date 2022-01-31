@@ -6,16 +6,16 @@ fontsize: 12pt
 geometry: margin=1in
 output:
  
-  pdf_document: 
-    toc: yes
-    number_sections: yes
-    highlight: kate
-  md_document: default
   html_document: 
     toc: yes
     toc_float: yes
     number_sections: yes
     theme: yeti
+  md_document: default
+  pdf_document: 
+    toc: yes
+    number_sections: yes
+    highlight: kate
 ---
 
 ```{r setup, include=FALSE}
@@ -162,9 +162,9 @@ $$
 
 ### Additional Constraint: Labor Time
 
-**C3**: Only 100 person weeks available, given it takes three weeks and one week to create a `tv` and `magazine` minute for advertisement, respectively.  
+**C3**: Only 100 person weeks available, given it takes three weeks and one week to create a `magazine` page and `tv` minute for advertisement, respectively.  
 $$
-personWeeks: (3 \times tv) + (1 \times magazine) \leq 100
+personWeeks: (1 \times tv) + (3 \times magazine) \leq 100
 $$
 
 <br>
