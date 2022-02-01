@@ -52,6 +52,7 @@ param  d := cattle 10000
             chicken 8000; 
 
 #lower and upper bounds on nutrients
+# dot <- use the default, which is infinity in the mod file
 param:                l   u   := 
   [cattle,*]  vitamins 6   .  
               protein  6   . 
@@ -112,10 +113,17 @@ minimize cost: sum {i in I, j in J} x[i,j]*c[i];
 
 #constraints
 
-subject to demand {j in J}: sum {i in I} x[i,j] = d[j];
-subject to supply {i in I}: sum {j in J} x[i,j] <= s[i];
-subject to lowerB {j in J, k in K}: sum {i in I} a[i,k]*x[i,j] >= l[j,k]*d[j];
-subject to upperB {j in J, k in K}: sum {i in I} a[i,k]*x[i,j] <= u[j,k]*d[j];
+subject to demand {j in J}: 
+   sum {i in I} x[i,j] = d[j];
+
+subject to supply {i in I}: 
+   sum {j in J} x[i,j] <= s[i];
+
+subject to lowerB {j in J, k in K}: 
+   sum {i in I} a[i,k]*x[i,j] >= l[j,k]*d[j];
+
+subject to upperB {j in J, k in K}: 
+   sum {i in I} a[i,k]*x[i,j] <= u[j,k]*d[j];
 
 #commands
 
