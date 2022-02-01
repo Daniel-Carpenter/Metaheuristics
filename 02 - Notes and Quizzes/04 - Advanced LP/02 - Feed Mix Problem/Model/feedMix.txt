@@ -1,0 +1,93 @@
+#AMPL model for the "Feed Mix" problem DSA/ISE 5113
+
+reset;
+
+#options
+options solver cplex;
+
+#sets 
+set I;   # ingredients 
+set J;   # products 
+set K;   # nutrients
+
+#parameters
+param d{J};     #demand for product j in J (kg)
+param s{I};     #supply of ingredient i in I (kg)
+param l{J,K};   #lower bound on nutrients k per product j (per kg)
+param u{J,K} default Infinity;   #upper bound on nutrients k per product j (per kg)
+param c{I};     #cost of ingredient i in I (per kg in cents)
+param a{I,K};   #number of nutrients k per ingredient i (per kg)
+
+#decision variables
+var x{I,J} >= 0;  #amt of ingredient i used to produce product j
+
+#data
+data models/feedMix.dat; 
+
+#objective
+minimize cost: sum {i in I, j in J} x[i,j]*c[i];
+
+
+#constraints
+
+subject to demand {j in J}: sum {i in I} x[i,j] = d[j];
+subject to supply {i in I}: sum {j in J} x[i,j] <= s[i];
+subject to lowerB {j in J, k in K}: sum {i in I} a[i,k]*x[i,j] >= l[j,k]*d[j];
+subject to upperB {j in J, k in K}: sum {i in I} a[i,k]*x[i,j] <= u[j,k]*d[j];
+
+#commands
+
+solve;
+display x;
+
+
+#some examples of how to print various output
+#----------------------------------------------------
+
+
+#using the display commands (and constraint functions)
+
+display {j in J}: sum {i in I} x[i,j];   #display the sum ingredients for each product
+
+display {i in I}: sum {j in J} x[i,j], s[i];   #display sum of product for each ingredient, and supply of ingredients
+
+
+#display the upper/lower bounds, and actually used amounts of ingredients 
+#for every product/nutrient combination
+
+display {j in J, k in K}: l[j,k]*d[j],  sum {i in I} a[i,k]*x[i,j], u[j,k]*d[j];
+
+
+#----------------------------------------------------
+#the "display" command can get kind of ugly, so you can improve on it 
+#using the printf commands
+
+printf {j in J}: "%10s --> Demand: %d  Production: %6.2f \n", j, d[j], sum{i in I} x[i,j];  
+
+
+
+#----------------------------------------------------
+#or even more informative...
+
+
+# show how the demand was met by the production solution
+printf "\n\nDemand was met by the production solution (kg)\n";
+print "-----------------------------------------";
+for {j in J} {
+  printf "Product: %s   Demand: %d \n Production:\n", j, d[j]; 
+  for {i in I} {
+     printf "     Ingredient: %9s %6.2f\n", i, x[i,j];  
+ }
+  printf "\n"; 
+}
+
+
+#show the supply used
+printf "\n\nIngredients supply usage (kg)\n";
+print "-----------------------------------------";
+for {i in I} {
+  printf "Ingredient: %s \n (Supply: %8.2f; Total used: %8.2f) \n  Production:\n", i, s[i], sum{j in J} x[i,j]; 
+  for {j in J} {
+     printf "     Product: %9s %6.2f\n", j, x[i,j];  
+ }
+}
