@@ -20,3 +20,26 @@
 ### `Parameters`
 * *You would do this in a data file, but the instructor did not outline since each constraint containts relevant data*
 
+---
+
+## Code
+
+### Data Inputs
+```py
+
+```
+
+<br>
+
+### Model
+
+```py
+
+```
+
+<br>
+
+> Output
+```
+
+```

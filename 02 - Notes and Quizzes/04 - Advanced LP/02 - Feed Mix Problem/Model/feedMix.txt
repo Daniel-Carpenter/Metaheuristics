@@ -22,7 +22,7 @@ param a{I,K};   #number of nutrients k per ingredient i (per kg)
 var x{I,J} >= 0;  #amt of ingredient i used to produce product j
 
 #data
-data models/feedMix.dat; 
+data feedMix.dat; 
 
 #objective
 minimize cost: sum {i in I, j in J} x[i,j]*c[i];
