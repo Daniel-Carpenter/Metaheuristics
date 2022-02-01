@@ -28,7 +28,7 @@ options solver cplex;
 
 
 # OBJECTIVE --------------------------------------
-    minimize cost: c_FT*sum{t in T}empFT[t] + c_PT*sum{t in T}empPT[t];
+    minimize cost: (c_FT*sum{t in T} empFT[t]) + (c_PT*sum{t in T} empPT[t]);
 
 
 #CONSTRAINTS ------------------------------------
