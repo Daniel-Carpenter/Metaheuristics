@@ -13,7 +13,7 @@ var P {1 .. MONTHS} >= 0, <= 4000;   # P[i] = tons produced in month i
 
 var I {0 .. MONTHS} >= 0;   # I[i] = tons in inventory at the end of month i
 
-data models/nsc.dat;
+data nsc.dat;
 
 #OBJECTIVE
 minimize cost: 
