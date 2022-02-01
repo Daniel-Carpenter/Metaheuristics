@@ -24,7 +24,7 @@
 
 ## Code
 
-### Data Inputs
+### Data Inputs *`schedulingModel.dat`*
 ```py
 #AMPL data for "Macrosoft" problem DSA/ISE 5113
 
@@ -48,7 +48,7 @@ param HRfraq := 0.66666666667;
 
 <br>
 
-### Model
+### Model *`schedulingModel.txt`*
 
 ```py
 #AMPL code for the "Macrosoft" problem DSA/ISE 5113 

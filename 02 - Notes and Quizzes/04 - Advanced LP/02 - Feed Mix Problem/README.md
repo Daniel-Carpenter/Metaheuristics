@@ -29,7 +29,7 @@
 
 ## Code
 
-### Data Inputs
+### Data Inputs *`feedMix.dat`*
 ```py
 #AMPL data file for the "Feed Mix" problem DSA/ISE 5113
 
@@ -78,7 +78,7 @@ param a:
 
 <br>
 
-### Model
+### Model *`feedMix.txt`*
 
 ```py
 #AMPL model for the "Feed Mix" problem DSA/ISE 5113
