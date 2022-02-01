@@ -1,0 +1,60 @@
+# Second AMPL model for the NSC problem
+
+reset;
+
+option solver cplex;
+
+set PRODUCTS;
+
+##PARAMETERS
+
+param MONTHS;	# Number of months in the planning horizon
+param ic;  	# inventory holding cost per unit per month
+
+param MAX_PRODUCTION;  # max total monthly production
+param INITIAL;         # initial inventory
+param FINAL;           # final required inventory
+
+param c {1 .. MONTHS, PRODUCTS}; # cost of producting one ton of product p in month i
+param d {1 .. MONTHS,PRODUCTS};  # tons of product p needed in month i
+
+
+##DECISION VARIABLES
+
+var P {1 .. MONTHS,PRODUCTS} >= 0; # tons of product p produced in month i
+var I {0 .. MONTHS,PRODUCTS} >= 0; # tons of product p in inventory at the end of month i
+
+var tempSlack >=0;
+
+##DATA FILE
+
+data models/nsc12.dat;
+
+
+## OBJECTIVE
+
+minimize cost: 
+sum{i in 1 .. MONTHS, p in PRODUCTS} (c[i,p]*P[i,p] + ic*I[i,p]);
+
+## CONSTRAINTS
+
+subject to inventory {i in 1 .. MONTHS, p in PRODUCTS}: 
+  P[i,p] + I[i-1,p] = d[i,p] + I[i,p];
+
+
+subject to initial_inventory {p in PRODUCTS}: I[0,p] = INITIAL;
+subject to final_inventory {p in PRODUCTS}: I[MONTHS,p] >= FINAL;
+subject to max_production {i in 1 .. MONTHS, p in PRODUCTS}: 
+   P[i,p] <= MAX_PRODUCTION;
+
+solve;
+
+display P,I;
+
+
+#nice little way for printing the non-zero solution values
+for {i in 1..MONTHS, p in PRODUCTS} {
+  if I[i,p] > 0 then printf "I[%d,%s] = %d  cost = %d \n", i,p, I[i,p], ic*I[i,p];
+  if P[i,p] > 0 then printf "P[%d,%s] = %d  cost = %d \n", i,p, P[i,p], c[i,p]*P[i,p];
+}
+

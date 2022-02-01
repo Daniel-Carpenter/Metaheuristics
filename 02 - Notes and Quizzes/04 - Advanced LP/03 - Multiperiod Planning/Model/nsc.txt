@@ -1,0 +1,35 @@
+reset;
+option solver cplex;
+
+
+param MONTHS;   # Number of months in the planning horizon
+param ic;  	# inventory holding cost per unit per month
+
+param c {1 .. MONTHS};  # c[i] = cost of producing one ton in month i
+param d {1 .. MONTHS};  # d[i] = tons of product needed in month i
+
+#DECISION VARIABLES
+var P {1 .. MONTHS} >= 0, <= 4000;   # P[i] = tons produced in month i
+
+var I {0 .. MONTHS} >= 0;   # I[i] = tons in inventory at the end of month i
+
+data models/nsc.dat;
+
+#OBJECTIVE
+minimize cost: 
+sum{i in 1 .. MONTHS} (c[i]*P[i] + ic*I[i]);
+
+subject to inventory {i in 1 .. MONTHS}: P[i] + I[i-1] = I[i] + d[i];
+
+subject to initial_inventory: I[0] = 1000;
+subject to final_inventory: I[MONTHS] = 1500;
+
+
+solve;
+display cost;
+
+#nice little way for printing the non-zero solution values
+for {i in 1..MONTHS} {
+  if I[i] > 0 then printf "I[%d] = %d  cost = %d \n", i,I[i], ic*I[i];
+  if P[i] > 0 then printf "P[%d] = %d  cost = %d \n", i,P[i], c[i]*P[i];
+}
