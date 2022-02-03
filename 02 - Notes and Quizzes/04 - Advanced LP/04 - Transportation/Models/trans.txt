@@ -38,7 +38,7 @@ subject to Demand {j in DEST}:
 
 #data
 
-data models/trans.dat;
+data trans.dat;
 
 
 #commands 
