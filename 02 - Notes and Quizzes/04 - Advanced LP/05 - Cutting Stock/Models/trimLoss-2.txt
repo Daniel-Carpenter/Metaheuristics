@@ -1,0 +1,34 @@
+#AMPL code for the LP version of the trim loss problem
+# model and data are separated
+
+reset;
+option solver cplex;
+
+#sets and parameters
+
+set WIDTHS;
+param orders {WIDTHS} > 0;
+
+set CUTS;  #ID's of possible cut patterns
+
+
+param loss{CUTS} default 0;  #trim loss associated with each pattern
+
+param usage{WIDTHS, CUTS} default 0;   # usage patterns for widths and cuts
+
+
+#decision variables
+var x{CUTS} >=0;
+
+minimize trimloss: sum{i in CUTS} loss[i]*x[i]; 
+
+subject to demand {w in WIDTHS}: sum{i in CUTS} usage[w,i]*x[i] = orders[w] ;
+
+
+data models/trimloss-2.dat;
+
+solve;
+display x;
+
+
+ 

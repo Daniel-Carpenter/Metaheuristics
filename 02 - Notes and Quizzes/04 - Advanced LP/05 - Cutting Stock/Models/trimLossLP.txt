@@ -1,0 +1,38 @@
+#AMPL code for the LP version of the trim loss problem
+# model and data are combined
+
+reset;
+
+#OPTIONS ------------------------------------------------
+option solver cplex;
+
+#SETS ---------------------------------------------------
+set CUTS = {1,2,3,4,5,6,7,8,9};  #ID's of possible cut patterns
+
+
+#decision variables -------------------------------------
+var x{CUTS} >=0;  #amount of paper to cut with each cutting pattern
+
+
+#OBJECTIVE ----------------------------------------------
+
+minimize loss: 3*x[2] + x[3] + 3*x[5] + x[6] + x[7] + 4*x[8] + 2*x[9] ;
+
+#CONSTRAINTS --------------------------------------------
+
+subject to 5in: 2*x[1] + 4*x[4] + 2*x[5] + 2*x[6] + x[7] = 45000;
+subject to 7in: x[2] + x[5] + 2*x[7] + x[8] = 35000;
+subject to 9in: x[3] + x[6] + x[8] + 2*x[9] = 20000;
+
+
+#COMMANDS -----------------------------------------------
+solve;
+
+printf "\nTotal amount of wasted product: %4.2f\n\n", loss;
+printf "Amount of each pattern to cut by each pattern:\n";
+
+display x;
+
+
+
+ 

@@ -1,0 +1,34 @@
+#AMPL code for the IP version of the trim loss problem
+# model and data are combined
+
+reset;
+
+#OPTIONS ------------------------------------------------
+option solver cplex;
+
+#SETS AND PARAMETERS-------------------------------------
+set CUTS = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+param LENGTH := 5000;
+
+#DECISION VARIABLES -------------------------------------
+var x{CUTS} >=0, integer;
+
+#OBJECTIVE ----------------------------------------------
+
+minimize loss: 3*x[2] + x[3] + 3*x[5] + x[6] + x[7] + 4*x[8] + 2*x[9];
+
+#CONSTRAINTS --------------------------------------------
+
+subject to 5in: 2*x[1] + 4*x[4] + 2*x[5] + 2*x[6] + x[7] = 45000/LENGTH;
+subject to 7in: x[2] + x[5] + 2*x[7] + x[8] = 35000/LENGTH;
+subject to 9in: x[3] + x[6] + x[8] + 2*x[9] = 20000/LENGTH;
+
+#COMMANDS -----------------------------------------------
+solve;
+
+printf "\nTotal amount of wasted product: %4.2f\n\n", LENGTH*loss;
+printf "Number of rolls to cut with each pattern:\n";
+
+display x;
+
+ 

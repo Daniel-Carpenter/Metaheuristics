@@ -1,0 +1,33 @@
+#AMPL data file LP version of the trim loss problem
+
+data;
+
+set WIDTHS := 5in 7in 9in;
+
+param orders:= 5in 10000
+               7in 30000
+               9in 20000;
+
+set CUTS := 1 2 3 4 5 6 7 8 9;
+
+#trim loss associated with each cut pattern
+param  loss   :=
+   1        .   
+   2        3    
+   3        1    
+   4        .   
+   5        3    
+   6        1    
+   7        1    
+   8        4    
+   9        2;
+
+#patterns associated with each order
+param usage:   1 2 3 4 5 6 7 8 9   :=
+        5in    2 . . 4 2 2 1 . .
+        7in    . 1 . . 1 . 2 1 .
+        9in    . . 1 . . 1 . 1 2 ;
+
+
+
+
