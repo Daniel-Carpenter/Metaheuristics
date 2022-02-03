@@ -1,0 +1,14 @@
+data;
+
+set ORIG := IN NY NJ VA;  
+set DEST  := A B C D E F;
+
+param supply :=  IN 30    NY 75   NJ 60   VA 35;
+
+param demand :=  A 25   B 40  C 15  D 25  E 50  F 45;
+
+param cost        : A   B   C   D   E   F := 
+IN 75  65 175  90 110 150                  
+NY 90  30  45  50 105 130 
+NJ 40  55  35  80  70  75
+VA 95 150 100 115  55  55;

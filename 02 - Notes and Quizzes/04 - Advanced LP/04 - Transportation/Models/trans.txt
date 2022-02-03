@@ -1,0 +1,47 @@
+#AMPL code for the transportation problem
+
+reset;
+options solver cplex;
+
+#sets and parameters
+
+set ORIG;   # origins
+set DEST;   # destinations
+
+param supply {ORIG} >= 0;   # amounts available at origins
+param demand {DEST} >= 0;   # amounts required at destinations
+
+   check: sum {i in ORIG} supply[i] = sum {j in DEST} demand[j];
+
+param cost {ORIG,DEST} >= 0;   # shipment costs per unit
+
+
+#decision variables
+
+var x {ORIG,DEST} >= 0;    # units to be shipped
+
+
+#objective
+
+minimize Total_Cost:
+   sum {i in ORIG, j in DEST} cost[i,j] * x[i,j];
+
+
+#constraints
+
+subject to Supply {i in ORIG}:
+   sum {j in DEST} x[i,j] = supply[i];
+
+subject to Demand {j in DEST}:
+   sum {i in ORIG} x[i,j] = demand[j];
+
+
+#data
+
+data models/trans.dat;
+
+
+#commands 
+
+solve;
+display x;
