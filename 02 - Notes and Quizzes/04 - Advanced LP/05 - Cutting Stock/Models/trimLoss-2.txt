@@ -25,7 +25,7 @@ minimize trimloss: sum{i in CUTS} loss[i]*x[i];
 subject to demand {w in WIDTHS}: sum{i in CUTS} usage[w,i]*x[i] = orders[w] ;
 
 
-data models/trimloss-2.dat;
+data trimloss-2.dat;
 
 solve;
 display x;
