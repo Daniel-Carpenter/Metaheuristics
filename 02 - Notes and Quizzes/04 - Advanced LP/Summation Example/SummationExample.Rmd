@@ -1,0 +1,43 @@
+---
+title: "Summation Example"
+author: "Daniel Carpenter"
+date: "2/5/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Mathematical Formulation
+
+$$  
+k = 4 \\
+Total\_Difference: \ \sum^{k}_{i=2} production_{i} - production_{i-1}  
+$$
+
+## Programatically
+
+```{r,include=TRUE, echo=TRUE}
+
+production <- round(rnorm(3, 4000, 100), -2)
+production <- c(production, 0)
+
+totalDifference = 0
+
+for (i in 2:4) {
+    
+    # print(paste0('i = ',i, ': ', production[i]))
+    # print(paste0('i = ',i-1, ': ', production[i-1]))
+    
+    totalDifference = totalDifference + abs(production[i] - production[i-1])
+    print(paste0('Total Dif: ', totalDifference))
+}
+
+production
+
+print(totalDifference * 50)
+
+```
+
