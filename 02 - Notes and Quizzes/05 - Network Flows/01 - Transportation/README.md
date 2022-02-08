@@ -1,5 +1,6 @@
 # Advanced Linear Programming (LP)
-> Transportation Problem `via Minimum Cost Flow`
+> Transportation Problem `via Minimum Cost Flow`  
+> ***SEE SLIDES IN PARENT DIRECTORY***
 
 * Typical use of this model is for `Supply` and `Demand`. 
 * Other application: `Assignment` problem (*assigning to time slots, tasks, positions, programs*). See Slides for problem overview
