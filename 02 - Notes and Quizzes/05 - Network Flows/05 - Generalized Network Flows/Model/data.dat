@@ -1,0 +1,41 @@
+#Generalized Network Flow Problem - data file for Political Action Figures Example problem -- 
+#a.k.a.: "Feel the burn and make optimization great again!"
+#Charles Nicholson, ISE 5113, 2020
+
+#use with Generalized flow model: GMCNFP.txt model
+#note: default arc costs and lower bounds are 0
+#      default arc upper bounds are infinity
+#      default node requirements are 0
+#      default multiplier is 1
+
+set NODES :=  	p1 p2 p3 p4            #product time period nodes
+		c1 c2 c3 c4 c5 c5p;    #cash flow time period nodes
+
+set ARCS := 	(p1,p2) (p2,p3) (p3, p4)            #inventory arcs
+                (c1,c2) (c2,c3) (c3, c4) (c4, c5)   #cash flow arcs  
+		(c5, c5p)                           #virtual arc
+		(p1,c2) (p2,c3) (p3, c4) (p4, c5)   #sell arcs
+                (c1,p2) (c2,p3) (c3, p4);           #buy arcs
+
+param b:= p1 750     #initial product on-hand
+	  c1 8500;   #initial cash on-hand
+
+#specify costs, upper bound, and multipliers for each arc
+param:  c u mu :=
+        [p1, p2] 0.50  1500  0.99   #holding cost, capacity, 1-spoilage rate
+        [p2, p3] 0.50  1500  0.99
+        [p3, p4] 0.50  1500  0.99
+        [c1, c2] . . 1.0025         #short-term interest
+        [c2, c3] . . 1.0025
+        [c3, c4] . . 1.0025
+        [c4, c5] . . 1.0025  
+        [p1, c2] . . 10             #product price
+       	[p2, c3] . . 40    
+        [p3, c4] . . 80
+        [p4, c5] . . 50
+        [c1, p2] . . 0.1            #1/price 
+        [c2, p3] . . 0.025
+        [c3, p4] . . 0.0125
+        [c5, c5p] -1 . 0;           #virtual arc has negative cost to icentavize flow
+
+  
