@@ -1,4 +1,4 @@
-# Advanced Linear Programming (LP)
+# Network Flow Modeling
 > Multiperiod Planning `via Minimum Cost Flow`  
 > ***SEE SLIDES IN PARENT DIRECTORY***
 * Typical use of this model is for production companies that are able to hold inventory and expect higher prices in future periods

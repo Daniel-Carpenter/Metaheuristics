@@ -1,4 +1,4 @@
-# Advanced Linear Programming (LP)
+# Network Flow Modeling
 > Transportation Problem `via Minimum Cost Flow`  
 > ***SEE SLIDES IN PARENT DIRECTORY***
 
