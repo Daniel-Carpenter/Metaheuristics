@@ -1,0 +1,37 @@
+#MCNFP Problem - data file for problem instance
+#Charles Nicholson, ISE 5113, 2015
+
+#use with MCNFP.txt model
+#note: default arc costs and lower bounds are 0
+#      default arc upper bounds are infinity
+#      default node requirements are 0
+
+
+data;
+
+set NODES :=  	IN NY NJ VA A B C D E F ; 
+
+set ARCS := 	(IN, *) A B C D E F 
+                (NY, *) A B C D E F 
+		(NJ, *) A B C D E F
+		(VA, *) A B C D E F;
+
+param b :=
+	IN 30
+        NY 75
+        NJ 60
+        VA 35
+        A -25
+  	B -40
+  	C -15
+  	D -25
+  	E -50
+  	F -45;
+;
+
+param c:    A   B   C   D   E   F :=
+	IN 75  65 175  90 110 150                  
+	NY 90  30  45  50 105 130 
+	NJ 40  55  35  80  70  75
+	VA 95 150 100 115  55  55;
+  
