@@ -1,0 +1,28 @@
+#Max flow MCNFP Problem Formulation - data file for problem instance in lecture "Fly-By-Night"
+#Charles Nicholson, ISE 5113
+
+#use with MCNFP.txt model
+#note: default arc costs and lower bounds are 0
+#      default arc upper bounds are infinity
+#      default node requirements are 0
+
+
+set NODES :=  	SF D H C A NY;
+
+set ARCS := 	(SF,D) (SF,H) (D,A) (D,C) (H,A) (C,NY) (A,NY) 
+		(NY,SF);
+
+
+#max flow problem requires setting upper bounds (on almost all arcs) and flow cost on 1 arc.
+
+param u:=	[SF,D] 5
+		[SF,H] 6
+		[D,A]  4
+		[D,C]  2
+		[H,A]  5
+		[C,NY] 4
+		[A,NY] 7;
+
+param c:=	[NY, SF] -1;	#only the "circulation" arc has an associated cost
+
+
