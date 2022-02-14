@@ -1,0 +1,47 @@
+---
+title:    "Homework 2 - Advanced LP"
+subtitle: "Adv. Analytics and Metaheuristics"
+author:   "Daniel Carpenter and Christopher Ferguson"
+date:     "February 2022"
+fontsize: 12pt
+geometry: margin=1in
+output:
+ 
+  html_document: 
+    toc: yes
+    toc_float: yes
+    number_sections: yes
+    theme: yeti
+  md_document: default
+  pdf_document: 
+    toc: yes
+    number_sections: yes
+    highlight: kate
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+\newpage
+# - Problem `1`
+
+
+<br>
+
+\newpage
+# - Problem `2`
+
+
+<br>
+
+\newpage
+# - Problem `3`
+
+
+<br>
+
+\newpage
+# - Problem `4`
+
