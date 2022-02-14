@@ -23,9 +23,40 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
-\newpage
 # - Problem `1`
+
+<!-- ## Model Overview -->
+<!-- ![ ]("Images/overview1.jpg") -->
+
+<!-- ## Mathematical Formulation -->
+
+<!-- ### Sets -->
+
+
+<!-- ### Parameters -->
+
+
+<!-- ### Decision Variables -->
+
+
+<!-- ### Objective Function -->
+
+
+<!-- ### Constraints -->
+
+
+<!-- \newpage -->
+
+<!-- ## Code and Output -->
+
+<!-- ### Code -->
+<!-- ![ ]("Images/code1.jpg") -->
+
+
+<!-- \newpage -->
+
+<!-- ### Output -->
+<!-- ![ ]("Images/output1.jpg") -->
 
 
 <br>
@@ -33,15 +64,114 @@ knitr::opts_chunk$set(echo = TRUE)
 \newpage
 # - Problem `2`
 
+<!-- ## Model Overview -->
+<!-- ![ ]("Images/overview2.jpg") -->
+
+<!-- ## Mathematical Formulation -->
+
+<!-- ### Sets -->
+
+
+<!-- ### Parameters -->
+
+
+<!-- ### Decision Variables -->
+
+
+<!-- ### Objective Function -->
+
+
+<!-- ### Constraints -->
+
+
+<!-- \newpage -->
+
+<!-- ## Code and Output -->
+
+<!-- ### Code -->
+<!-- ![ ]("Images/code2.jpg") -->
+
+
+<!-- \newpage -->
+
+<!-- ### Output -->
+<!-- ![ ]("Images/output2.jpg") -->
+
 
 <br>
 
 \newpage
 # - Problem `3`
 
+## Model Overview
+<!-- ![ ]("Images/overview3.jpg") -->
+
+## Mathematical Formulation
+
+### Sets
+
+
+### Parameters
+
+
+### Decision Variables
+
+
+### Objective Function
+
+
+### Constraints
+
+
+\newpage
+
+## Code and Output
+
+### Code
+<!-- ![ ]("Images/code3.jpg") -->
+
+
+\newpage
+
+### Output
+<!-- ![ ]("Images/output3.jpg") -->
+
 
 <br>
 
 \newpage
 # - Problem `4`
+
+## Model Overview
+<!-- ![ ]("Images/overview4.jpg") -->
+
+## Mathematical Formulation
+
+### Sets
+
+
+### Parameters
+
+
+### Decision Variables
+
+
+### Objective Function
+
+
+### Constraints
+
+
+\newpage
+
+## Code and Output
+
+### Code
+<!-- ![ ]("Images/code4.jpg") -->
+
+
+\newpage
+
+### Output
+<!-- ![ ]("Images/output4.jpg") -->
 
