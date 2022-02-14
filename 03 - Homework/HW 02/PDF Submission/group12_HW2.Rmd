@@ -1,5 +1,5 @@
 ---
-title:    "Homework 2 - Advanced LP"
+title:    "Homework 2 - Advanced LP & Network Flow Models"
 subtitle: "Adv. Analytics and Metaheuristics"
 author:   "Daniel Carpenter and Christopher Ferguson"
 date:     "February 2022"
@@ -103,27 +103,63 @@ knitr::opts_chunk$set(echo = TRUE)
 \newpage
 # - Problem `3`
 
-## Model Overview
-<!-- ![ ]("Images/overview3.jpg") -->
-
 ## Mathematical Formulation
 
 ### Sets
 
+Set Name | Description 
+---------|-------------
+$Days$   | The discrete day numbers to make tires *(1, 2, 3, 4)*
+
 
 ### Parameters
+
+Parameter Name | Description | Unit
+---------------|-------------|-------------
+$P$ | Price of *purchasing* new tires        | Dollars per Tire
+$N$ | Cost of *normal* service on used tires | Dollars per Tire 
+$Q$ | Cost of *quick* service on used tires  | Dollars per Tire 
+$r_j$ | Demand of tires                      | Tires per day ($j \in Days$)
 
 
 ### Decision Variables
 
+Variable Name  | Description
+---------------|-------------
+$purch_j$ | Number of tires to `purchase` on day ($j \in Days$)
+$norm_j$  | Number of tires to *reshape* using the `normal` service on day ($j \in Days$)
+$quick_j$ | Number of tires to *reshape* using the `quick` service on day ($j \in Days$)
+
 
 ### Objective Function
+* Minimize total cost by when using the three types of tire services
+
+$$
+Minimize \ \sum_{j}
+puch_j \times P \ + \ 
+norm_j \times N \ + \ 
+quick_j \times Q
+$$
 
 
 ### Constraints
 
-
 \newpage
+
+**C1**: Meet Daily Demand
+$$
+dailyDemand: \ \sum_{j} puch_j \ + \ norm_j \ + \ quick_j = r_j
+$$
+
+
+**C2**: Non-Negativity Constraints
+$$
+r_j     \geq 0 \\
+puch_j  \geq 0 \\ 
+norm_j  \geq 0 \\ 
+quick_j \geq 0 \\
+$$
+
 
 ## Code and Output
 
@@ -149,8 +185,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Sets
 
+Set Name | Description | Unit
+---------|-------------|-------------
+
 
 ### Parameters
+
+Parameter Name | Description | Unit
+---------------|-------------|-------------
 
 
 ### Decision Variables
