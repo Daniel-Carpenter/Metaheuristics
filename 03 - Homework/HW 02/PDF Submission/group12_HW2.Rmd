@@ -130,9 +130,9 @@ $quick_j$ | Number of tires to *reshape* using the `quick` service on day ($j \i
 
 $$
 Minimize \ cost: \ \sum_{j}^{NUM\_DAYS}
-purch_j \times P \ + \ 
-norm_j \times N \ + \ 
-quick_j \times Q
+(purch_j \times P) \ + \ 
+(norm_j \times N) \ + \ 
+(quick_j \times Q)
 $$
 
 
@@ -188,7 +188,7 @@ $$
 \newpage
 # - Problem `4`
 
-## Model Overview
+<!-- ## Model Overview -->
 <!-- ![ ]("Images/overview4.jpg") -->
 
 ## Mathematical Formulation
