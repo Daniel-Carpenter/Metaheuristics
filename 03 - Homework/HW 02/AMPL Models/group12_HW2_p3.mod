@@ -2,6 +2,7 @@
 # Adv. Analytics and Metaheuristics
 # Daniel Carpenter and Christopher Ferguson
 # February 2022
+# Problem 3
 
 reset;
 options solver cplex;
