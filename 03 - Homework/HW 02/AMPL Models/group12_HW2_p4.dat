@@ -1,0 +1,55 @@
+# Homework 2 - Advanced LP & Network Flow Models
+# Adv. Analytics and Metaheuristics
+# Daniel Carpenter and Christopher Ferguson
+# February 2022
+# Problem 4
+
+data;
+
+# Set of Nodes containing all sources of Labor, Plants, and Business Partners
+set NODES :=    Specialist, Generalist,     # Labor
+                Scranton, Utica, Stamford,  # Plants
+                Goggle, Faceblock ;         # Business Partners
+
+
+# Set of ARCS from Labor Sources, to Plants, to Business Partners
+set ARCS := (Specialist,*) Scranton, Utica, Stamford
+            (Generalist,*) Scranton, Utica, Stamford
+            (Scranton,  *) Goggle, Faceblock
+            (Utica,     *) Goggle, Faceblock
+            (Stamford,  *) Goggle, Faceblock ;
+
+
+set LABOR  := Specialist, Generalist ;  # Sub set of labor titles for total hours contraint
+set PLANTS := Scranton Utica Stamford ; # plants Total production limit 
+
+# The cost (c), upper (u), and multiplier (mu) from node i to j in IN NODES
+param                       c       u   mu :=
+    [Specialist, Scranton ] 466.7	.   .
+    [Specialist, Utica    ] 416.7	.   .
+    [Specialist, Stamford ] 441.7	.   .
+    [Generalist, Scranton ] 470	    .   .
+    [Generalist, Utica    ] 420	    .   .
+    [Generalist, Stamford ] 445	    .   .
+    [Scranton,   Faceblock] 98	    .   .
+    [Scranton,   Goggle   ] 105	    .   .
+    [Utica,      Faceblock] 119	    .   .
+    [Utica,      Goggle   ] 123	    .   .
+    [Stamford,   Faceblock] 139	    .   .
+    [Stamford,   Goggle   ] 135	    .   . ;
+
+# Number of Products demanded by Business Partner
+param b := 
+    Goggle      -1000
+    Faceblock   -600    ;
+
+# the total hours available per month for labor in Labor
+param           totalHours :=
+    Specialist  100
+    Generalist  200 ;
+
+# The production limit for each Plant
+param   productionLimit := 
+    Scranton 505 
+    Utica    465
+    Stamford 570 ;
