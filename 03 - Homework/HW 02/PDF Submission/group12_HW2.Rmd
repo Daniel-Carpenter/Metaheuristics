@@ -26,7 +26,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # - Problem `1`
 
 <!-- ## Model Overview -->
-<!-- ![ ]("Images/overview1.jpg") -->
+<!-- ![ ]("Images/overview1.png") -->
 
 <!-- ## Mathematical Formulation -->
 
@@ -50,13 +50,13 @@ knitr::opts_chunk$set(echo = TRUE)
 <!-- ## Code and Output -->
 
 <!-- ### Code -->
-<!-- ![ ]("Images/code1.jpg") -->
+<!-- ![ ]("Images/code1.png") -->
 
 
 <!-- \newpage -->
 
 <!-- ### Output -->
-<!-- ![ ]("Images/output1.jpg") -->
+<!-- ![ ]("Images/output1.png") -->
 
 
 <br>
@@ -65,7 +65,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # - Problem `2`
 
 <!-- ## Model Overview -->
-<!-- ![ ]("Images/overview2.jpg") -->
+<!-- ![ ]("Images/overview2.png") -->
 
 <!-- ## Mathematical Formulation -->
 
@@ -89,13 +89,13 @@ knitr::opts_chunk$set(echo = TRUE)
 <!-- ## Code and Output -->
 
 <!-- ### Code -->
-<!-- ![ ]("Images/code2.jpg") -->
+<!-- ![ ]("Images/code2.png") -->
 
 
 <!-- \newpage -->
 
 <!-- ### Output -->
-<!-- ![ ]("Images/output2.jpg") -->
+<!-- ![ ]("Images/output2.png") -->
 
 
 <br>
@@ -174,13 +174,13 @@ $$
 ## Code and Output
 
 ### Code
-<!-- ![ ]("Images/code3.jpg") -->
+<!-- ![ ]("Images/code3.png") -->
 
 
 \newpage
 
 ### Output
-<!-- ![ ]("Images/output3.jpg") -->
+<!-- ![ ]("Images/output3.png") -->
 
 
 <br>
@@ -188,8 +188,8 @@ $$
 \newpage
 # - Problem `4`
 
-<!-- ## Model Overview -->
-<!-- ![ ]("Images/overview4.jpg") -->
+## Model Overview
+<!-- ![ ]("Images/overview4.png") -->
 
 ## Mathematical Formulation
 
@@ -197,19 +197,30 @@ $$
 
 Set Name | Description | Unit
 ---------|-------------|-------------
+$NODES$	| Specialist, Generalist, Scranton, Utica, Stamford, Goggle, Faceblock
+$ARCS$	| Set of all nodes from node i to node j
+$LABOR$	| Specialist, Generalist
+$PLANTS$	| Scranton, Utica, Stamford
 
 
 ### Parameters
 
 Parameter Name | Description | Unit
 ---------------|-------------|-------------
+$u_{i, j}$ | upper bound of number of units sent from node $i\in NODES$ to node $j\in NODES$
+$l_{i, j}$ | lower bound of number of units sent from node $i\in NODES$ to node $j\in NODES$
+$c_{i, j}$ | cost of labor, transportation and manufacturing when sending one product node $i\in NODES$ to node $j\in NODES$
+$b_i$	Demand of products for $i \in NODES$	
 
 
 ### Decision Variables
+$flow_{\ i, j}$: number of units sent from node $i\in NODES$ to node $j\in NODES$
 
 
 ### Objective Function
-
+$$
+Minimize \ cost = \sum_{(i,j\in ARCS)}c_{i,j} \times flow_{i,j}
+$$
 
 ### Constraints
 
@@ -219,11 +230,11 @@ Parameter Name | Description | Unit
 ## Code and Output
 
 ### Code
-<!-- ![ ]("Images/code4.jpg") -->
+<!-- ![ ]("Images/code4.png") -->
 
 
 \newpage
 
 ### Output
-<!-- ![ ]("Images/output4.jpg") -->
+<!-- ![ ]("Images/output4.png") -->
 

@@ -251,7 +251,7 @@ div.tocify {
 <div id="problem-1" class="section level1" number="1">
 <h1 number="1"><span class="header-section-number">1</span> - Problem <code>1</code></h1>
 <!-- ## Model Overview -->
-<!-- ![ ]("Images/overview1.jpg") -->
+<!-- ![ ]("Images/overview1.png") -->
 <!-- ## Mathematical Formulation -->
 <!-- ### Sets -->
 <!-- ### Parameters -->
@@ -261,17 +261,17 @@ div.tocify {
 <!-- \newpage -->
 <!-- ## Code and Output -->
 <!-- ### Code -->
-<!-- ![ ]("Images/code1.jpg") -->
+<!-- ![ ]("Images/code1.png") -->
 <!-- \newpage -->
 <!-- ### Output -->
-<!-- ![ ]("Images/output1.jpg") -->
+<!-- ![ ]("Images/output1.png") -->
 <p><br></p>
 <div style="page-break-after: always;"></div>
 </div>
 <div id="problem-2" class="section level1" number="2">
 <h1 number="2"><span class="header-section-number">2</span> - Problem <code>2</code></h1>
 <!-- ## Model Overview -->
-<!-- ![ ]("Images/overview2.jpg") -->
+<!-- ![ ]("Images/overview2.png") -->
 <!-- ## Mathematical Formulation -->
 <!-- ### Sets -->
 <!-- ### Parameters -->
@@ -281,10 +281,10 @@ div.tocify {
 <!-- \newpage -->
 <!-- ## Code and Output -->
 <!-- ### Code -->
-<!-- ![ ]("Images/code2.jpg") -->
+<!-- ![ ]("Images/code2.png") -->
 <!-- \newpage -->
 <!-- ### Output -->
-<!-- ![ ]("Images/output2.jpg") -->
+<!-- ![ ]("Images/output2.png") -->
 <p><br></p>
 <div style="page-break-after: always;"></div>
 </div>
@@ -401,12 +401,12 @@ quick_j \geq 0 \\
 <h2 number="3.2"><span class="header-section-number">3.2</span> Code and Output</h2>
 <div id="code" class="section level3" number="3.2.1">
 <h3 number="3.2.1"><span class="header-section-number">3.2.1</span> Code</h3>
-<!-- ![ ]("Images/code3.jpg") -->
+<!-- ![ ]("Images/code3.png") -->
 <div style="page-break-after: always;"></div>
 </div>
 <div id="output" class="section level3" number="3.2.2">
 <h3 number="3.2.2"><span class="header-section-number">3.2.2</span> Output</h3>
-<!-- ![ ]("Images/output3.jpg") -->
+<!-- ![ ]("Images/output3.png") -->
 <p><br></p>
 <div style="page-break-after: always;"></div>
 </div>
@@ -414,13 +414,20 @@ quick_j \geq 0 \\
 </div>
 <div id="problem-4" class="section level1" number="4">
 <h1 number="4"><span class="header-section-number">4</span> - Problem <code>4</code></h1>
-<!-- ## Model Overview -->
-<!-- ![ ]("Images/overview4.jpg") -->
-<div id="mathematical-formulation-1" class="section level2" number="4.1">
-<h2 number="4.1"><span class="header-section-number">4.1</span> Mathematical Formulation</h2>
-<div id="sets" class="section level3" number="4.1.1">
-<h3 number="4.1.1"><span class="header-section-number">4.1.1</span> Sets</h3>
+<div id="model-overview" class="section level2" number="4.1">
+<h2 number="4.1"><span class="header-section-number">4.1</span> Model Overview</h2>
+<!-- ![ ]("Images/overview4.png") -->
+</div>
+<div id="mathematical-formulation-1" class="section level2" number="4.2">
+<h2 number="4.2"><span class="header-section-number">4.2</span> Mathematical Formulation</h2>
+<div id="sets" class="section level3" number="4.2.1">
+<h3 number="4.2.1"><span class="header-section-number">4.2.1</span> Sets</h3>
 <table>
+<colgroup>
+<col width="25%" />
+<col width="37%" />
+<col width="37%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th>Set Name</th>
@@ -429,12 +436,37 @@ quick_j \geq 0 \\
 </tr>
 </thead>
 <tbody>
+<tr class="odd">
+<td><span class="math inline">\(NODES\)</span></td>
+<td>Specialist, Generalist, Scranton, Utica, Stamford, Goggle, Faceblock</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(ARCS\)</span></td>
+<td>Set of all nodes from node i to node j</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(LABOR\)</span></td>
+<td>Specialist, Generalist</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(PLANTS\)</span></td>
+<td>Scranton, Utica, Stamford</td>
+<td></td>
+</tr>
 </tbody>
 </table>
 </div>
-<div id="parameters-1" class="section level3" number="4.1.2">
-<h3 number="4.1.2"><span class="header-section-number">4.1.2</span> Parameters</h3>
+<div id="parameters-1" class="section level3" number="4.2.2">
+<h3 number="4.2.2"><span class="header-section-number">4.2.2</span> Parameters</h3>
 <table>
+<colgroup>
+<col width="36%" />
+<col width="31%" />
+<col width="31%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th>Parameter Name</th>
@@ -443,30 +475,50 @@ quick_j \geq 0 \\
 </tr>
 </thead>
 <tbody>
+<tr class="odd">
+<td><span class="math inline">\(u_{i, j}\)</span></td>
+<td>upper bound of number of units sent from node <span class="math inline">\(i\in NODES\)</span> to node <span class="math inline">\(j\in NODES\)</span></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(l_{i, j}\)</span></td>
+<td>lower bound of number of units sent from node <span class="math inline">\(i\in NODES\)</span> to node <span class="math inline">\(j\in NODES\)</span></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(c_{i, j}\)</span></td>
+<td>cost of labor, transportation and manufacturing when sending one product node <span class="math inline">\(i\in NODES\)</span> to node <span class="math inline">\(j\in NODES\)</span></td>
+<td></td>
+</tr>
 </tbody>
 </table>
+<p><span class="math inline">\(b_i\)</span> Demand of products for <span class="math inline">\(i \in NODES\)</span></p>
 </div>
-<div id="decision-variables-1" class="section level3" number="4.1.3">
-<h3 number="4.1.3"><span class="header-section-number">4.1.3</span> Decision Variables</h3>
+<div id="decision-variables-1" class="section level3" number="4.2.3">
+<h3 number="4.2.3"><span class="header-section-number">4.2.3</span> Decision Variables</h3>
+<p><span class="math inline">\(flow_{\ i, j}\)</span>: number of units sent from node <span class="math inline">\(i\in NODES\)</span> to node <span class="math inline">\(j\in NODES\)</span></p>
 </div>
-<div id="objective-function-1" class="section level3" number="4.1.4">
-<h3 number="4.1.4"><span class="header-section-number">4.1.4</span> Objective Function</h3>
+<div id="objective-function-1" class="section level3" number="4.2.4">
+<h3 number="4.2.4"><span class="header-section-number">4.2.4</span> Objective Function</h3>
+<p><span class="math display">\[
+Minimize \ cost = \sum_{(i,j\in ARCS)}c_{i,j} \times flow_{i,j}
+\]</span></p>
 </div>
-<div id="constraints-1" class="section level3" number="4.1.5">
-<h3 number="4.1.5"><span class="header-section-number">4.1.5</span> Constraints</h3>
+<div id="constraints-1" class="section level3" number="4.2.5">
+<h3 number="4.2.5"><span class="header-section-number">4.2.5</span> Constraints</h3>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
-<div id="code-and-output-1" class="section level2" number="4.2">
-<h2 number="4.2"><span class="header-section-number">4.2</span> Code and Output</h2>
-<div id="code-1" class="section level3" number="4.2.1">
-<h3 number="4.2.1"><span class="header-section-number">4.2.1</span> Code</h3>
-<!-- ![ ]("Images/code4.jpg") -->
+<div id="code-and-output-1" class="section level2" number="4.3">
+<h2 number="4.3"><span class="header-section-number">4.3</span> Code and Output</h2>
+<div id="code-1" class="section level3" number="4.3.1">
+<h3 number="4.3.1"><span class="header-section-number">4.3.1</span> Code</h3>
+<!-- ![ ]("Images/code4.png") -->
 <div style="page-break-after: always;"></div>
 </div>
-<div id="output-1" class="section level3" number="4.2.2">
-<h3 number="4.2.2"><span class="header-section-number">4.2.2</span> Output</h3>
-<!-- ![ ]("Images/output4.jpg") -->
+<div id="output-1" class="section level3" number="4.3.2">
+<h3 number="4.3.2"><span class="header-section-number">4.3.2</span> Output</h3>
+<!-- ![ ]("Images/output4.png") -->
 </div>
 </div>
 </div>
