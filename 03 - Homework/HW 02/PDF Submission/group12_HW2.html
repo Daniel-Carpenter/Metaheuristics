@@ -304,8 +304,8 @@ div.tocify {
 </thead>
 <tbody>
 <tr class="odd">
-<td><span class="math inline">\(Days\)</span></td>
-<td>Total number of days available, e.g. (1, <span class="math inline">\(\dots\)</span>, <span class="math inline">\(Days\)</span>)</td>
+<td><span class="math inline">\(NUM\_DAYS\)</span></td>
+<td>Total number of days available, (e.g. 4)</td>
 <td></td>
 </tr>
 <tr class="even">
@@ -366,7 +366,7 @@ div.tocify {
 <li>Minimize total cost by when using the three types of tire services</li>
 </ul>
 <p><span class="math display">\[
-Minimize \ cost: \ \sum_{j}
+Minimize \ cost: \ \sum_{j}^{NUM\_DAYS}
 purch_j \times P \ + \ 
 norm_j \times N \ + \ 
 quick_j \times Q
@@ -378,13 +378,18 @@ quick_j \times Q
 <p><strong>C1</strong>: Purchase everything on the first day <span class="math display">\[
 purchaseDay1: purch_1 = r_1
 \]</span></p>
-<p><strong>C2</strong>: Meet Daily Demand <span class="math display">\[
-dailyDemand: \ \sum_{j} purch_j \ + \ norm_j \ + \ quick_j = r_j
+<p><strong>C2</strong>: Can’t use normal service on first 2 days <em>(Since day 1 = purchase, then takes a day to reshape w/Normal)</em> <span class="math display">\[
+normStartsAtDay2: norm_j = 0, 
+\ for \ j \ in \ 1, 2
 \]</span></p>
-<p><strong>C3</strong> Can only reshape using normal service every other day <span class="math display">\[
-normOneDay: norm_j + norm_{j-1} \leq r_j
+<p><strong>C3</strong>: Can only reshape all tires from a full 24-hour day ago <em>(not yesterday’s tires since &gt; 24 hrs.)</em> <span class="math display">\[
+normLag: norm_j \leq purch_{j-2} + norm_{j-2} + quick_{j-2}
+\ for \ j \ in \ 1,\dots, NUM\_DAYS
 \]</span></p>
-<p><strong>C</strong>: Non-Negativity Constraints <span class="math display">\[
+<p><strong>C4</strong>: Meet Daily Demand <span class="math display">\[
+dailyDemand: \ \sum_{j}^{NUM\_DAYS}[purch_j \ + \ norm_j \ + \ quick_j] = r_j
+\]</span></p>
+<p><strong>C5</strong>: Non-Negativity Constraints <span class="math display">\[
 r_j     \geq 0 \\
 purch_j  \geq 0 \\ 
 norm_j  \geq 0 \\ 

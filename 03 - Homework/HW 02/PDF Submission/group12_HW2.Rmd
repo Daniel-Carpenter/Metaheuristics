@@ -109,7 +109,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Parameter Name | Description | Unit
 ---------------|-------------|-------------
-$Days$   | Total number of days available, e.g. (1, $\dots$, $Days$)
+$NUM\_DAYS$   | Total number of days available, (e.g. 4)
 $P$ | Price of *purchasing* new tires        | Dollars per Tire
 $N$ | Cost of *normal* service on used tires | Dollars per Tire 
 $Q$ | Cost of *quick* service on used tires  | Dollars per Tire 
@@ -129,7 +129,7 @@ $quick_j$ | Number of tires to *reshape* using the `quick` service on day ($j \i
 * Minimize total cost by when using the three types of tire services
 
 $$
-Minimize \ cost: \ \sum_{j}
+Minimize \ cost: \ \sum_{j}^{NUM\_DAYS}
 purch_j \times P \ + \ 
 norm_j \times N \ + \ 
 quick_j \times Q
@@ -145,18 +145,24 @@ $$
 purchaseDay1: purch_1 = r_1
 $$
 
-**C2**: Meet Daily Demand
+**C2**: Can't use normal service on first 2 days *(Since day 1 = purchase, then takes a day to reshape w/Normal)*
 $$
-dailyDemand: \ \sum_{j} purch_j \ + \ norm_j \ + \ quick_j = r_j
-$$
-
-**C3** Can only reshape using normal service every other day
-$$
-normOneDay: norm_j + norm_{j-1} \leq r_j
+normStartsAtDay2: norm_j = 0, 
+\ for \ j \ in \ 1, 2
 $$
 
+**C3**: Can only reshape all tires from a full 24-hour day ago *(not yesterday's tires since > 24 hrs.)*
+$$
+normLag: norm_j \leq purch_{j-2} + norm_{j-2} + quick_{j-2}
+\ for \ j \ in \ 1,\dots, NUM\_DAYS
+$$
 
-**C**: Non-Negativity Constraints
+**C4**: Meet Daily Demand
+$$
+dailyDemand: \ \sum_{j}^{NUM\_DAYS}[purch_j \ + \ norm_j \ + \ quick_j] = r_j
+$$
+
+**C5**: Non-Negativity Constraints
 $$
 r_j     \geq 0 \\
 purch_j  \geq 0 \\ 

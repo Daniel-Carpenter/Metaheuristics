@@ -27,16 +27,22 @@ options solver cplex;
 
 # CONSTRAINTS -------------------------------------------------------
     
-    # Purchase on day 1
+    # C1: Purchase on day 1
     subject to purchaseDay1: 
         purch[1] = r[1];
     
-    # Meet the daily required demand
+    # C2: Can't use normal service on first 2 days 
+    # (Since day 1 = purchase, then takes a day to reshape w/Normal) 
+    subject to normStartsAtDay3 {j in 1 .. 2}:
+        norm[j] == 0;
+
+    # C3: Can only reshape all tires from a full 24-hour day ago (today minus 2)
+    subject to normLag {j in 3 .. NUM_DAYS}: 
+        norm[j] <= purch[j-2] + norm[j-2] + quick[j-2]; 
+    
+    # C4: Meet the daily required demand
     subject to dailyDemand {j in 1 .. NUM_DAYS}: 
         purch[j] + norm[j] + quick[j] == r[j]; 
-
-    # Can only reshape using normal service every other day
-    subject to normOneDay {j in 2 .. NUM_DAYS}: norm[j] + norm[j-1] <= r[j];
 
 # LOAD DATA ---------------------------------------------------------
     data group12_HW2_p3.dat;
@@ -45,15 +51,15 @@ options solver cplex;
     solve;
 
     print;
-    print 'Tires Purchased:';
+    print 'Tires used that were Purchased:';
     display purch;
 
     print;
-    print 'Tires Reshaped w/Normal:';
+    print 'Tires used that were Reshaped w/Normal Service:';
     display norm;
 
     print;
-    print 'Tires Reshaped w/Quick:';
+    print 'Tires used that were Reshaped w/Quick Service:';
     display quick;
 
 
