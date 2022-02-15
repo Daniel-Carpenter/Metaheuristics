@@ -105,17 +105,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Mathematical Formulation
 
-### Sets
-
-Set Name | Description 
----------|-------------
-$Days$   | The discrete day numbers to make tires *(1, 2, 3, 4)*
-
-
 ### Parameters
 
 Parameter Name | Description | Unit
 ---------------|-------------|-------------
+$Days$   | Total number of days available, e.g. (1, $\dots$, $Days$)
 $P$ | Price of *purchasing* new tires        | Dollars per Tire
 $N$ | Cost of *normal* service on used tires | Dollars per Tire 
 $Q$ | Cost of *quick* service on used tires  | Dollars per Tire 
@@ -135,8 +129,8 @@ $quick_j$ | Number of tires to *reshape* using the `quick` service on day ($j \i
 * Minimize total cost by when using the three types of tire services
 
 $$
-Minimize \ \sum_{j}
-puch_j \times P \ + \ 
+Minimize \ cost: \ \sum_{j}
+purch_j \times P \ + \ 
 norm_j \times N \ + \ 
 quick_j \times Q
 $$
@@ -146,16 +140,26 @@ $$
 
 \newpage
 
-**C1**: Meet Daily Demand
+**C1**: Purchase everything on the first day
 $$
-dailyDemand: \ \sum_{j} puch_j \ + \ norm_j \ + \ quick_j = r_j
+purchaseDay1: purch_1 = r_1
+$$
+
+**C2**: Meet Daily Demand
+$$
+dailyDemand: \ \sum_{j} purch_j \ + \ norm_j \ + \ quick_j = r_j
+$$
+
+**C3** Can only reshape using normal service every other day
+$$
+normOneDay: norm_j + norm_{j-1} \leq r_j
 $$
 
 
-**C2**: Non-Negativity Constraints
+**C**: Non-Negativity Constraints
 $$
 r_j     \geq 0 \\
-puch_j  \geq 0 \\ 
+purch_j  \geq 0 \\ 
 norm_j  \geq 0 \\ 
 quick_j \geq 0 \\
 $$
