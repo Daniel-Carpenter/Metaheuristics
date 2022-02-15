@@ -27,7 +27,7 @@ options solver cplex;
 
 # CONSTRAINTS -------------------------------------------------------
     
-    # C1: Purchase on day 1
+    # C1: Purchase everything on the first day
     subject to purchaseDay1: 
         purch[1] = r[1];
     

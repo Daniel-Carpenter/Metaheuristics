@@ -379,14 +379,14 @@ quick_j \times Q
 purchaseDay1: purch_1 = r_1
 \]</span></p>
 <p><strong>C2</strong>: Can’t use normal service on first 2 days <em>(Since day 1 = purchase, then takes a day to reshape w/Normal)</em> <span class="math display">\[
-normStartsAtDay2: norm_j = 0, 
-\ for \ j \ in \ 1, 2
+normStartsAtDay2: norm_j = 0
+, \ for \ j \ in \ 1, 2
 \]</span></p>
 <p><strong>C3</strong>: Can only reshape all tires from a full 24-hour day ago <em>(not yesterday’s tires since &gt; 24 hrs.)</em> <span class="math display">\[
 normLag: norm_j \leq purch_{j-2} + norm_{j-2} + quick_{j-2}
-\ for \ j \ in \ 1,\dots, NUM\_DAYS
+, \ for \ j \ in \ 3,\dots, NUM\_DAYS
 \]</span></p>
-<p><strong>C4</strong>: Meet Daily Demand <span class="math display">\[
+<p><strong>C4</strong>: Meet Daily Demand <span class="math inline">\(r_j\)</span> <span class="math display">\[
 dailyDemand: \ \sum_{j}^{NUM\_DAYS}[purch_j \ + \ norm_j \ + \ quick_j] = r_j
 \]</span></p>
 <p><strong>C5</strong>: Non-Negativity Constraints <span class="math display">\[

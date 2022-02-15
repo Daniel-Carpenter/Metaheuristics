@@ -147,17 +147,17 @@ $$
 
 **C2**: Can't use normal service on first 2 days *(Since day 1 = purchase, then takes a day to reshape w/Normal)*
 $$
-normStartsAtDay2: norm_j = 0, 
-\ for \ j \ in \ 1, 2
+normStartsAtDay2: norm_j = 0
+, \ for \ j \ in \ 1, 2
 $$
 
 **C3**: Can only reshape all tires from a full 24-hour day ago *(not yesterday's tires since > 24 hrs.)*
 $$
 normLag: norm_j \leq purch_{j-2} + norm_{j-2} + quick_{j-2}
-\ for \ j \ in \ 1,\dots, NUM\_DAYS
+, \ for \ j \ in \ 3,\dots, NUM\_DAYS
 $$
 
-**C4**: Meet Daily Demand
+**C4**: Meet Daily Demand $r_j$ 
 $$
 dailyDemand: \ \sum_{j}^{NUM\_DAYS}[purch_j \ + \ norm_j \ + \ quick_j] = r_j
 $$
