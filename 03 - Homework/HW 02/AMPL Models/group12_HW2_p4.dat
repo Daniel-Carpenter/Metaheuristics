@@ -7,49 +7,95 @@
 data;
 
 # Set of Nodes containing all sources of Labor, Plants, and Business Partners
-set NODES :=    Specialist Generalist     # Labor
-                Scranton Utica Stamford  # Plants
-                Goggle Faceblock dummy;         # Business Partners
+set NODES :=    Specialist Generalist           # Labor
+                ScranMult1x UticaMult1x StamMult1x    # Multiplier dummy 1x no OT
+                ScranMultOT UticaMultOT StamMultOT    # Multiplier dummy 1.5x for OT
+                Scranton Utica Stamford         # Plants
+                Goggle Faceblock dummy          # Business Partners + dummy for unbalanced supply/demand
+                ;
 
 
 # Set of ARCS from Labor Sources, to Plants, to Business Partners
-set ARCS := (Specialist,*) Scranton Utica Stamford
-            (Generalist,*) Scranton Utica Stamford
+set ARCS := 
+            # No OT used
+            (Specialist,*) ScranMult1x UticaMult1x StamMult1x
+            (Generalist,*) ScranMult1x UticaMult1x StamMult1x
+            (ScranMult1x, *) Scranton
+            (UticaMult1x, *) Utica
+            (StamMult1x,  *) Stamford
+
+            # If Use OT
+            (Specialist,*) ScranMultOT UticaMultOT StamMultOT
+            (Generalist,*) ScranMultOT UticaMultOT StamMultOT
+            (ScranMultOT,*) Scranton
+            (UticaMultOT,*) Utica
+            (StamMultOT, *) Stamford
+
+            # Plants to demanders and dummy for unbalanced network
             (Scranton,  *) Goggle Faceblock dummy
             (Utica,     *) Goggle Faceblock dummy
-            (Stamford,  *) Goggle Faceblock dummy ;
+            (Stamford,  *) Goggle Faceblock dummy 
+            ;
 
 
-set LABOR  := Specialist Generalist ;  # Sub set of labor titles for total hours contraint
-set PLANTS := Scranton Utica Stamford ; # plants Total production limit 
+# The cost (c), lower (l). and upper (u), from node i to j in IN NODES
+param:                          c       l   u :=
+    # Path not using OT
+    # Cost of Transportation + Labor per Unit of Output (see screenshot)
+    [Specialist, ScranMult1x ]	191.67	.	.	
+    [Specialist, UticaMult1x]	187.5	.	.	
+    [Specialist, StamMult1x ]	189.58	.	.	
+    [Generalist, ScranMult1x ]	200	    .	.	
+    [Generalist, UticaMult1x]	195	    .	.	
+    [Generalist, StamMult1x ]	197.5	.	.	
+    [ScranMult1x,   Scranton]	1	    .	505	
+    [UticaMult1x,   Utica]	    1	    .	465	
+    [StamMult1x,   Stamford]	1	    .	570	
 
-# The cost (c), upper (u), and multiplier (mu) from node i to j in IN NODES
-param:                      c       u   mu :=
-    [Specialist, Scranton ] 466.7	.   .
-    [Specialist, Utica    ] 416.7	.   .
-    [Specialist, Stamford ] 441.7	.   .
-    [Generalist, Scranton ] 470	    .   .
-    [Generalist, Utica    ] 420	    .   .
-    [Generalist, Stamford ] 445	    .   .
-    [Scranton,   Faceblock] 98	    .   .
-    [Scranton,   Goggle   ] 105	    .   .
-    [Utica,      Faceblock] 119	    .   .
-    [Utica,      Goggle   ] 123	    .   .
-    [Stamford,   Faceblock] 139	    .   .
-    [Stamford,   Goggle   ] 135	    .   . ;
+    # Path using OT
+    [Specialist, ScranMultOT]	191.67	.	.	# supply to plant
+    [Specialist, UticaMultOT]	187.5	.	.	
+    [Specialist, StamMultOT]	189.58	.	.	
+    [Generalist, ScranMultOT]	200	    .	.	
+    [Generalist, UticaMultOT]	195	    .	.	
+    [Generalist, StamMultOT]	197.5	.	.	
+    [UticaMultOT, Utica]	    1.5	    .	100	# Plant mult to Plant
+    [ScranMultOT, Scranton]	    1.5	    .	100	
+    [StamMultOT, Stamford]	    1.5	    .	100	
+
+    # Plant to Business Partners
+    [Scranton,   Goggle]	    98	    .	.	# Plant to Demanders
+    [Scranton,   Faceblock]	    105	    .	.	
+    [Scranton,   dummy  ]	    1000	.	.	
+    [Utica,      Goggle]	    119	    .	.	
+    [Utica,      Faceblock]	    123	    .	.	
+    [Utica,      dummy   ]	    1000	.	.	
+    [Stamford,   Goggle]	    139	    .	.	
+    [Stamford,   Faceblock]	    135	    .	.	
+    [Stamford,   dummy   ]	    1000	.	.	
+    ;				
+
 
 # Number of Products demanded by Business Partner
 param b := 
-    Goggle      -1000
-    Faceblock   -600    ;
+    # Supply				
+    Specialist	1200	# 12 units * 100 labor hours		
+    Generalist	2000	# 10 units * 200 labor hours
 
-# the total hours available per month for labor in Labor
-param           totalHours :=
-    Specialist  100
-    Generalist  200 ;
+    # Transshippment (Plants or OT Multiplier)				
+    ScranMult1x	0  # Not using OT
+    UticaMult1x	0			
+    StamMult1x	0			
+    ScranMultOT	0	# Using OT		
+    UticaMultOT	0			
+    StamMultOT	0			
+    Scranton	0   # Plant Arrival
+    Utica	    0			
+    Stamford	0			
 
-# The production limit for each Plant
-param   productionLimit := 
-    Scranton 505 
-    Utica    465
-    Stamford 570 ;
+    # Demand				
+    Goggle	    -1000			
+    Faceblock	-600	# 1200 + 2000 - 1000 - 600		
+    dummy	    -1600			
+    ;				
+
