@@ -1,0 +1,49 @@
+# Homework 2 - Advanced LP & Network Flow Models
+# Adv. Analytics and Metaheuristics
+# Daniel Carpenter and Christopher Ferguson
+# February 2022
+# Problem 4
+
+data;
+
+# Set of Nodes for each day (1,2,3,4)
+set NODES :=    p1 p2 p3 p4 # Purchases
+                n1 n2 n3 n4 # Normal Service
+                q1 q2 q3 q4 # Quick Service
+                d1 d2 d3 d4 # Demand
+                ;
+
+# Set of ARCS from Node i to Node j
+set ARCS := 
+            (p1, *) d1 q2 n3
+            (p2, *) d2 q3 n4
+            (p3, *) d3 q4
+            (q2, d2)
+            (q3, d3) (n3, d3)
+            (q4, d4) (n4, d4)
+            ;
+
+# Number of Products demanded
+param b := 
+    d1 -320
+    d2 -240
+    d3 -400
+    d4 -520
+    ;				
+
+# The cost (c), lower (l). and upper (u), from node i to j in IN NODES
+param:       c       l   u :=
+    [p1, d1] 600     .   .
+    [p1, q2] 600     .   320
+    [p1, n3] 600     .   320
+    [p2, d2] 600     .   .
+    [p2, q3] 600     .   240
+    [p2, n4] 600     .   240
+    [p3, d3] 600     .   .
+    [p3, q4] 600     .   400
+    [q2, d2] 250     .   .
+    [q3, d3] 250     .   . 
+    [q4, d4] 250     .   . 
+    [n3, d3] 95      .   .
+    [n4, d4] 95      .   .
+    ;				
