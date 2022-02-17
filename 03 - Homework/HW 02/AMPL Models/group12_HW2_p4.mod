@@ -29,7 +29,7 @@ minimize cost: sum{(i,j) in ARCS} c[i,j] * x[i,j];  #objective: minimize arc flo
 # Flow Out(i) - Flow In(i) = b(i)
 
 subject to flow_balance {i in NODES}:
-    sum{j in NODES: (i,j) in ARCS} x[i,j] - sum{j in NODES: (j,i) in ARCS} x[j,i] = b[i];
+    sum{j in NODES: (i,j) in ARCS} x[i,j] - sum{j in NODES: (j,i) in ARCS} x[j,i] == b[i];
 
 subject to capacity {(i,j) in ARCS}: 
     l[i,j] <= x[i,j] <= u[i,j];
@@ -40,6 +40,8 @@ subject to capacity {(i,j) in ARCS}:
 
 # COMMANDS ----------------------------------------------------------
     solve;
+    display x;
+    #display flow_balance;
 
 
 

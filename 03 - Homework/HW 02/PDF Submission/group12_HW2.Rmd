@@ -7,16 +7,16 @@ fontsize: 12pt
 geometry: margin=1in
 output:
  
+  pdf_document: 
+    toc: yes
+    number_sections: yes
+    highlight: kate
+  md_document: default
   html_document: 
     toc: yes
     toc_float: yes
     number_sections: yes
     theme: yeti
-  md_document: default
-  pdf_document: 
-    toc: yes
-    number_sections: yes
-    highlight: kate
 ---
 
 ```{r setup, include=FALSE}
@@ -135,10 +135,8 @@ Minimize \ cost: \ \sum_{j}^{NUM\_DAYS}
 (quick_j \times Q)
 $$
 
-
-### Constraints
-
 \newpage
+### Constraints
 
 **C1**: Purchase everything on the first day
 $$
@@ -164,77 +162,81 @@ $$
 
 **C5**: Non-Negativity Constraints
 $$
-r_j     \geq 0 \\
-purch_j  \geq 0 \\ 
-norm_j  \geq 0 \\ 
-quick_j \geq 0 \\
+r_j, purch_j, norm_j, quick_j \geq 0
 $$
 
 
+\newpage
 ## Code and Output
 
 ### Code
-<!-- ![ ]("Images/code3.png") -->
-
+![ ]("Images/prob3Code.png"){ width=100% }
 
 \newpage
-
 ### Output
-<!-- ![ ]("Images/output3.png") -->
+* Total minimized cost total 395,200
+* Interpretation of the tires purchased on each day:
+  1. `320` tires purchased
+  2. `240` tires reshaped with Quick Service from previous day
+  3. `80` Reshaped with quick service from previous day. `320` tires used from reshaping via Normal service from day 1. 
+  4. `280` Reshaped with quick service from previous day. `240` tires used from reshaping via Normal service from day 2.   
 
+![ ]("Images/prob3Output.png"){ width=70% }
 
-<br>
 
 \newpage
 # - Problem `4`
 
 ## Model Overview
-<!-- ![ ]("Images/overview4.png") -->
 
+### Network Flow Diagram
+<!-- <img src = "Images/prob4Overview.png"> -->
+![ ]("Images/prob4Overview.png"){ width=100% }
+
+\newpage
+### Calculations for Network Flow Diagram
+> Goal of below tables are to put all data on a *per unit of product* basis
+
+![ ]("Images/prob4Overview2.png"){ width=100% }
+
+
+\newpage
 ## Mathematical Formulation
 
-### Sets
-
-Set Name | Description | Unit
----------|-------------|-------------
-$NODES$	| Specialist, Generalist, Scranton, Utica, Stamford, Goggle, Faceblock
-$ARCS$	| Set of all nodes from node i to node j
-$LABOR$	| Specialist, Generalist
-$PLANTS$	| Scranton, Utica, Stamford
+### Sets, Parameters, Decision Vars
+Set Name | Description 
+---------|--------------
+$NODES$	| Set of all nodes in above network flow diagram: Specialist, Generalist, ScranMult1x, UticaMult1x, StamMult1x, ScranMultOT, UticaMultOT, StamMultOT, dumPlant, Scranton, Utica, Stamford             
+![ ]("Images/prob4Math1.png"){ width=70% }
 
 
-### Parameters
-
-Parameter Name | Description | Unit
----------------|-------------|-------------
-$u_{i, j}$ | upper bound of number of units sent from node $i\in NODES$ to node $j\in NODES$
-$l_{i, j}$ | lower bound of number of units sent from node $i\in NODES$ to node $j\in NODES$
-$c_{i, j}$ | cost of labor, transportation and manufacturing when sending one product node $i\in NODES$ to node $j\in NODES$
-$b_i$	Demand of products for $i \in NODES$	
-
-
-### Decision Variables
-$flow_{\ i, j}$: number of units sent from node $i\in NODES$ to node $j\in NODES$
-
-
-### Objective Function
-$$
-Minimize \ cost = \sum_{(i,j\in ARCS)}c_{i,j} \times flow_{i,j}
-$$
-
-### Constraints
-
+### Objective, and Constraints
+![ ]("Images/prob4Math2.png"){ width=70% }
 
 \newpage
 
 ## Code and Output
 
-### Code
-<!-- ![ ]("Images/code4.png") -->
+### Model: `group12_HW2_p4.mod`
+* Used `mcnfp.txt` from course website and renamed to `group12_HW2_p4.mod`.
+* Added `data group12_HW2_p4.dat;` `solve;` and `display x;`
 
+### Data: `group12_HW2_p4.dat`
+![ ]("Images/prob4Data1.png"){ width=85% }
+
+\newpage
+*Data Continued:*  
+\newline
+![ ]("Images/prob4Data2.png"){ width=100% }
 
 \newpage
 
 ### Output
-<!-- ![ ]("Images/output4.png") -->
+> Shows the Objective, as well the flow from Node i to Node j for all Arcs:
+
+* Total minimized cost: $806,192.95
+* Each Column shows the source node and how much it sent to the destination node (which is shown for each row.) 
+* The values show the flow from source to destination (reference flow diagram for comparison)
+
+![ ]("Images/prob4Output.png"){ width=100% }
 
