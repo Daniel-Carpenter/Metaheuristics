@@ -7,26 +7,25 @@
 data;
 
 # Set of Nodes containing all sources of Labor, Plants, and Business Partners
-set NODES :=    Specialist Generalist           # Labor
-                ScranMult1x UticaMult1x StamMult1x    # Multiplier dummy 1x no OT
-                ScranMultOT UticaMultOT StamMultOT    # Multiplier dummy 1.5x for OT
-                Scranton Utica Stamford         # Plants
-                Goggle Faceblock dummy          # Business Partners + dummy for unbalanced supply/demand
+set NODES :=    Specialist Generalist               # Labor
+                ScranMult1x UticaMult1x StamMult1x  # Multiplier dummy 1x no OT
+                ScranMultOT UticaMultOT StamMultOT  # Multiplier dummy 1.5x for OT
+                Scranton Utica Stamford             # Plants
+                Goggle Faceblock dummy              # Business Partners + dummy for unbalanced supply/demand
                 ;
-
 
 # Set of ARCS from Labor Sources, to Plants, to Business Partners
 set ARCS := 
             # No OT used
-            (Specialist,*) ScranMult1x UticaMult1x StamMult1x
-            (Generalist,*) ScranMult1x UticaMult1x StamMult1x
+            (Specialist,  *) ScranMult1x UticaMult1x StamMult1x
+            (Generalist,  *) ScranMult1x UticaMult1x StamMult1x
             (ScranMult1x, *) Scranton
             (UticaMult1x, *) Utica
             (StamMult1x,  *) Stamford
 
             # If Use OT
-            (Specialist,*) ScranMultOT UticaMultOT StamMultOT
-            (Generalist,*) ScranMultOT UticaMultOT StamMultOT
+            (Specialist, *) ScranMultOT UticaMultOT StamMultOT
+            (Generalist, *) ScranMultOT UticaMultOT StamMultOT
             (ScranMultOT,*) Scranton
             (UticaMultOT,*) Utica
             (StamMultOT, *) Stamford
@@ -36,45 +35,6 @@ set ARCS :=
             (Utica,     *) Goggle Faceblock dummy
             (Stamford,  *) Goggle Faceblock dummy 
             ;
-
-
-# The cost (c), lower (l). and upper (u), from node i to j in IN NODES
-param:                          c       l   u :=
-    # Path not using OT
-    # Cost of Transportation + Labor per Unit of Output (see screenshot)
-    [Specialist, ScranMult1x ]	191.67	.	.	
-    [Specialist, UticaMult1x]	187.5	.	.	
-    [Specialist, StamMult1x ]	189.58	.	.	
-    [Generalist, ScranMult1x ]	200	    .	.	
-    [Generalist, UticaMult1x]	195	    .	.	
-    [Generalist, StamMult1x ]	197.5	.	.	
-    [ScranMult1x,   Scranton]	1	    .	505	
-    [UticaMult1x,   Utica]	    1	    .	465	
-    [StamMult1x,   Stamford]	1	    .	570	
-
-    # Path using OT
-    [Specialist, ScranMultOT]	191.67	.	.	# supply to plant
-    [Specialist, UticaMultOT]	187.5	.	.	
-    [Specialist, StamMultOT]	189.58	.	.	
-    [Generalist, ScranMultOT]	200	    .	.	
-    [Generalist, UticaMultOT]	195	    .	.	
-    [Generalist, StamMultOT]	197.5	.	.	
-    [UticaMultOT, Utica]	    1.5	    .	100	# Plant mult to Plant
-    [ScranMultOT, Scranton]	    1.5	    .	100	
-    [StamMultOT, Stamford]	    1.5	    .	100	
-
-    # Plant to Business Partners
-    [Scranton,   Goggle]	    98	    .	.	# Plant to Demanders
-    [Scranton,   Faceblock]	    105	    .	.	
-    [Scranton,   dummy  ]	    1000	.	.	
-    [Utica,      Goggle]	    119	    .	.	
-    [Utica,      Faceblock]	    123	    .	.	
-    [Utica,      dummy   ]	    1000	.	.	
-    [Stamford,   Goggle]	    139	    .	.	
-    [Stamford,   Faceblock]	    135	    .	.	
-    [Stamford,   dummy   ]	    1000	.	.	
-    ;				
-
 
 # Number of Products demanded by Business Partner
 param b := 
@@ -99,3 +59,39 @@ param b :=
     dummy	    -1600			
     ;				
 
+# The cost (c), lower (l). and upper (u), from node i to j in IN NODES
+param:                          c       l   u :=
+    # Cost of Transportation + Labor per Unit of Output (see screenshot)
+    # PATH **NOT** USING OT ------------------------------
+    [Specialist,  ScranMult1x]	191.67	.	.  # Supply -> Mult
+    [Specialist,  UticaMult1x]	187.5	.	.	
+    [Specialist,  StamMult1x]	189.58	.	.	
+    [Generalist,  ScranMult1x]	200	    .	.	
+    [Generalist,  UticaMult1x]	195	    .	.	
+    [Generalist,  StamMult1x]	197.5	.	.	
+    [ScranMult1x, Scranton]	    1	    .	505	# Mult -> Plant
+    [UticaMult1x, Utica]	    1	    .	465	
+    [StamMult1x,  Stamford]	    1	    .	570	
+
+    # PATH USING OT ---------------------------------------
+    [Specialist,  ScranMultOT]	191.67	.	.   # Supply -> Mult
+    [Specialist,  UticaMultOT]	187.5	.	.	
+    [Specialist,  StamMultOT]	189.58	.	.	
+    [Generalist,  ScranMultOT]	200	    .	.	
+    [Generalist,  UticaMultOT]	195	    .	.	
+    [Generalist,  StamMultOT]	197.5	.	.	
+    [UticaMultOT, Utica]	    1.5	    .	100	# Mult -> Plant
+    [ScranMultOT, Scranton]	    1.5	    .	100	
+    [StamMultOT,  Stamford]	    1.5	    .	100	
+
+    # Plant to Business Partners
+    [Scranton,   Goggle]	    98	    .	.	# Plant -> Demanders
+    [Scranton,   Faceblock]	    105	    .	.	
+    [Scranton,   dummy]	        0   	.	.	
+    [Utica,      Goggle]	    119	    .	.	
+    [Utica,      Faceblock]	    123	    .	.	
+    [Utica,      dummy]	        0   	.	.	
+    [Stamford,   Goggle]	    139	    .	.	
+    [Stamford,   Faceblock]	    135	    .	.	
+    [Stamford,   dummy]	        0   	.	.	
+    ;				
