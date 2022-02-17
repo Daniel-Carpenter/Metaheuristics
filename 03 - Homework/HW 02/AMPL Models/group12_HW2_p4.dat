@@ -9,15 +9,15 @@ data;
 # Set of Nodes containing all sources of Labor, Plants, and Business Partners
 set NODES :=    Specialist Generalist     # Labor
                 Scranton Utica Stamford  # Plants
-                Goggle Faceblock ;         # Business Partners
+                Goggle Faceblock dummy;         # Business Partners
 
 
 # Set of ARCS from Labor Sources, to Plants, to Business Partners
 set ARCS := (Specialist,*) Scranton Utica Stamford
             (Generalist,*) Scranton Utica Stamford
-            (Scranton,  *) Goggle Faceblock
-            (Utica,     *) Goggle Faceblock
-            (Stamford,  *) Goggle Faceblock ;
+            (Scranton,  *) Goggle Faceblock dummy
+            (Utica,     *) Goggle Faceblock dummy
+            (Stamford,  *) Goggle Faceblock dummy ;
 
 
 set LABOR  := Specialist Generalist ;  # Sub set of labor titles for total hours contraint
