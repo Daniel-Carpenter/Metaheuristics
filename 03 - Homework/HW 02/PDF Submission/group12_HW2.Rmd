@@ -103,78 +103,56 @@ knitr::opts_chunk$set(echo = TRUE)
 \newpage
 # - Problem `3`
 
+## Model Overview
+
+### Assumptions and Calculations for Network Flow Diagram
+* Below shows how we decided to balance the network with supply and dummy nodes
+* In order to obtain a balanced network (i.e. supply equals demand), we must allow for all possible routes to have enough supply.
+* Excess supply allowed on certain days is captured by dummy nodes so that the business does not actually produce the tires.
+
+![ ]("Images/prob3Overview2.png"){ width=90% }
+
+### Network Flow Diagram
+![ ]("Images/prob3Overview.png"){ width=100% }
+
+
+
+\newpage
 ## Mathematical Formulation
 
-### Parameters
-
-Parameter Name | Description | Unit
----------------|-------------|-------------
-$NUM\_DAYS$   | Total number of days available, (e.g. 4)
-$P$ | Price of *purchasing* new tires        | Dollars per Tire
-$N$ | Cost of *normal* service on used tires | Dollars per Tire 
-$Q$ | Cost of *quick* service on used tires  | Dollars per Tire 
-$r_j$ | Demand of tires                      | Tires per day ($j \in Days$)
-
-
-### Decision Variables
-
-Variable Name  | Description
----------------|-------------
-$purch_j$ | Number of tires to `purchase` on day ($j \in Days$)
-$norm_j$  | Number of tires to *reshape* using the `normal` service on day ($j \in Days$)
-$quick_j$ | Number of tires to *reshape* using the `quick` service on day ($j \in Days$)
+### Sets, Parameters, Decision Vars
+Set Name | Description 
+---------|--------------
+$NODES$	| Set of all nodes in above network flow diagram:
+`p1` `p2` `p3` `p4`     | Number of tires to *purchase* on day $\in$(1-4) 
+`n1` `n2` `n3` `n4`     | Number of tires to reshape using the *normal* service on day $\in$(1-4)
+`q1` `q2` `q3` `q4`     | Number of tires to reshape using the *quick* service on day $\in$(1-4)
+`d1` `d2` `d3` `d4`     | Demand of tires on each day $\in$(1-4)
+`dum2` `dum3` `dum4`    | Dummy nodes to balance excess supply for days 2 3 and 4  $\in$(2-4). Do not need one for day 1 since purchasing 
+![ ]("Images/prob4Math1.png"){ width=70% }
 
 
-### Objective Function
-* Minimize total cost by when using the three types of tire services
+### Objective, and Constraints
+![ ]("Images/prob4Math2.png"){ width=70% }  
 
-$$
-Minimize \ cost: \ \sum_{j}^{NUM\_DAYS}
-(purch_j \times P) \ + \ 
-(norm_j \times N) \ + \ 
-(quick_j \times Q)
-$$
+* Upper and lower bounds use to direct the flow of tires from *purchasing* to *quick* or *normal* service
 
-\newpage
-### Constraints
-
-**C1**: Purchase everything on the first day
-$$
-purchaseDay1: purch_1 = r_1
-$$
-
-**C2**: Can't use normal service on first 2 days *(Since day 1 = purchase, then takes a day to reshape w/Normal)*
-$$
-normStartsAtDay2: norm_j = 0
-, \ for \ j \ in \ 1, 2
-$$
-
-**C3**: Can only reshape all tires from a full 24-hour day ago *(not yesterday's tires since > 24 hrs.)*
-$$
-normLag: norm_j \leq purch_{j-2} + norm_{j-2} + quick_{j-2}
-, \ for \ j \ in \ 3,\dots, NUM\_DAYS
-$$
-
-**C4**: Meet Daily Demand $r_j$ 
-$$
-dailyDemand: \ \sum_{j}^{NUM\_DAYS}[purch_j \ + \ norm_j \ + \ quick_j] = r_j
-$$
-
-**C5**: Non-Negativity Constraints
-$$
-r_j, purch_j, norm_j, quick_j \geq 0
-$$
-
-
-\newpage
 ## Code and Output
 
-### Code
-![ ]("Images/prob3Code.png"){ width=100% }
+### Model: `group12_HW2_p3.mod`
+* Used `mcnfp.txt` from course website and renamed to `group12_HW2_p3.mod`.
+* Added `data group12_HW2_p3.dat;` `solve;` and `display x;`
+
+### Data: `group12_HW2_p3.dat`
+![ ]("Images/prob3Data1.png"){ width=70% }
 
 \newpage
+*Data Continued:*  
+\newline
+![ ]("Images/prob3Data2.png"){ width=70% }
+
 ### Output
-* Total minimized cost total 395,200
+* Total minimized cost: `396,720`
 * Interpretation of the tires purchased on each day:
   1. `320` tires purchased
   2. `240` tires reshaped with Quick Service from previous day
@@ -189,15 +167,16 @@ $$
 
 ## Model Overview
 
-### Network Flow Diagram
-<!-- <img src = "Images/prob4Overview.png"> -->
-![ ]("Images/prob4Overview.png"){ width=100% }
-
-\newpage
 ### Assumptions and Calculations for Network Flow Diagram
-> Goal of below tables are to put all data on a *per unit of product* basis
+* Goal of below tables are to put all data on a *per unit of product* basis
+* Need to be on per unit basis so that we can effectively minimize the cost
+* *Color of tables* correspond to the network nodes on the next page
 
 ![ ]("Images/prob4Overview2.png"){ width=100% }
+
+\newpage
+### Network Flow Diagram
+![ ]("Images/prob4Overview.png"){ width=100% }
 
 
 \newpage
@@ -206,12 +185,20 @@ $$
 ### Sets, Parameters, Decision Vars
 Set Name | Description 
 ---------|--------------
-$NODES$	| Set of all nodes in above network flow diagram: Specialist, Generalist, ScranMult1x, UticaMult1x, StamMult1x, ScranMultOT, UticaMultOT, StamMultOT, dumPlant, Scranton, Utica, Stamford             
+$NODES$	| Set of all nodes in above network flow diagram: 
+`Specialist`, `Generalist` | The two types of Supply of Labor
+`ScranMult1x`, `UticaMult1x`, `StamMult1x` | Passed through if *did not* use overtime
+`ScranMultOT`, `UticaMultOT`, `StamMultOT` | Passed through if *did* use overtime
+`Scranton`, `Utica`, `Stamford`  | Transshipment nodes which are the plants            
+`dumPlant`, `dumBus` | Dummy nodes that account for excess supply from unbalanced supply from labor nodes
 ![ ]("Images/prob4Math1.png"){ width=70% }
 
 
 ### Objective, and Constraints
-![ ]("Images/prob4Math2.png"){ width=70% }
+![ ]("Images/prob4Math2.png"){ width=70% }  
+
+* Upper and lower bounds use to direct the flow of tires from *purchasing* to *quick* or *normal* service
+
 
 \newpage
 
@@ -232,11 +219,10 @@ $NODES$	| Set of all nodes in above network flow diagram: Specialist, Generalist
 \newpage
 
 ### Output
-> Shows the Objective, as well the flow from Node i to Node j for all Arcs:
-
-* Total minimized cost: $806,192.95
-* Each Column shows the source node and how much it sent to the destination node (which is shown for each row.) 
-* The values show the flow from source to destination (reference flow diagram for comparison)
+* Total minimized cost: `$806,192.95`
+* Scranton, Utica, and Stamford produce `0`, `430`, and `170` units of product for **Faceblock**, respectively.
+* Scranton, Utica, and Stamford produce `605`, `0`, and `395` units of product for **Goggle**, respectively.
+* All possible labor used (both regular and overtime hours). `200` OT products produced by Specialists, and `100` from generalists.  
 
 ![ ]("Images/prob4Output.png"){ width=100% }
 
