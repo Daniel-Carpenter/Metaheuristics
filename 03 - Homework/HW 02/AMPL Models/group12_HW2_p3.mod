@@ -2,67 +2,46 @@
 # Adv. Analytics and Metaheuristics
 # Daniel Carpenter and Christopher Ferguson
 # February 2022
-# Problem 3
+# Problem 4
+
+# AMPL model for the Minimum Cost Network Flow Problem
+#
+# By default, this model assumes that b[i] = 0, c[i,j] = 0,
+# l[i,j] = 0 and u[i,j] = Infinity.
+#
+# Parameters not specified in the data file will get their default values.
 
 reset;
 options solver cplex;
 
-# SETS -------------------------------------------------------------
-    # The discrete day numbers to make tires (1, 2, 3, 4)
+set NODES;                        # nodes in the network
+set ARCS within {NODES, NODES};   # arcs in the network 
 
-# PARAMETERS -------------------------------------------------------
-    param NUM_DAYS; # Total number of days possible
-    param P >= 0;  # Price of *purchasing* new tires  
-    param N >= 0;  # Cost of *normal* service on used tires
-    param Q >= 0;  # Cost of *quick* service on used tires
-    param r {1 .. NUM_DAYS};   # Demand of tires per day (j ∈ 1 .. NUM_DAYS) 
+param b {NODES} default 0;        # supply/demand for node i
+param c {ARCS}  default 0;        # cost of one of flow on arc(i,j)
+param l {ARCS}  default 0;        # lower bound on flow on arc(i,j)
+param u {ARCS}  default Infinity; # upper bound on flow on arc(i,j)
 
-# DECISION VARS ----------------------------------------------------
-    var purch {1 .. NUM_DAYS} >= 0;	# Number of tires to purchase on day (j∈1 .. NUM_DAYS)
-    var norm {1 .. NUM_DAYS}  >= 0;	# Number of tires to reshape using the normal service on day (j∈1 .. NUM_DAYS)
-    var quick {1 .. NUM_DAYS} >= 0;	# Number of tires to reshape using the quick service on day (j∈1 .. NUM_DAYS)
+var x {ARCS};                     # flow on arc (i,j)
+ 
+minimize cost: sum{(i,j) in ARCS} c[i,j] * x[i,j];  #objective: minimize arc flow cost
 
- #OBJECTIVE FUNCTION -----------------------------------------------
-    # Minimize total cost by when using the three types of tire services
-    minimize cost: sum{j in 1 .. NUM_DAYS} (purch[j]*P + norm[j]*N + quick[j]*Q);
+# Flow Out(i) - Flow In(i) = b(i)
 
-# CONSTRAINTS -------------------------------------------------------
-    
-    # C1: Purchase everything on the first day
-    subject to purchaseDay1: 
-        purch[1] = r[1];
-    
-    # C2: Can't use normal service on first 2 days 
-    # (Since day 1 = purchase, then takes a day to reshape w/Normal) 
-    subject to normStartsAtDay3 {j in 1 .. 2}:
-        norm[j] == 0;
+subject to flow_balance {i in NODES}:
+    sum{j in NODES: (i,j) in ARCS} x[i,j] - sum{j in NODES: (j,i) in ARCS} x[j,i] == b[i];
 
-    # C3: Can only reshape all tires from a full 24-hour day ago (today minus 2)
-    subject to normLag {j in 3 .. NUM_DAYS}: 
-        norm[j] <= purch[j-2] + norm[j-2] + quick[j-2]; 
-    
-    # C4: Meet the daily required demand
-    subject to dailyDemand {j in 1 .. NUM_DAYS}: 
-        purch[j] + norm[j] + quick[j] == r[j]; 
+subject to capacity {(i,j) in ARCS}: 
+    l[i,j] <= x[i,j] <= u[i,j];
+
 
 # LOAD DATA ---------------------------------------------------------
     data group12_HW2_p3.dat;
 
 # COMMANDS ----------------------------------------------------------
     solve;
-
-    print;
-    print 'Tires used that were Purchased:';
-    display purch;
-
-    print;
-    print 'Tires used that were Reshaped w/Normal Service:';
-    display norm;
-
-    print;
-    print 'Tires used that were Reshaped w/Quick Service:';
-    display quick;
-
+    display x;
+    #display flow_balance;
 
 
 

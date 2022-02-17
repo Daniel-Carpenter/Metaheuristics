@@ -1,0 +1,21 @@
+# Homework 2 - Advanced LP & Network Flow Models
+# Adv. Analytics and Metaheuristics
+# Daniel Carpenter and Christopher Ferguson
+# February 2022
+# Problem 3
+
+data;
+
+# The discrete day numbers to make tires (1, 2, 3, 4)
+param NUM_DAYS := 4;
+
+param P := 600;  # Price of *purchasing* new tires  
+param N := 95;   # Cost of *normal* service on used tires
+param Q := 250;  # Cost of *quick* service on used tires
+
+# Demand of tires per day (j ∈ Days)   
+param: r := 
+    1   320
+    2   240
+    3   400
+    4   520 ;

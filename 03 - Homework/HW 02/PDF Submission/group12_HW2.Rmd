@@ -194,7 +194,7 @@ $$
 ![ ]("Images/prob4Overview.png"){ width=100% }
 
 \newpage
-### Calculations for Network Flow Diagram
+### Assumptions and Calculations for Network Flow Diagram
 > Goal of below tables are to put all data on a *per unit of product* basis
 
 ![ ]("Images/prob4Overview2.png"){ width=100% }
