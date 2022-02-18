@@ -23,6 +23,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+\newpage
 # - Problem `1`
 
 <!-- ## Model Overview -->
@@ -197,7 +198,7 @@ $NODES$	| Set of all nodes in above network flow diagram:
 ### Objective, and Constraints
 ![ ]("Images/prob4Math2.png"){ width=70% }  
 
-* Upper and lower bounds use to direct the flow of tires from *purchasing* to *quick* or *normal* service
+* Upper and lower bounds use to direct the flow of the product
 
 
 \newpage
@@ -222,7 +223,7 @@ $NODES$	| Set of all nodes in above network flow diagram:
 * Total minimized cost: `$806,192.95`
 * Scranton, Utica, and Stamford produce `0`, `430`, and `170` units of product for **Faceblock**, respectively.
 * Scranton, Utica, and Stamford produce `605`, `0`, and `395` units of product for **Goggle**, respectively.
-* All possible labor used (both regular and overtime hours). `200` OT products produced by Specialists, and `100` from generalists.  
+* All possible products produced (using a portion of the available regular and overtime hours). `200` products produced by Specialists using OT, and `100` from generalists using OT.  
 
 ![ ]("Images/prob4Output.png"){ width=100% }
 
