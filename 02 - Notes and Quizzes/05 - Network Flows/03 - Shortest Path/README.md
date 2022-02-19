@@ -5,13 +5,24 @@
 
 ---
 
+## Shortest Path General Overview
+<img src = "Images/overview1.png" width = 550> <br>
+<img src = "Images/overview2.png" width = 550> <br>
+<img src = "Images/overview3.png" width = 550> <br>
+
+
+
+## *Overview* of Example Problem
 ## *Overview* of Problem
+<img src = "Images/overview4.png" width = 550> <br>
 <img src = "Images/overview.png" width = 550> <br>
 
 ## Mathetmatical Formulation
-
 <img src = "Images/math1.png" width = 500> <br>
 <img src = "Images/math2.png" width = 500> <br>
+
+## Optimal Solution
+<img src = "Images/optimal.png" width = 550> <br>
 
 ## Code
 
