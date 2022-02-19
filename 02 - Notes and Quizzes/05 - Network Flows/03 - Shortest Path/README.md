@@ -13,7 +13,6 @@
 
 
 ## *Overview* of Example Problem
-## *Overview* of Problem
 <img src = "Images/overview4.png" width = 550> <br>
 <img src = "Images/overview.png" width = 550> <br>
 
