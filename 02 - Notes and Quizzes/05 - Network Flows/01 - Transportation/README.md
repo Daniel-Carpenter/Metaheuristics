@@ -16,21 +16,8 @@
 
 ## Mathetmatical Formulation
 
-### `Sets`
-<img src = "Images/sets.png" width = 500> <br>
-
-### `Parameters`
-<img src = "Images/parameters.png" width = 500> <br>
-
-### `Decision Variables`
-<img src = "Images/decision.png" width = 500> <br>
-
-### `Objective Function`
-<img src = "Images/objective.png" width = 500> <br>
-
-### `Constraints`
-<img src = "Images/constraints.png" width = 500> <br>
-<img src = "Images/constraints2.png" width = 500> <br>
+<img src = "Images/math1.png" width = 500> <br>
+<img src = "Images/math2.png" width = 500> <br>
 
 ---
 
@@ -113,6 +100,6 @@ subject to capacity {(i,j) in ARCS}: l[i,j] <= x[i,j] <= u[i,j];
 
 <br>
 
-> Output
+<!-- > Output
 ```
-```
+``` -->

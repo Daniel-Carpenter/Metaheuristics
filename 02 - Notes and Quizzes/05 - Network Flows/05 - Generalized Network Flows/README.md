@@ -1,10 +1,19 @@
 # Network Flow Modeling
-> Generalized Network Flow `via Minimum Cost Flow` Modeling  
-> * SEE SLIDES
+> Generalized Network Flow `via Generalized Network Flow (MULTIPLIERS)` Modeling  
+> *SEE SLIDES*
 * Uses multiplier on each flow
 * Models conversions - like currencies or deterioration (like `spoliage`)
 
 ---
+
+## Generalized Network Flow General Overview
+<img src = "Images/overview.png" width = 550> <br>
+<img src = "Images/overview1.png" width = 550> <br>
+<img src = "Images/overview2.png" width = 550> <br>
+
+## *Overview* of Example Problem
+<img src = "Images/overview3.png" width = 550> <br>
+<img src = "Images/overview4.png" width = 550> <br>
 
 ## Code
 
@@ -88,6 +97,6 @@ subject to capacity {(i,j) in ARCS}: l[i,j] <= x[i,j] <= u[i,j];
 
 <br>
 
-> Output
+<!-- > Output
 ```
-```
+``` -->

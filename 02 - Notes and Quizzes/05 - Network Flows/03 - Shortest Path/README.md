@@ -1,9 +1,17 @@
 # Network Flow Modeling
 > Shortest Path `via Minimum Cost Flow`  
-> * SEE SLIDES
+> *SEE SLIDES FOR FULL OVERVIEW*
 * Travel costs, shortest distance between two paths
 
 ---
+
+## *Overview* of Problem
+<img src = "Images/overview.png" width = 550> <br>
+
+## Mathetmatical Formulation
+
+<img src = "Images/math1.png" width = 500> <br>
+<img src = "Images/math2.png" width = 500> <br>
 
 ## Code
 
@@ -76,6 +84,6 @@ subject to capacity {(i,j) in ARCS}: l[i,j] <= x[i,j] <= u[i,j];
 
 <br>
 
-> Output
+<!-- > Output
 ```
-```
+``` -->

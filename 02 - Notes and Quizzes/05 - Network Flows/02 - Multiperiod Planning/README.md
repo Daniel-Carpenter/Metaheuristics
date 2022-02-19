@@ -14,23 +14,8 @@
 
 ## Mathetmatical Formulation
 
-<!-- ### `Sets`
-<img src = "Images/sets.png" width = 500> <br> -->
-
-### `Parameters`
-* Inventory holding costs per unit per month  
-<img src = "Images/parameters.png" width = 500> <br>
-
-### `Decision Variables`
-<img src = "Images/decision.png" width = 500> <br>
-
-### `Objective Function`
-<img src = "Images/objective.png" width = 500> <br>
-<img src = "Images/objective2.png" width = 500> <br>
-
-### `Constraints`
-* `Flow balance constraint` = allows us to produce more earlier and store it for later demand (because it could be cheaper, like this case) 
-<img src = "Images/constraints.png" width = 500> <br>
+<img src = "Images/math1.png" width = 500> <br>
+<img src = "Images/math2.png" width = 500> <br>
 
 ---
 
@@ -131,6 +116,6 @@ subject to capacity {(i,j) in ARCS}: l[i,j] <= x[i,j] <= u[i,j];
 
 <br>
 
-> Output
+<!-- > Output
 ```
-```
+``` -->
