@@ -26,6 +26,9 @@ knitr::opts_chunk$set(echo = TRUE)
 \newpage
 # - Problem `1`
 
+## Problems `a` and `b`
+![ ]("Images/prob1aAndB.png")
+
 <!-- ## Model Overview -->
 <!-- ![ ]("Images/overview1.png") -->
 
