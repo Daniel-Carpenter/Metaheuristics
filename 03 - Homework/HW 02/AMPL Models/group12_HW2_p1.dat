@@ -8,7 +8,7 @@
 # PARAMETERS ========================================================
     # Tons of fruit grade (f ∈ FRUIT) available to use
     param amountOfFruit := 
-    gradeA			930000
+    gradeA			 930000
     gradeB			5270000;
 
     # Avg. point quality of fruit grade (f ∈ FRUIT)
@@ -16,11 +16,11 @@
     gradeA			9
     gradeB			5;
 
-    # Upper bound of production of product (p ∈ PRODUCTS)
+    # Upper bound of production *tons* of product (p ∈ PRODUCTS)
     param productLimit :=
     raisins			INFINITY
-    juice			190000 
-    jelly			210000;
+    juice           2660000  # 14 * 190,000
+    jelly			3780000; # 18 * 210,000
 
     # The amount of pounds associated with a single unit of product (p ∈ PRODUCTS)
     param poundsPerProduct :=
@@ -30,15 +30,15 @@
 
     # The contribution to profit of a product (p ∈ PRODUCTS)
     param contrToProfit :=
-    raisins			1.4
+    raisins			1.40
     juice			2.46
     jelly			2.35;
 
-    # The net profit (net of OH allocation) of a product (p ∈ PRODUCTS)
+    # The net profit (net of OH allocation) of a product (p ∈ PRODUCTS) per *ton*
     param netProfit :=
-    raisins			.35
-    juice			-.14
-    jelly			.43;
+    raisins			 0.053846153846154 
+    juice			-0.0100000000000000
+    jelly			 0.000002047619048  ;
 
     # Requirement of mean point quality of a product (p ∈ PRODUCTS)
     param productGradeLimit :=

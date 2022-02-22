@@ -27,9 +27,10 @@ knitr::opts_chunk$set(echo = TRUE)
 # - Problem `1`
 
 ## Problems `a` and `b`
+* Below shows how we get to the answer of Problems `a` and `b`
 ![ ]("Images/prob1aAndB.png")
 
-## Model Overview
+<!-- ## Model Overview -->
 <!-- ![ ]("Images/overview1.png") -->
 
 ## Mathematical Formulation
@@ -43,18 +44,18 @@ $PRODUCTS$| Types of products to be sold, which are `Raisins`, `Juice`, and `Jel
 ### Parameters
 Parameter Name | Description 
 ---------------|--------------
-$amountOfFruit_f$     | Tons of fruit grade ($f\in FRUIT$) available to use 
+$amountOfFruit_f$     | *Tons* of fruit grade ($f\in FRUIT$) available to use 
 $avgGradeOfFruit_f$   | Avg. point quality of fruit grade ($f\in FRUIT$)
-$productLimit_p$      | Upper bound of production of product ($p\in PRODUCTS$)
+$productLimit_p$      | Upper bound of production of product ($p\in PRODUCTS$) *in tons*
 $poundsPerProduct_p$  | The amount of pounds associated with a single unit of product ($p\in PRODUCTS$)
-$contrToProfit_p$     | The contribution to profit of a product ($p\in PRODUCTS$)
-$netProfit_p$         | The net profit (*net of OH allocation*) of a product ($p\in PRODUCTS$)
+$contrToProfit_p$     | The contribution to profit *per ton* of product ($p\in PRODUCTS$)
+$netProfit_p$         | The net profit (*net of OH allocation*)  *per ton* of product ($p\in PRODUCTS$)
 $productGradeLimit_p$ | Requirement of mean point quality of a product ($p\in PRODUCTS$)
 
 ### Decision Variables
 Variable Name | Description 
 --------------|--------------
-$produce_{\ f,p}$ | The *number* of products ($p\in PRODUCTS$) to be produced by fruit grade ($f\in FRUIT$)
+$produce_{\ f,p}$ | The *tons* of products ($p\in PRODUCTS$) to be produced by fruit grade ($f\in FRUIT$)
 $grade_p$       | The point quality of each product ($p\in PRODUCTS$) created
 
 ### Objective Function
@@ -65,21 +66,22 @@ $$
 
 ### Constraints
 
-**C1:** Number of products produced ($p\in PRODUCTS$) must be less than or equal to tons of fruit provided ($f\in FRUIT$) 
+**C1:** For each fruit grade ($f\in FRUIT$) , the tons of products produced ($p\in PRODUCTS$) must be equal to tons of fruit provided 
 $$
-maxTons: \sum_{p\in PRODUCTS} produce_{f,p} \times poundsPerProduct_p \leq amountOfFruit_f
+maxTons: \sum_{p\in PRODUCTS} produce_{f,p} = amountOfFruit_f
 , \ \forall \ f\in FRUIT
 $$
-**C2:** Limit the number of produced to less than or equal to the demand
+
+**C2:** For each product produced ($p\in PRODUCTS$), limit the number of tons produced to $\leq$ to the demanded (product tons)
 $$
 demand: \sum_{f\in FRUIT} produce_{f,p} \leq productLimit_p
 , \ \forall \ p\in PRODUCTS
 $$
 
 
-**C3:** Cannot produce Jelly using `Grade A`
+**C3:** Cannot produce `Jelly` using `Grade A`
 $$
-noGradeAJelly: produce_{\ f,p} = 0
+noGradeAJelly: produce_{f,p} = 0
 , \ for \ f\in \text{Grade A}
 , \ for \ p\in \text{Jelly}
 $$
