@@ -55,12 +55,13 @@ $productGradeLimit_p$ | Requirement of mean point quality of a product ($p\in PR
 Variable Name | Description 
 --------------|--------------
 $produce_{\ f,p}$ | The *number* of products ($p\in PRODUCTS$) to be produced by fruit grade ($f\in FRUIT$)
-<!-- $grade_p$       | The point quality of each product ($p\in PRODUCTS$) created -->
+$grade_p$       | The point quality of each product ($p\in PRODUCTS$) created
 
 ### Objective Function
 $$
-Maximize \ Net\_Profit = \sum_{f\in FRUIT,p\in PRODUCTS} produce_{f,p} \times netProfit_p
+Maximize \ Net\_Profit: \sum_{f\in FRUIT,p\in PRODUCTS} produce_{f,p} \times netProfit_p
 $$
+\newpage
 
 ### Constraints
 
@@ -69,7 +70,26 @@ $$
 maxTons: \sum_{p\in PRODUCTS} produce_{f,p} \times poundsPerProduct_p \leq amountOfFruit_f
 , \ \forall \ f\in FRUIT
 $$
+**C2:** Limit the number of produced to less than or equal to the demand
+$$
+demand: \sum_{f\in FRUIT} produce_{f,p} \leq productLimit_p
+, \ \forall \ p\in PRODUCTS
+$$
 
+
+**C3:** Cannot produce Jelly using `Grade A`
+$$
+noGradeAJelly: produce_{\ f,p} = 0
+, \ for \ f\in \text{Grade A}
+, \ for \ p\in \text{Jelly}
+$$
+**CX:** Non-negativity constraints, and max point quality is 10
+$$
+produce_{\ f,p} \geq 0, \ \forall \ f\in FRUIT, \ \forall \ p\in PRODUCTS \\
+$$
+$$
+0 \leq grade_{p} \leq \ 10 , \ \forall \ f\in FRUIT, \ \forall \ p\in PRODUCTS
+$$
 <!-- \newpage -->
 
 <!-- ## Code and Output -->
