@@ -1,4 +1,4 @@
-# Homework 2 - Advanced LP & Network Flow Models
+    # Homework 2 - Advanced LP & Network Flow Models
 # Adv. Analytics and Metaheuristics
 # Daniel Carpenter and Christopher Ferguson
 # February 2022
@@ -41,12 +41,15 @@ options solver cplex;   # Using cplex for simplex alg
         (sum {f in FRUIT} produce[f,p]) <= productLimit[p];
 
     ## C3: Cannot produce Jelly (idx 1) using Grade A (idx 3)
-    subject to noGradeAJelly: 
-        produce[member(1, FRUIT), member(3, PRODUCTS)] == 0;
+    # subject to noGradeAJelly: 
+    #     produce[member(1, FRUIT), member(3, PRODUCTS)] == 0;
 
 
-    # subject to grades {p in PRODUCTS}: 
-    #     (sum {f in FRUIT} amountOfFruit[f] * avgGradeOfFruit[f]) / produce[p] >=  grade[p];
+    ## C4: For all products (p ∈ PRODUCTS), the weighted-average grade of fruit is greater than the minimum required grade.
+    subject to minAvgGrade {p in PRODUCTS}: 
+        (sum {i in FRUIT} produce[i,p] 
+                            / (sum {f in FRUIT} produce[f,p]) * productGradeLimit[p]) 
+        >= productGradeLimit[p];
 
 # CONTROLS ==========================================================
     data group12_HW2_p1.dat;

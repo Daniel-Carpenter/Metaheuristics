@@ -79,28 +79,24 @@ demand: \sum_{f\in FRUIT} produce_{f,p} \leq productLimit_p
 $$
 
 
-**C3:** Cannot produce `Jelly` using `Grade A`
-$$
-noGradeAJelly: produce_{f,p} = 0
-, \ for \ f\in \text{Grade A}
-, \ for \ p\in \text{Jelly}
-$$
+<!-- **C3:** Cannot produce `Jelly` using `Grade A` -->
+<!-- $$ -->
+<!-- noGradeAJelly: produce_{f,p} = 0 -->
+<!-- , \ for \ f\in \text{Grade A} -->
+<!-- , \ for \ p\in \text{Jelly} -->
+<!-- $$ -->
 
-**C4:** For all products ($p\in PRODUCTS$), the weighted-average grade of fruit is greater than the minimum required grade. Note $Prooducts$ is abbreviated as $P$   
+**C4:** For all products ($p\in PRODUCTS$), the weighted-average grade of fruit is greater than the minimum required grade.   
 $minAvgGrade:$
 $$
+\sum_{i\in FRUIT}
 \begin{pmatrix}
-\frac{produce_{f=1,\ p}} {\sum_{p\in P}(produce_{f,p})} \times avgGradeOfFruit_{f=1}
-\end{pmatrix} 
-$$
-$$
-+ \begin{pmatrix}
-\frac{produce_{f=2,\ p}} {\sum_{p\in P}(produce_{f,p})} \times avgGradeOfFruit_{f=2}
+\frac{produce_{i,\ p}} {\sum_{f\in FRUIT}(produce_{f,p})} \times productGradeLimit_{p}
 \end{pmatrix}
+\geq	productGradeLimit_{p}
+, \ \forall \ p\in PRODUCTS
 $$
-$$
-\geq	avgGradeOfFruit_f
-$$
+
 
 **CX:** Non-negativity constraints, and max point quality is 10
 $$
