@@ -1,3 +1,8 @@
+# Homework 2 - Advanced LP & Network Flow Models
+# Adv. Analytics and Metaheuristics
+# Daniel Carpenter and Christopher Ferguson
+# February 2022
+# Problem 1
 
 # SETS =============================================================
     # Fruit grade levels of grapes, which are `Grade A` and `Grade B` grapes 
@@ -37,8 +42,8 @@
     # The net profit (net of OH allocation) of a product (p ∈ PRODUCTS) per *ton*
     param netProfit :=
     raisins			 0.053846153846154 
-    juice			-0.0100000000000000
-    jelly			 0.000002047619048  ;
+    juice			-0.010000000000000
+    jelly			 0.023888888888889  ;
 
     # Requirement of mean point quality of a product (p ∈ PRODUCTS)
     param productGradeLimit :=

@@ -30,9 +30,13 @@ knitr::opts_chunk$set(echo = TRUE)
 * Below shows how we get to the answer of Problems `a` and `b`  
 ![ ]("Images/prob1aAndB.png")
 
-<!-- ## Model Overview -->
-<!-- ![ ]("Images/overview1.png") -->
+## Model Assumptions and Overview
+* This model calculates the maximum `net profit` for a set of products and inputs grades (See below sets).
+* All data within the `.dat` file or the ouput results are on a *per pound basis*. Please see the below calculation for `net profit per pound` (by product type)  
 
+![ ]("Images/prob1NetProfitPerPound.png"){ width=80%}
+
+\newpage
 ## Mathematical Formulation
 
 ### Sets
@@ -44,19 +48,18 @@ $PRODUCTS$| Types of products to be sold, which are `Raisins`, `Juice`, and `Jel
 ### Parameters
 Parameter Name | Description 
 ---------------|--------------
-$amountOfFruit_f$     | *Tons* of fruit grade ($f\in FRUIT$) available to use 
+$amountOfFruit_f$     | *Pounds* of fruit grade ($f\in FRUIT$) available to use 
 $avgGradeOfFruit_f$   | Avg. point quality of fruit grade ($f\in FRUIT$)
-$productLimit_p$      | Upper bound of production of product ($p\in PRODUCTS$) *in tons*
+$productLimit_p$      | Upper bound of production of product ($p\in PRODUCTS$) *in pounds*
 $poundsPerProduct_p$  | The amount of pounds associated with a single unit of product ($p\in PRODUCTS$)
-$contrToProfit_p$     | The contribution to profit *per ton* of product ($p\in PRODUCTS$)
-$netProfit_p$         | The net profit (*net of OH allocation*)  *per ton* of product ($p\in PRODUCTS$)
+$contrToProfit_p$     | The contribution to profit *per pound* of product ($p\in PRODUCTS$)
+$netProfit_p$         | The net profit (*net of OH allocation*)  *per pound* of product ($p\in PRODUCTS$)
 $productGradeLimit_p$ | Requirement of mean point quality of a product ($p\in PRODUCTS$)
 
 ### Decision Variables
 Variable Name | Description 
 --------------|--------------
-$produce_{\ f,p}$ | The *tons* of products ($p\in PRODUCTS$) to be produced by fruit grade ($f\in FRUIT$)
-$grade_p$       | The point quality of each product ($p\in PRODUCTS$) created
+$produce_{f,p}$ | The *pounds* of products ($p\in PRODUCTS$) to be produced by fruit grade ($f\in FRUIT$)
 
 ### Objective Function
 $$
@@ -66,58 +69,47 @@ $$
 
 ### Constraints
 
-**C1:** For each fruit grade ($f\in FRUIT$) , the tons of products produced ($p\in PRODUCTS$) must be equal to tons of fruit provided 
+**C1:** For each fruit grade ($f\in FRUIT$), the pounds of products produced ($p\in PRODUCTS$) must be equal to pounds of fruit provided 
 $$
-maxTons: \sum_{p\in PRODUCTS} produce_{f,p} = amountOfFruit_f
+maxWeight: \sum_{p\in PRODUCTS} produce_{f,p} = amountOfFruit_f
 , \ \forall \ f\in FRUIT
 $$
 
-**C2:** For each product produced ($p\in PRODUCTS$), limit the number of tons produced to $\leq$ to the demanded (product tons)
+**C2:** For each product produced ($p\in PRODUCTS$), limit the number of pounds produced to $\leq$ to the demanded (product pounds)
 $$
 demand: \sum_{f\in FRUIT} produce_{f,p} \leq productLimit_p
 , \ \forall \ p\in PRODUCTS
 $$
 
 
-<!-- **C3:** Cannot produce `Jelly` using `Grade A` -->
-<!-- $$ -->
-<!-- noGradeAJelly: produce_{f,p} = 0 -->
-<!-- , \ for \ f\in \text{Grade A} -->
-<!-- , \ for \ p\in \text{Jelly} -->
-<!-- $$ -->
-
-**C4:** For all products ($p\in PRODUCTS$), the weighted-average grade of fruit is greater than the minimum required grade.   
+**C3:** For each product ($p\in PRODUCTS$), the grade of fruit ($f\in FRUIT$) is greater than the minimum required grade of the product ($p\in PRODUCTS$).  
 $minAvgGrade:$
 $$
-\sum_{i\in FRUIT}
-\begin{pmatrix}
-\frac{produce_{i,\ p}} {\sum_{f\in FRUIT}(produce_{f,p})} \times productGradeLimit_{p}
-\end{pmatrix}
-\geq	productGradeLimit_{p}
-, \ \forall \ p\in PRODUCTS
+\sum_{f\in FRUIT} (produce_{f,p} \times avgGradeOfFruit_f) \geq productGradeLimit_p \times \sum_{f\in FRUIT} (produce_{f,p}),
+$$
+$$
+\forall \ p\in PRODUCTS
 $$
 
 
-**CX:** Non-negativity constraints, and max point quality is 10
+**C4:** Non-negativity constraints
 $$
 produce_{\ f,p} \geq 0, \ \forall \ f\in FRUIT, \ \forall \ p\in PRODUCTS \\
 $$
-$$
-0 \leq grade_{p} \leq \ 10 , \ \forall \ f\in FRUIT, \ \forall \ p\in PRODUCTS
-$$
-<!-- \newpage -->
 
-<!-- ## Code and Output -->
+\newpage
 
-<!-- ### Code -->
-<!-- ![ ]("Images/code1.png") -->
+## Code and Output
 
+### Code
+![ ]("Images/prob1CodeAndData.png") { width=90% }
 
-<!-- \newpage -->
+### Output
+![ ]("Images/prob1Output.png")
 
-<!-- ### Output -->
-<!-- ![ ]("Images/output1.png") -->
+Optimal profit is $107,600. Raisins use 487,500 lbs of Grade A, 162,500 of Grade B, and so on for each product. See validation of the weighted-average point constraint below.
 
+![ ]("Images/prob1OutputValidation.png")
 
 <br>
 

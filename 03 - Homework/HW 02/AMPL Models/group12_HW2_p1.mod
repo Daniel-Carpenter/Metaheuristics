@@ -33,7 +33,7 @@ options solver cplex;   # Using cplex for simplex alg
 # CONSTRAINTS ======================================================
 
     ## C1: Number of products produced (p ∈ PRODUCTS) must be <=  tons of fruit provided (f ∈ FRUIT)
-    subject to maxTons {f in FRUIT}: 
+    subject to maxWeight {f in FRUIT}: 
         (sum {p in PRODUCTS} produce[f,p]) == amountOfFruit[f];
 
     ## C2:  Limit the number of produced to <= the demand
@@ -47,16 +47,14 @@ options solver cplex;   # Using cplex for simplex alg
 
     ## C4: For all products (p ∈ PRODUCTS), the weighted-average grade of fruit is greater than the minimum required grade.
     subject to minAvgGrade {p in PRODUCTS}: 
-        (sum {i in FRUIT} produce[i,p] 
-                            / (sum {f in FRUIT} produce[f,p]) * productGradeLimit[p]) 
-        >= productGradeLimit[p];
+        (sum {f in FRUIT} produce[f,p] * avgGradeOfFruit[f])
+        >=  productGradeLimit[p] * (sum {f in FRUIT} produce[f,p]);
 
 # CONTROLS ==========================================================
     data group12_HW2_p1.dat;
     solve;
     
     print;
-    print "At maximum profit, the tons of each product to product (by fruit grade):";
+    print "At maximum profit, the pounds of each product to produce (by fruit grade):";
     display produce;
-    #display grade;
 
