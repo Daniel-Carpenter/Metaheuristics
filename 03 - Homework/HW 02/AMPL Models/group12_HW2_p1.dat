@@ -1,0 +1,47 @@
+
+# SETS =============================================================
+    # Fruit grade levels of grapes, which are `Grade A` and `Grade B` grapes 
+    set FRUIT := gradeA gradeB;
+    # Types of products to be sold, which are `Raisins`, `Juice`, and `Jelly`
+    set PRODUCTS := raisins juice jelly;
+
+# PARAMETERS ========================================================
+    # Tons of fruit grade (f ∈ FRUIT) available to use
+    param amountOfFruit := 
+    gradeA			930000
+    gradeB			5270000;
+
+    # Avg. point quality of fruit grade (f ∈ FRUIT)
+    param avgGradeOfFruit :=
+    gradeA			9
+    gradeB			5;
+
+    # Upper bound of production of product (p ∈ PRODUCTS)
+    param productLimit :=
+    raisins			INFINITY
+    juice			190000 
+    jelly			210000;
+
+    # The amount of pounds associated with a single unit of product (p ∈ PRODUCTS)
+    param poundsPerProduct :=
+    raisins			6.5
+    juice			14
+    jelly			18;
+
+    # The contribution to profit of a product (p ∈ PRODUCTS)
+    param contrToProfit :=
+    raisins			1.4
+    juice			2.46
+    jelly			2.35;
+
+    # The net profit (net of OH allocation) of a product (p ∈ PRODUCTS)
+    param netProfit :=
+    raisins			.35
+    juice			-.14
+    jelly			.43;
+
+    # Requirement of mean point quality of a product (p ∈ PRODUCTS)
+    param productGradeLimit :=
+    raisins			8
+    juice			6
+    jelly			0

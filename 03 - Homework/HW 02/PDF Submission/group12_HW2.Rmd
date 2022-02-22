@@ -29,25 +29,46 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Problems `a` and `b`
 ![ ]("Images/prob1aAndB.png")
 
-<!-- ## Model Overview -->
+## Model Overview
 <!-- ![ ]("Images/overview1.png") -->
 
-<!-- ## Mathematical Formulation -->
+## Mathematical Formulation
 
-<!-- ### Sets -->
+### Sets
+Set Name | Description 
+---------|--------------
+$FRUIT$  | Fruit grade levels of grapes, which are `Grade A` and `Grade B` grapes 
+$PRODUCTS$| Types of products to be sold, which are `Raisins`, `Juice`, and `Jelly`
 
+### Parameters
+Parameter Name | Description 
+---------------|--------------
+$amountOfFruit_f$     | Tons of fruit grade ($f\in FRUIT$) available to use 
+$avgGradeOfFruit_f$   | Avg. point quality of fruit grade ($f\in FRUIT$)
+$productLimit_p$      | Upper bound of production of product ($p\in PRODUCTS$)
+$poundsPerProduct_p$  | The amount of pounds associated with a single unit of product ($p\in PRODUCTS$)
+$contrToProfit_p$     | The contribution to profit of a product ($p\in PRODUCTS$)
+$netProfit_p$         | The net profit (*net of OH allocation*) of a product ($p\in PRODUCTS$)
+$productGradeLimit_p$ | Requirement of mean point quality of a product ($p\in PRODUCTS$)
 
-<!-- ### Parameters -->
+### Decision Variables
+Variable Name | Description 
+--------------|--------------
+$produce_{\ f,p}$ | The *number* of products ($p\in PRODUCTS$) to be produced by fruit grade ($f\in FRUIT$)
+<!-- $grade_p$       | The point quality of each product ($p\in PRODUCTS$) created -->
 
+### Objective Function
+$$
+Maximize \ Net\_Profit = \sum_{f\in FRUIT,p\in PRODUCTS} produce_{f,p} \times netProfit_p
+$$
 
-<!-- ### Decision Variables -->
+### Constraints
 
-
-<!-- ### Objective Function -->
-
-
-<!-- ### Constraints -->
-
+**C1:** Number of products produced ($p\in PRODUCTS$) must be less than or equal to tons of fruit provided ($f\in FRUIT$) 
+$$
+maxTons: \sum_{p\in PRODUCTS} produce_{f,p} \times poundsPerProduct_p \leq amountOfFruit_f
+, \ \forall \ f\in FRUIT
+$$
 
 <!-- \newpage -->
 
