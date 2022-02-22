@@ -24,8 +24,8 @@
     # Upper bound of production *tons* of product (p ∈ PRODUCTS)
     param productLimit :=
     raisins			INFINITY
-    juice           2660000  # 14 * 190,000
-    jelly			3780000; # 18 * 210,000
+    juice           190000  
+    jelly			210000; 
 
     # The amount of pounds associated with a single unit of product (p ∈ PRODUCTS)
     param poundsPerProduct :=
@@ -41,9 +41,9 @@
 
     # The net profit (net of OH allocation) of a product (p ∈ PRODUCTS) per *ton*
     param netProfit :=
-    raisins			 0.053846153846154 
-    juice			-0.010000000000000
-    jelly			 0.023888888888889  ;
+    raisins			  0.35
+    juice			 -0.14
+    jelly			  0.43;
 
     # Requirement of mean point quality of a product (p ∈ PRODUCTS)
     param productGradeLimit :=
