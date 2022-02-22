@@ -27,7 +27,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # - Problem `1`
 
 ## Problems `a` and `b`
-* Below shows how we get to the answer of Problems `a` and `b`
+* Below shows how we get to the answer of Problems `a` and `b`  
 ![ ]("Images/prob1aAndB.png")
 
 <!-- ## Model Overview -->
@@ -85,6 +85,23 @@ noGradeAJelly: produce_{f,p} = 0
 , \ for \ f\in \text{Grade A}
 , \ for \ p\in \text{Jelly}
 $$
+
+**C4:** For all products ($p\in PRODUCTS$), the weighted-average grade of fruit is greater than the minimum required grade. Note $Prooducts$ is abbreviated as $P$   
+$minAvgGrade:$
+$$
+\begin{pmatrix}
+\frac{produce_{f=1,\ p}} {\sum_{p\in P}(produce_{f,p})} \times avgGradeOfFruit_{f=1}
+\end{pmatrix} 
+$$
+$$
++ \begin{pmatrix}
+\frac{produce_{f=2,\ p}} {\sum_{p\in P}(produce_{f,p})} \times avgGradeOfFruit_{f=2}
+\end{pmatrix}
+$$
+$$
+\geq	avgGradeOfFruit_f
+$$
+
 **CX:** Non-negativity constraints, and max point quality is 10
 $$
 produce_{\ f,p} \geq 0, \ \forall \ f\in FRUIT, \ \forall \ p\in PRODUCTS \\

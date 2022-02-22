@@ -1,3 +1,8 @@
+# Homework 2 - Advanced LP & Network Flow Models
+# Adv. Analytics and Metaheuristics
+# Daniel Carpenter and Christopher Ferguson
+# February 2022
+# Problem 1
 
 reset;                  # Reset globals
 options solver cplex;   # Using cplex for simplex alg
