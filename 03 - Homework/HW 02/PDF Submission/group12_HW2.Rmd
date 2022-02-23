@@ -34,6 +34,7 @@ knitr::opts_chunk$set(echo = TRUE)
 * This model calculates the maximum `net profit` for a set of products and inputs grades (See below sets).
 
 \newpage
+
 ## Mathematical Formulation
 
 ### Sets
@@ -108,44 +109,80 @@ Optimal profit is `$107,600`. `74,996` `Raisins` produced using `Grade A`, `24,9
 
 ![ ]("Images/prob1OutputValidation.png")
 
+\newpage
+
+## Problems 1 `c (ii-vii)`
+`i.`
+
+
+`ii.`
+
+
+`iii.`
+
+
+`iv.`
+
+
+`v.`
+
+
+`vi.`
+
+
+`vii.`
+
+
+
+\newpage
+
+## Problems 1 `d`
+
+`i.`
+
+
+`ii.`
+
+
+`iii.`
+
+
+
 <br>
 
 \newpage
 # - Problem `2`
 
-<!-- ## Model Overview -->
-<!-- ![ ]("Images/overview2.png") -->
+## Model Overview
+![ ]("Images/prob2.Network.png"){ width=100% }
 
-<!-- ## Mathematical Formulation -->
+## Mathematical Formulation
 
-<!-- ### Sets -->
+$NODES$: Set of all nodes in above network flow diagram resembling a time period.  
 
-
-<!-- ### Parameters -->
-
-
-<!-- ### Decision Variables -->
+![ ]("Images/prob4Math1.png"){ width=50% }
 
 
-<!-- ### Objective Function -->
+### Objective, and Constraints
+![ ]("Images/prob4Math2.png"){ width=50% }  
 
+\newpage
 
-<!-- ### Constraints -->
+## Code and Output
 
+### Model `group12_HW2_p2.mod`
+* Used `mcnfp.txt` from course website and renamed to `group12_HW2_p2.mod`.
+* Added `data group12_HW2_p2.dat;` `solve;` and `display x;`
 
-<!-- \newpage -->
+### Data `group12_HW2_p2.dat`
+![ ]("Images/prob2.2.jpg")
 
-<!-- ## Code and Output -->
+### Output
+* The lowest total cost over the `5 years` will be `$14,500` by traveling from nodes `(1,2)`, `(2,4)`, `(4,6)`.
 
-<!-- ### Code -->
-<!-- ![ ]("Images/code2.png") -->
+![ ]("Images/prob2.Answer.jpg"){ width=35% }
 
-
-<!-- \newpage -->
-
-<!-- ### Output -->
-<!-- ![ ]("Images/output2.png") -->
-
+\newpage
 
 <br>
 
