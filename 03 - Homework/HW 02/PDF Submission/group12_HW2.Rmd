@@ -31,7 +31,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ![ ]("Images/prob1aAndB.png")
 
 ## Model Assumptions and Overview
-* This model calculates the maximum `net profit` for a set of products and inputs grades (See below sets).
+* This model calculates the maximum profit using varying models from the boards, for a set of products and inputs grades (See below sets).
 
 \newpage
 
@@ -146,7 +146,16 @@ Optimal profit is `$107,600`. `74,996` `Raisins` produced using `Grade A`, `24,9
 
 `iii.`
 
+![ ]("Images/prob1dCode.png"){ width=90% }
 
+### Output
+
+![ ]("Images/prob1dOutput.png"){ width=80% }
+
+* The maximum to pay per pound would be equal to the dual variable of the active constraint, which does not show any values.
+
+### Code
+* The model who should be used is _____
 
 <br>
 

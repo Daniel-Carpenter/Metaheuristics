@@ -1,4 +1,4 @@
-# Homework 2 - Advanced LP & Network Flow Models
+    # Homework 2 - Advanced LP & Network Flow Models
 # Adv. Analytics and Metaheuristics
 # Daniel Carpenter and Christopher Ferguson
 # February 2022
@@ -19,16 +19,17 @@ options solver cplex;   # Using cplex for simplex alg
     param contrToProfit {PRODUCTS};     # Product contribution to profit
     param netProfit {PRODUCTS};         # Net profit per product
     param productGradeLimit {PRODUCTS}; # The min grade for each product
-
+	param sellingPrice {PRODUCTS};		# Selling price of each product
+	param contrToProfitT3 {PRODUCTS};	# Product contribution to profit from Table 3
+	param marginalProfitT3 {PRODUCTS};	# Marginal profit from Table 3
 
 # DECISION VARIABLES ===============================================
     ## Includes upper and lower bounds
     var produce {f in FRUIT, p in PRODUCTS} >= 0 integer;
-    # var grade {p in PRODUCTS} >= 0, <= 10;
 
 # OBJECTIVE FUNCTION ===============================================
     maximize Total_Profit: 
-        sum {f in FRUIT, p in PRODUCTS} produce[f, p] * netProfit[p];
+        sum {f in FRUIT, p in PRODUCTS} produce[f, p] * contrToProfitT3[p];
 
 # CONSTRAINTS ======================================================
 
@@ -52,4 +53,8 @@ options solver cplex;   # Using cplex for simplex alg
     print;
     print "At maximum profit, the number of products to produce (by fruit grade):";
     display produce;
+    #display maxWeight;
+    display minAvgGrade;
+    #display demand;
+    
 

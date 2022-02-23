@@ -50,3 +50,25 @@
     raisins			8
     juice			6
     jelly			0;
+    
+    #Selling price of each product
+    param sellingPrice :=
+    raisins			8.29
+    juice			16.20
+    jelly			13.89;	
+    
+    # Contribution to to profit from Table 3	
+    param contrToProfitT3 :=
+    raisins			3.22
+    juice			6.38
+    jelly			7.39;	
+    
+    # Marginal Profit from table 3
+    # Ms. Azua
+    param marginalProfitT3 :=
+    raisins			0.62
+    juice			2.18
+    jelly			2.89;	
+    
+    
+    	
