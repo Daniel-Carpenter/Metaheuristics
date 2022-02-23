@@ -112,39 +112,88 @@ Optimal profit is `$107,600`. `74,996` `Raisins` produced using `Grade A`, `24,9
 \newpage
 
 ## Problems 1 `c (ii-vii)`
-`i.`
 
+`i.`  
+
+![ ]("Images/probl1ci.jpg")
+
+Product total = (Amount of Grade A product + Amount of Grade B product) 
+Raisins - 74996 + 24988 = 99984 Raisins  
+Juice - 31609 + 94827 = 126436 Juice  
+Jelly - 0 + 210000 = 210000 Jelly  
 
 `ii.`
+Max contribution of profit = Sum of all products (Product total * contribution to profit of product)  
+
+Raisins - 99984 * 1.40 = $139977.60  
++
+Juice - 126436 * 2.46 = $311032.56  
++
+Jelly - 210000 * 2.35 = $493500  
+=
+Total - $944510.16  
+  
+The maximum contribution to profit will be $944510.16  
 
 
 `iii.`
+Grade A grapes left over = Total Grade A - sum of Grade A grapes in products:  
+930000- ((74996* 6.5)+(31609*14)+0) = 0  
+  
+Grade B grapes left over = Total Grade B - sum of Grade B grapes in products:  
+5270000 - ((24988* 6.5)+(94827 * 14)+(210000*18)) = 0  
+  
+There are no grapes left over according to the optimal solution.  
 
 
 `iv.`
+Product total points = ( # of Grade A in Product * 9 + # of Grade B * 5) / Total Product  
+  
+Raisins - (74996 * 9 + 24988 * 5) / (99984) = 8  
+Juice - (31609 * 9 + 94827 * 5) / (126436) = 6  
+Jelly - (0 * 9 + 210000 * 5) / (210000) = 5  
 
 
-`v.`
+`v.`  
+![ ]("Images/probl1cv.jpg")
+
+(option display_precision 8): puts the answer in decimal using 8 digits 
+
+  
+(Total profit of model + 1 additional pound of Grade A grapes) - (Total profit of original)  
+107592.52 - 107593.36 = .16  
 
 
 `vi.`
-
+No, they should not buy the additional 300,000 pounds of A-grade grapes at .50 per pound.
 
 `vii.`
+The maximum price that Grapes of Wrath should pay for an extra pound of A-grade product would be   .16.   
+  
+The maximum price that Grapes of Wrath should pay for an extra pound of B-grade product would be   2.96. Our model will not show the upper bound on the price per product that can serve the model.  
+  
+(Total profit of model + 1 additional pound of Grade B grapes) - (Total profit of original)  
+107596.28 - 107593.36= 2.92  
 
-
-
-\newpage
 
 ## Problems 1 `d`
 
 `i.`
+The product mix that would be made by using Thomas’s contribution figures are   
+gradeA raisins    40760  
+gradeA juice      47503  
+gradeA jelly          1  
+gradeB raisins    13582  
+gradeB juice     142496  
+gradeB jelly     177043  
 
+Thomas’s profit contribution is $959,529.74
+The maximum that they should pay for an additional pound of A-grade grapes is .16.
+
+
+\newpage
 
 `ii.`
-
-
-`iii.`
 
 ![ ]("Images/prob1dCode.png"){ width=90% }
 
@@ -154,8 +203,11 @@ Optimal profit is `$107,600`. `74,996` `Raisins` produced using `Grade A`, `24,9
 
 * The maximum to pay per pound would be equal to the dual variable of the active constraint, which does not show any values.
 
+ 
+`iii.`  
+
 ### Code
-* The model who should be used is _____
+* The model who should be used is Thomas' method, which yields the highest profit. An enhancement would be to be only compare net profit or contribution margins.
 
 <br>
 
