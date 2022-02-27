@@ -26,6 +26,8 @@
 * Fixed Costs
 * Piecewise linear cors (economies of scale)
 
+<br>
+
 ---
 
 ## Yes/No Decisions
@@ -48,6 +50,8 @@ Sum of the decision variables (the three above) must be 1
 Examples of how to model the constraints:
 <img src = "Images/cons.png" width = 550> <br>
 
+<br>
+
 ---
 
 ## Either/Or
@@ -56,6 +60,8 @@ Examples of how to model the constraints:
 ### Overview
 * Uses Big M algorithm
 * Introduce a new binary variable that has says which constraint is activated
+
+<br>
 
 ---
 
