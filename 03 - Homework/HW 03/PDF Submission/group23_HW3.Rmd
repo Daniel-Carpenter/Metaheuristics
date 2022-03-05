@@ -24,32 +24,79 @@ knitr::opts_chunk$set(echo = TRUE)
 ### Sets
 Set Name | Description 
 ---------|--------------
+$GENERATORS$	| Set of generators $i$ that can be used (`A`,`B`,`C`)
+$PERIODS$	    | 2 possible periods $p$ (`1`, `2`) in the production day 
+
 
 ### Parameters
 Parameter Name | Description 
 ---------------|--------------
+$S_i$      | Fixed cost to start a generator ($i \in GENERATORS$) in the entire day
+$F_i$      | Fixed cost to operate a generator ($i \in GENERATORS$) in any period
+$C_i$      | Variable cost per megawatt to operator a generator ($i \in GENERATORS$) in any period
+$U_i$      | Max. megawatts generated for generator ($i \in GENERATORS$) in any period
+$demand_p$ | Total demanded megawatts for period ($p \in PERIODS$)
+$M_i$	     | Value to map watts used by each generator ($i \in GENERATORS$)
+
 
 ### Decision Variables
 Variable Name | Description 
 --------------|--------------
+$watts_{i,p}$	| *Integer variable*: Number of watts to produce per generator ($i \in GENERATORS$) per period ($p \in PERIODS$)
+$x_{i,p}$	    | *Binary variable*: `1` if a generator ($i \in GENERATORS$) is in period $p$ ($p \in PERIODS$), `0` if not turned on at all
+$y_i$	        | *Binary variable*: `1` if a generator ($i \in GENERATORS$) is used, `0` if not turned on at all
+
 
 ### Objective Function
 $$
+minimize \ cost: \ 
+\sum_{i \in GENERATORS} 
+\begin{pmatrix} 
+  (\sum_{p \in PERIODS}(watts_{i,p}) \times C_i) + (F_i \times \sum_{p \in PERIODS} x_{i,p} ) + (S_i \times y_i)
+\end{pmatrix} 
 $$
 
-\newpage
 
 ### Constraints
 
-**C1:** 
+**C1:** For each period, meet the demanded megawatts
+$$
+requiredWatts: \ \sum_{i \in GENERATORS}(watts_{i,p}) = demand_p, 
+\forall \ p \in PERIODS
+$$
 
+**C2:** For each generator, don't surpass the allowable megawatts 
+$$
+upperBound: \ \sum_{p \in PERIODS}(watts_{i,p}) \leq U_i, 
+\forall \ i \in GENERATORS
+$$
+
+**C3:** For each generator, map decision variables together to account for the fixed costs in a given day $S_i$
+$$
+mapVars: \ \sum_{p \in PERIODS}(watts_{i,p}) \leq M_i \times y_i,
+\forall \ i \in GENERATORS
+$$
+
+**C4:** For each generator and period, map decision variables $y$ and $watts$ together to account for the fixed costs in a per period $p$
+$$
+mapVars2: watts_{i,p} \leq M_i \times x_{i,p}
+, \forall \ i \in GENERATORS, \ p \in PERIODS
+$$
 \newpage
 
 ## Code and Output
 
 ### Code
-<!-- ![ ]("Images/prob1CodeAndData.png"){ width=90% } -->
+![ ]("Images/prob1CodeAndData.png"){ width=100% }
 
 ### Output
-<!-- ![ ]("Images/prob1Output.png") -->
+![ ]("Images/prob1Output.png"){ width=80% }
+
+#### Analysis of the Output
+* The minimized cost is $\$46,100$
+* Generator $A$, $B$, and $C$ run
+* Generator $C$ runs in period $1$. Generator $A$ and $B$ run in period $2$
+* Generator $A$ produces $2,100$ megawatts in total
+* Generator $B$ produces $1,800$ megawatts in total
+* Generator $C$ produces $2,900$ megawatts in total
 
