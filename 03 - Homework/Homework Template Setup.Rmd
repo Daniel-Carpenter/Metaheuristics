@@ -1,0 +1,55 @@
+---
+title:    "Homework <NUMBER> - <DESCRIPTION>"
+subtitle: "Adv. Analytics and Metaheuristics"
+author:   "Daniel Carpenter and <NAME>"
+date:     "March 2022"
+fontsize: 12pt
+geometry: margin=1in
+output:
+  pdf_document: 
+    toc: yes
+    number_sections: yes
+    highlight: kate
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\newpage
+# - Problem `1`
+
+## Mathematical Formulation
+
+### Sets
+Set Name | Description 
+---------|--------------
+
+### Parameters
+Parameter Name | Description 
+---------------|--------------
+
+### Decision Variables
+Variable Name | Description 
+--------------|--------------
+
+### Objective Function
+$$
+$$
+
+\newpage
+
+### Constraints
+
+**C1:** 
+
+\newpage
+
+## Code and Output
+
+### Code
+<!-- ![ ]("Images/prob1CodeAndData.png"){ width=90% } -->
+
+### Output
+<!-- ![ ]("Images/prob1Output.png") -->
+
