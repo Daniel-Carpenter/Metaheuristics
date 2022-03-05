@@ -5,5 +5,26 @@
 # Problem 1
 
 # SETS =============================================================
+    set GENERATORS  := A B C;   # Set of generators to use
+    set PERIODS     := 1 2;     # Periods in the day
+
 
 # PARAMETERS ========================================================
+
+    # S: Fixed cost to start a generator (i ∈ GENERATORS) in the entire day
+    # F: Fixed cost to operate a generator (i ∈ GENERATORS) in any period
+    # C: Variable cost per megawatt to operator a generator (i ∈ GENERATORS) in any period
+    # U: Max. megawatts generated for generator (i ∈ GENERATORS) in any period
+    # M: Value to map watts used by each generator (i ∈ GENERATORS)
+    #    Set to be slighlty over the max megawatts per day
+    param: S     F    C     U     M :=
+        A  3000	 700  5.00	2100  2200
+        B  2000	 500  4.00	1800  1900
+        C  1000	 900  7.00	3000  3100
+        ;
+
+    # Total demanded megawatts for period (p ∈ PERIODS)
+    param demand := 
+        1   2900
+        2   3900
+        ;
