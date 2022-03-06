@@ -6,14 +6,14 @@
 
 # SETS =============================================================
 
-    set PRODUCTS := A B C D E F;     # 5 types of landscaping and construction products
+    set PRODUCTS := A B C D E;     # 5 types of landscaping and construction products
     set SILOS    := 1 2 3 4 5 6 7 8; # 8 different silos s that each product must be stored in
 
 # PARAMETERS ========================================================
 
     # Cost of storing one ton of product p ∈ PRODUCTS in silo s ∈ SILOS
     param cost:
-             1	 2	 3	 4	 5	 6	 7	 8
+             1	 2	 3	 4	 5	 6	 7	 8 :=
         A	 1 	 2 	 2 	 1 	 4 	 4 	 5 	 3 
         B	 2 	 3 	 3 	 3 	 1 	 4 	 5 	 2 
         C	 3 	 4 	 1 	 2 	 1 	 4 	 5 	 1 
@@ -29,7 +29,7 @@
         D	 80 
         E	 20 
         ;
-        
+
     # Capacity of each silo
     param capacity :=
         1	 25 
@@ -43,13 +43,11 @@
         ;
 
     # Variable to map decision variable tonsOfProduct p,s to isStored p,s . Value is slightly more than the capacity of each silo.
-    param M := 
-        1	 26 
-        2	 26 
-        3	 31 
-        4	 61 
-        5	 81 
-        6	 86 
-        7	 101 
-        8	 51 
+    param M :
+             1	 2	 3	 4	 5	 6	 7	 8 :=
+        A	 100 100 100 100 100 100 100 100 
+        B	 100 100 100 100 100 100 100 100 
+        C	 100 100 100 100 100 100 100 100 
+        D	 100 100 100 100 100 100 100 100 
+        E	 100 100 100 100 100 100 100 100 
         ;
