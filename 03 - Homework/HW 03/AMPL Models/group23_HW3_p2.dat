@@ -6,8 +6,8 @@
 
 # SETS =============================================================
 
-    set PRODUCTS := A B C D E;     # 5 types of landscaping and construction products
-    set SILOS    := 1 2 3 4 5 6 7 8; # 8 different silos s that each product must be stored in
+    set PRODUCTS := A B C D E;     # 5 types of products
+    set SILOS    := 1 2 3 4 5 6 7 8; # 8 different silos to store product p
 
 # PARAMETERS ========================================================
 

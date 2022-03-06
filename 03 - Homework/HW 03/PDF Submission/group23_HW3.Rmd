@@ -82,6 +82,15 @@ $$
 mapVars2: watts_{i,p} \leq M_i \times x_{i,p}
 , \forall \ i \in GENERATORS, \ p \in PERIODS
 $$
+
+**C5** Non-negativity or Binary restraints of decision variables
+$$
+watts_{i,p} \geq 0
+$$
+$$
+x_{i,p}, \ y_i \in (0,1)
+$$
+
 \newpage
 
 ## Code and Output
@@ -102,7 +111,7 @@ $$
 
 
 \newpage
-# - Problem `2`
+# - Problem `2 (a)` 
 
 ## Mathematical Formulation
 
@@ -119,21 +128,21 @@ Parameter Name | Description
 $cost_{s,p}$   | Cost of storing *one ton* of product $p \in PRODUCTS$ in silo $s \in SILOS$
 $supply_p$     | Total supply *in tons* available of product $p \in PRODUCTS$
 $capacity_s$   | Total capacity *in tons* of silo $s \in SILOS$. Can store products.
-$M_{s}$        | Variable to map *decision variable* $tonsOfProduct_{p,s}$ to $isStored_{p,s}$. Value is slightly more than the capacity of each silo.
+$M_{p,s}$      | Variable to map *decision variable* $tonsOfProduct_{p,s}$ to $isStored_{p,s}$. Uses big M method.
 
 
 ### Decision Variables
 Variable Name | Description 
 --------------|--------------
-$tonsOfProduct_{p,s}$ | *Tons* of product $p \in PRODUCTS$ to store in silo $s \in SILOS$
-$isStored_{p,s}$      | *Binary variable* indicating if product $p \in PRODUCTS$ is stored in silo $s \in SILOS$
+$tonsOfProduct_{p,s}$ | *Tons* of product $p \in PRODUCTS$ to store in silo $s \in SILOS$. Non-negative.
+$isStored_{p,s}$      | *Binary variable* indicating if product $p \in PRODUCTS$ is stored in silo $s \in SILOS$.
 
 
 
 
 ### Objective Function
 $$
-minimize \ cost: \sum_{p \in PRODUCTS}\sum_{s \in SILOS} tonsOfProduct_{p,s} \times cost_{p,s} 
+minimize \ costOfStorage: \sum_{p \in PRODUCTS}\sum_{s \in SILOS} tonsOfProduct_{p,s} \times cost_{p,s} 
 $$
 
 \newpage
@@ -152,20 +161,53 @@ useAllProduct: \sum_{s \in SILOS} tonsOfProduct_{p,s} = supply_p
 , \ \forall \ p \in PRODUCTS
 $$
 
-**C3:** For each silo $s$, can only store one type of product $p$ in each silo
+**C3:** For each silo $s$ and product $p$, 
 $$
-\sum_{p \in PRODUCTS}tonsOfProduct_{p,s} \leq M_s \times \sum_{p \in PRODUCTS}isStored_{p,s}
+oneProductInSilo: \sum_{p in PRODUCTS} isStored_{p,s} = 1
 , \ \forall \ s \in SILOS
 $$
 
+**C4:** Map the decision variables together using the Big M method 
+$$
+mapVars: tonsOfProduct_{p,s} \leq M_{p,s} \times isStored_{p,s}
+, \ \forall \ p \in PRODUCTS, \ \forall \ s \in SILOS
+$$
+
+**C5** Non-negativity or Binary restraints of decision variables
+$$
+tonsOfProduct_{p,s} \geq 0
+$$
+$$
+isStored_{p,s} \in (0, 1)
+$$
 
 \newpage
 
 ## Code and Output
 
 ### Code
-<!-- ![ ]("Images/prob2CodeAndData.png"){ width=90% } -->
+![ ]("Images/prob2CodeAndData.png"){ width=100% }
+
+\newpage
 
 ### Output
-<!-- ![ ]("Images/prob2Output.png") -->
+![ ]("Images/prob2Output.png"){ width=70% }
+
+#### Analysis of the Output
+* Minimized loading cost for 250 tons of 5 products over the 8 silos is $320$ (problem does not state cost units).
+* Product $A$ stores $25 \ tons$ in $silo \ 1$ and $50 \ tons$ in $silo \ 4$
+* Product $B$ stores $50 \ tons$ in $silo \ 5$
+* Product $C$ stores $25 \ tons$ in $silo \ 3$
+* Product $D$ stores $25 \ tons$ in $silo \ 2$, $5 tons$ in $silo \ 7$, and and $50 \ tons$ in $silo \ 8$
+* Product $E$ stores $20 \ tons$ in $silo \ 6$
+
+\newpage
+
+# - Problem `2 (b)` 
+> Additional constraint so that no tanks can be partially filled
+
+## New Constraints
+
+
+## Code and Output
 
