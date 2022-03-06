@@ -100,3 +100,72 @@ $$
 * Generator $B$ produces $1,800$ megawatts in total
 * Generator $C$ produces $2,900$ megawatts in total
 
+
+\newpage
+# - Problem `2`
+
+## Mathematical Formulation
+
+### Sets
+Set Name | Description 
+---------|--------------
+$PRODUCTS$ | 5 types of landscaping and construction products (e.g., cement, sand, etc.) labeled product ($p$) $A, B, C, D,\text{ and } E$
+$SILOS$    | 8 different silos $s$ that each product must be stored in $(1,2,\dots,8)$
+
+
+### Parameters
+Parameter Name | Description 
+---------------|--------------
+$cost_{s,p}$   | Cost of storing *one ton* of product $p \in PRODUCTS$ in silo $s \in SILOS$
+$supply_p$     | Total supply *in tons* available of product $p \in PRODUCTS$
+$capacity_s$   | Total capacity *in tons* of silo $s \in SILOS$. Can store products.
+$M_{s}$        | Variable to map *decision variable* $tonsOfProduct_{p,s}$ to $isStored_{p,s}$. Value is slightly more than the capacity of each silo.
+
+
+### Decision Variables
+Variable Name | Description 
+--------------|--------------
+$tonsOfProduct_{p,s}$ | *Tons* of product $p \in PRODUCTS$ to store in silo $s \in SILOS$
+$isStored_{p,s}$      | *Binary variable* indicating if product $p \in PRODUCTS$ is stored in silo $s \in SILOS$
+
+
+
+
+### Objective Function
+$$
+minimize \ cost: \sum_{p \in PRODUCTS}\sum_{s \in SILOS} tonsOfProduct_{p,s} \times cost_{p,s} 
+$$
+
+\newpage
+
+### Constraints
+
+**C1:** For each silo $s$, the *tons* of the supplied product $p$ must be less than or equal to the capacity limit of silo $s$
+$$
+meetCapacity: \sum_{p \in PRODUCTS} tonsOfProduct_{p,s} \leq capacity_s
+, \ \forall \ s \in SILOS
+$$
+
+**C2:** For each product $p$, must use all of the total product that is available
+$$
+useAllProduct: \sum_{s \in SILOS} tonsOfProduct_{p,s} = supply_p
+, \ \forall \ p \in PRODUCTS
+$$
+
+**C3:** For each silo $s$, can only store one type of product $p$ in each silo
+$$
+\sum_{p \in PRODUCTS}tonsOfProduct_{p,s} \leq M_s \times \sum_{p \in PRODUCTS}isStored_{p,s}
+, \ \forall \ s \in SILOS
+$$
+
+
+\newpage
+
+## Code and Output
+
+### Code
+<!-- ![ ]("Images/prob2CodeAndData.png"){ width=90% } -->
+
+### Output
+<!-- ![ ]("Images/prob2Output.png") -->
+
