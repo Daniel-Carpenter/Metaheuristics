@@ -15,7 +15,7 @@ options solver cplex;   # Using cplex for simplex alg
     param cost     {PRODUCTS, SILOS}; # Cost of storing product in silo
     param supply   {PRODUCTS};        # Supply of products
     param capacity {SILOS};           # Capacity of the silos
-    param M        {PRODUCTS, SILOS}; # Map decision variables together 
+    param M;                          # Map decision variables together 
 
 # DECISION VARIABLES ===============================================
     var tonsOfProduct {PRODUCTS, SILOS} >= 0;  # Amount of each product p to store in silo s
@@ -42,7 +42,7 @@ options solver cplex;   # Using cplex for simplex alg
 
     # C4: Map decision variables together
     subject to mapVars {p in PRODUCTS, s in SILOS}: 
-        tonsOfProduct[p,s] <= M[p,s] * isStored[p,s];
+        tonsOfProduct[p,s] <= M * isStored[p,s];
 
 # CONTROLS ==========================================================
     data group23_HW3_p2.dat;

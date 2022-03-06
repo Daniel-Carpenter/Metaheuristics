@@ -36,7 +36,7 @@ $F_i$      | Fixed cost to operate a generator ($i \in GENERATORS$) in any perio
 $C_i$      | Variable cost per megawatt to operator a generator ($i \in GENERATORS$) in any period
 $U_i$      | Max. megawatts generated for generator ($i \in GENERATORS$) in any period
 $demand_p$ | Total demanded megawatts for period ($p \in PERIODS$)
-$M_i$	     | Value to map watts used by each generator ($i \in GENERATORS$)
+$M$  	     | Large constant to map watts used by each generator ($i \in GENERATORS$)
 
 
 ### Decision Variables
@@ -128,7 +128,7 @@ Parameter Name | Description
 $cost_{s,p}$   | Cost of storing *one ton* of product $p \in PRODUCTS$ in silo $s \in SILOS$
 $supply_p$     | Total supply *in tons* available of product $p \in PRODUCTS$
 $capacity_s$   | Total capacity *in tons* of silo $s \in SILOS$. Can store products.
-$M_{p,s}$      | Variable to map *decision variable* $tonsOfProduct_{p,s}$ to $isStored_{p,s}$. Uses big M method.
+$M$            | Variable to map *decision variable* $tonsOfProduct_{p,s}$ to $isStored_{p,s}$. Uses big M method.
 
 
 ### Decision Variables
@@ -169,7 +169,7 @@ $$
 
 **C4:** Map the decision variables together using the Big M method 
 $$
-mapVars: tonsOfProduct_{p,s} \leq M_{p,s} \times isStored_{p,s}
+mapVars: tonsOfProduct_{p,s} \leq M \times isStored_{p,s}
 , \ \forall \ p \in PRODUCTS, \ \forall \ s \in SILOS
 $$
 
@@ -204,9 +204,24 @@ $$
 \newpage
 
 # - Problem `2 (b)` 
-> Additional constraint so that no tanks can be partially filled
+> Additional constraint so that no tanks can be partially filled  
+
+Add the decision variable $z_s$ which will allow be used to either 
+fill a silo $s \in SILOS$ or not fill the silo $s$ using two new constraints.
 
 ## New Constraints
+
+**C6** Possibility 1: For each silo $s$, its capacity must be at 100%
+$$
+mustBeFull: \sum_{p \in PRODUCTS} tonsOfProduct_{p,s} = capacity_s + (M \times z_s)
+, \ \forall \ s \in SILOS
+$$
+
+**C7** Possibility 2: For each silo $s$, the capacity must not be utilized (0%).
+$$
+mustBeEmpty: \sum_{p \in PRODUCTS} tonsOfProduct_{p,s} = 0 + [M \times (1 - z_s)]
+, \ \forall \ s \in SILOS
+$$
 
 
 ## Code and Output

@@ -42,12 +42,6 @@
         8	 50 
         ;
 
-    # Variable to map decision variable tonsOfProduct p,s to isStored p,s . Value is slightly more than the capacity of each silo.
-    param M :
-             1	 2	 3	 4	 5	 6	 7	 8 :=
-        A	 100 100 100 100 100 100 100 100 
-        B	 100 100 100 100 100 100 100 100 
-        C	 100 100 100 100 100 100 100 100 
-        D	 100 100 100 100 100 100 100 100 
-        E	 100 100 100 100 100 100 100 100 
-        ;
+    # Variable to map decision variable tonsOfProduct p,s to 
+    # isStored p,s . Value is slightly more than the capacity of each silo.
+    param M := 200;
