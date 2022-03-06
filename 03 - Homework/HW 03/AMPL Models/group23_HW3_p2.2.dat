@@ -42,6 +42,5 @@
         8	 50 
         ;
 
-    # Variable to map decision variable tonsOfProduct p,s to 
-    # isStored p,s . Value is slightly more than the capacity of each silo.
-    param M := 200;
+    # Big M Scaler for mapping decision variabls in binary prog.
+    param M := 1000;
