@@ -111,9 +111,9 @@ $$
 
 
 \newpage
-# - Problem `2 (a)` 
+# - Problem `2` 
 
-## Mathematical Formulation
+## Mathematical Formulation (Part `a`)
 
 ### Sets
 Set Name | Description 
@@ -183,14 +183,14 @@ $$
 
 \newpage
 
-## Code and Output
+## Code and Output (Part `a`)
 
 ### Code
 ![ ]("Images/prob2CodeAndData.png"){ width=100% }
 
 \newpage
 
-### Output
+### Output (Part `a`)
 ![ ]("Images/prob2Output.png"){ width=70% }
 
 #### Analysis of the Output
@@ -203,32 +203,29 @@ $$
 
 \newpage
 
-# - Problem `2 (b)` 
-> Additional constraint so that no tanks can be partially filled  
+## Problem `2 b`
 
-Add the decision variable $z_s$ which will allow be used to either 
-fill a silo $s \in SILOS$ or not fill the silo $s$ using two new constraints.
+* Create a new objective that also minimizes the distance between capacity and stored tons of product
+* *For each silo, minimize the variance between the total capacity and the tons of product*
 
-## New Constraints
-
-**C6** Possibility 1: For each silo $s$, its capacity must be at 100%
 $$
-mustBeFull: \sum_{p \in PRODUCTS} tonsOfProduct_{p,s} = capacity_s + (M \times z_s)
-, \ \forall \ s \in SILOS
-$$
-
-**C7** Possibility 2: For each silo $s$, the capacity must not be utilized (0%).
-$$
-mustBeEmpty: \sum_{p \in PRODUCTS} tonsOfProduct_{p,s} = 0 + [M \times (1 - z_s)]
-, \ \forall \ s \in SILOS
-$$
-
-**C9** For each silo, We must store at 0% or 100%
-$$
-onlyOneConstraint: z[s] = 1;
-, \ \forall \ s \in SILOS
+minimize \ capacityActualVariance: capacity_s - \sum_{p \in PRODUCTS} tonsOfProduct_{p,s} 
+, \ \forall s \in SILOS
 $$
 
 
-## Code and Output
+## Code and Output (Part `b`)
 
+### Code
+![ ]("Images/prob2.2CodeAndData.png"){ width=100% }
+
+\newpage
+
+### Output (Part `b`)
+![ ]("Images/prob2.2Output.png"){ width=70% }
+
+
+#### Analysis of the Output
+* The optimal cost actually stays the same, but the amount of iterations to get to that solution 
+is much more. 
+* The values of the decision variables are the same.

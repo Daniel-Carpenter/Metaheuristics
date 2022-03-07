@@ -20,18 +20,23 @@ options solver cplex;   # Using cplex for simplex alg
 # DECISION VARIABLES ===============================================
     var tonsOfProduct {PRODUCTS, SILOS} >= 0;  # Amount of each product p to store in silo s
     var isStored      {PRODUCTS, SILOS} binary; # If a product is stored in a silo or not
-    var z             {SILOS} binary;           # Either oth var for cap 100% or 0%
 
 # OBJECTIVE FUNCTION ===============================================
 
+    # Minimize the cost of the storage
     minimize costOfStorage: 
         sum{p in PRODUCTS, s in SILOS} tonsOfProduct[p,s] * cost[p,s]; 
+
+    # For each silo, minimuze the variance between the total capacity and the tons of product
+    minimize capacityActualVariance{s in SILOS}: 
+        capacity[s] - sum{p in PRODUCTS} tonsOfProduct[p,s]; 
+
 
 # CONSTRAINTS ======================================================
 
     # C1: For each silo s, the tons of the supplied product p must be less than or equal to the capacity limit of silo s
-    # subject to meetCapacity {s in SILOS}: 
-    #     (sum{p in PRODUCTS} tonsOfProduct[p,s]) <= capacity[s];
+    subject to meetCapacity {s in SILOS}: 
+        (sum{p in PRODUCTS} tonsOfProduct[p,s]) <= capacity[s];
 
     # C2: For each product p, must use all of the total product that is available
     subject to useAllProduct {p in PRODUCTS}: 
@@ -45,28 +50,10 @@ options solver cplex;   # Using cplex for simplex alg
     subject to mapVars {p in PRODUCTS, s in SILOS}: 
         tonsOfProduct[p,s] <= M * isStored[p,s];
     
-    # Choose One: 100% Capcity or 0% Capacity ------------------------------
-
-        # Possibility 1: For each silo s, its capacity must be at 100%
-        subject to mustBeFull {s in SILOS}: 
-            (sum{p in PRODUCTS} tonsOfProduct[p,s]) <= capacity[s] + (M * z[s]);
-
-        # Possibility 2: For each silo $s$, the capacity must not be utilized (0%). 
-        subject to mustBeEmpty {s in SILOS}: 
-            (sum{p in PRODUCTS} tonsOfProduct[p,s]) <= 0 + (M * (1 - z[s]));
-
-        # Enforces that we choose at least one of the two above constraints
-        subject to onlyOneConstraint {s in SILOS}:
-            z[s] == 1;
-
 # CONTROLS ==========================================================
     data group23_HW3_p2.2.dat;
     solve;
     
-    print;
-    print "Value of Z";
-    display z; 
-
     print;
     print "Which silo(s) stores what product?";
     display isStored; 
