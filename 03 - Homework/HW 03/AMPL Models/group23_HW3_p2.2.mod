@@ -20,7 +20,7 @@ options solver cplex;   # Using cplex for simplex alg
 # DECISION VARIABLES ===============================================
     var tonsOfProduct {PRODUCTS, SILOS} >= 0;  # Amount of each product p to store in silo s
     var isStored      {PRODUCTS, SILOS} binary; # If a product is stored in a silo or not
-    var z             {PRODUCTS, SILOS} binary;           # Either oth var for cap 100% or 0%
+    var z             {SILOS} binary;           # Either oth var for cap 100% or 0%
 
 # OBJECTIVE FUNCTION ===============================================
 
@@ -44,18 +44,20 @@ options solver cplex;   # Using cplex for simplex alg
     # C4: Map decision variables together
     subject to mapVars {p in PRODUCTS, s in SILOS}: 
         tonsOfProduct[p,s] <= M * isStored[p,s];
-        
-    # C6: Possibility 1: For each silo s, its capacity must be at 100%
-    subject to mustBeFull {s in SILOS}: 
-        (sum{p in PRODUCTS} tonsOfProduct[p,s]) <= capacity[s] + (M * sum{p in PRODUCTS}z[p,s]);
+    
+    # Choose One: 100% Capcity or 0% Capacity ------------------------------
 
-    # C7: Possibility 2: For each silo $s$, the capacity must not be utilized (0%). 
-    subject to mustBeEmpty {s in SILOS}: 
-        (sum{p in PRODUCTS} tonsOfProduct[p,s]) <= 0 + (M * (1 - sum{p in PRODUCTS}z[p,s]));
+        # Possibility 1: For each silo s, its capacity must be at 100%
+        subject to mustBeFull {s in SILOS}: 
+            (sum{p in PRODUCTS} tonsOfProduct[p,s]) <= capacity[s] + (M * z[s]);
 
-    # Enforces that we choose at least one of the two above constraints
-    subject to onlyOneConstraint {s in SILOS}:
-        sum{p in PRODUCTS}(z[p,s]) == 1;
+        # Possibility 2: For each silo $s$, the capacity must not be utilized (0%). 
+        subject to mustBeEmpty {s in SILOS}: 
+            (sum{p in PRODUCTS} tonsOfProduct[p,s]) <= 0 + (M * (1 - z[s]));
+
+        # Enforces that we choose at least one of the two above constraints
+        subject to onlyOneConstraint {s in SILOS}:
+            z[s] == 1;
 
 # CONTROLS ==========================================================
     data group23_HW3_p2.2.dat;

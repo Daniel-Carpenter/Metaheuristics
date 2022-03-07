@@ -42,5 +42,5 @@
         8	 50 
         ;
 
-    # Big M Scaler for mapping decision variabls in binary prog.
+    # Big M Scaler for mapping decision variables in binary prog.
     param M := 1000;

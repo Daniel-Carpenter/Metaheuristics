@@ -223,6 +223,12 @@ mustBeEmpty: \sum_{p \in PRODUCTS} tonsOfProduct_{p,s} = 0 + [M \times (1 - z_s)
 , \ \forall \ s \in SILOS
 $$
 
+**C9** For each silo, We must store at 0% or 100%
+$$
+onlyOneConstraint: z[s] = 1;
+, \ \forall \ s \in SILOS
+$$
+
 
 ## Code and Output
 
