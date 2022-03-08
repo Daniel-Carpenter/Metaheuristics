@@ -1,0 +1,44 @@
+#reset;
+
+#options solver cplex;
+
+#option cplex_options 'presolve=0 mipcuts=-1 splitcuts=-1 heuristicfreq=-1 time=120 display=0 timing=1 mipdisplay=5 mipinterval=1 mipsearch=1';
+option cplex_options 'presolve=0 heuristicfreq=-1 time=120 display=0 timing=1 mipdisplay=5 mipinterval=1 mipsearch=1';
+
+
+set I = 1 .. 45 by 1; # number of districts = 45
+set J = 1 .. 25 by 1; # number of firehouses = 25
+
+
+param B; #total budget to build firehouses
+param nI; #total number of districts
+param p{I}; #number of people  in each district
+param d{I, J}; #distance from district I to firehouse J
+param f{J}; #fixed cost to build firehouse at site J
+param c{J}; #variable cost associated with populated served by site J
+
+
+var y{J} binary; #decision to build firehouse on site J
+var x{I, J} binary; #decision to assign district I to site J
+var s{J} >= 0; #population that would be served by site J
+var D >= 0; #the maximum distance per district I
+var z binary; #decision variable for site selection
+
+
+#data student/data.txt; 
+
+minimize maxDistance: D;
+
+#constraints
+subject to assignDistrict {i in I}: sum {j in J} x[i,j] = 1;
+subject to emptySite {j in J}: sum {i in I} x[i,j] <= y[j]*nI;
+
+
+subject to siteSelect_A : y[1] + y[2] >= 2*z;
+subject to siteSelect_B : y[3] + y[4] >= 2*(1-z);
+
+
+subject to populationServed {j in J}: s[j] = sum {i in I} p[i]*x[i,j]; 
+subject to budget: sum{j in J} (c[j]*s[j] + f[j]*y[j]) <= B;
+subject to setMaxD {i in I} : D >=  sum {j in J} x[i,j]*d[i,j];
+
