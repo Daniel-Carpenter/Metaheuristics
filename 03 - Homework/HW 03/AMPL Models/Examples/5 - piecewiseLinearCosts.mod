@@ -60,7 +60,7 @@ param M := 10000000;      # Large scaler that is not inf
         
 
 # OBJECTIVE -----------------------------------------------------
-minimize cost: mcWOW1*d1WOW + mcWOW2*d2WOW + mcWOW3*d3WOW;
+minimize cost: mcWOW1*d1WOW + mcWOW2*d2WOW + mcWOW3*d3WOW; # WOW: Piecewise
 
 # SOLVE THE MODE ==================================================
     

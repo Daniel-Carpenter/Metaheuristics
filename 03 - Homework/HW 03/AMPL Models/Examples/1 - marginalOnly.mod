@@ -28,7 +28,7 @@ param M := 10000000;      # Large scaler that is not inf
         
 
 # OBJECTIVE -----------------------------------------------------
-minimize cost: mcWII*WII;
+minimize cost: mcWII*WII; # WII: Variable cost only
 
 # SOLVE THE MODE ==================================================
     
