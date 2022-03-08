@@ -1,5 +1,5 @@
 #DSA/ISE 5113 Integer Programming
-#Example IP: Piecewise Linear Cost example
+#Example IP: Marginal Cost only example
 
 reset;
 
@@ -14,8 +14,8 @@ param M := 10000000;      # Large scaler that is not inf
 # WII - Basic Marginal Cost Model ===============================
 
     # PARAMETERS --------------------------------------------------
-    param mcWII    := 4.95;
-    param availWII := 18000; 
+    param mcWII    := 4.95;   # Marginal cost compnent of WII
+    param availWII := 18000;  # Amount of WII that is available 
 
     # DECISION VARIABLES ------------------------------------------
     var WII >= 0;   #amt of product WOW to produce
