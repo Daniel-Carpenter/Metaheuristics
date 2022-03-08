@@ -7,7 +7,7 @@ reset;
 option solver cplex;
 
 # GLOBAL PARAMETERS -----------------------------------------------
-param theDemand := 20000; # The demanded amount of products
+param theDemand := 25000; # The demanded amount of products
 param M := 10000000;      # Large scaler that is not inf
 
 
@@ -22,8 +22,7 @@ param M := 10000000;      # Large scaler that is not inf
 
     param mcWOW1 := 9.50; param mcWOW1Upper := 3000;  # 3000 upper bound
     param mcWOW2 := 4.90; param mcWOW2Upper := 6000;  # 3000 + 6000 = 9000 upper bound
-    param mcWOW3 := 2.75; param mcWOW3Upper := M;     # M = None 
-
+    param mcWOW3 := 2.75; param mcWOW3Upper := 25000; # Cannot exceed 25000 due to supply
     # DECISION VARIABLES ------------------------------------------
     var WOW >= 0;   #amt of product WOW to produce
 
@@ -34,8 +33,6 @@ param M := 10000000;      # Large scaler that is not inf
     var y1WOW binary; #to model piecewise cost for var WOW
     var y2WOW binary; #to model piecewise cost for var WOW
 
-    # OBJECTIVE -----------------------------------------------------
-    minimize cost: mcWOW1*d1WOW + mcWOW2*d2WOW + mcWOW3*d3WOW;
 
     # CONSTRAINTS ----------------------------------------------------
 
@@ -54,10 +51,16 @@ param M := 10000000;      # Large scaler that is not inf
         
         # Third Piece (Between last piece and Upper)
         s.t. piece3: d3WOW <= mcWOW3Upper*y2WOW;
+        
+        # Cannot go over upper
+        s.t. upperBoundWOW: WOW <= mcWOW3Upper;
 
 # END OF WOW - Piecewise Linear Cost Model =======================
 
         
+
+# OBJECTIVE -----------------------------------------------------
+minimize cost: mcWOW1*d1WOW + mcWOW2*d2WOW + mcWOW3*d3WOW;
 
 # SOLVE THE MODE ==================================================
     
