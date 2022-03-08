@@ -7,8 +7,8 @@ reset;
 option solver cplex;
 
 # GLOBAL PARAMETERS -----------------------------------------------
-param theDemand := 17999; # The demanded amount of products
-param M := 10000000;      # Large scaler that is not inf
+param theDemand := 17999;    # The demanded amount of products
+param M         := 10000000; # Large scaler that is not inf
 
 
 # WII - Basic Marginal Cost Model ===============================

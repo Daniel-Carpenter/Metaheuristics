@@ -7,8 +7,8 @@ reset;
 option solver cplex;
 
 # GLOBAL PARAMETERS -----------------------------------------------
-param theDemand := 5000; # The demanded amount of products
-param M := 10000000;      # Large scaler that is not inf
+param theDemand := 5000;     # The demanded amount of products
+param M         := 10000000; # Large scaler that is not inf
 
 
 # WU - Marginal Cost + Fixed Cost Model ===============================
@@ -19,12 +19,12 @@ param M := 10000000;      # Large scaler that is not inf
     param minBuyAmt := 15000; # Must buy at least 15k 
 
     # DECISION VARIABLES ------------------------------------------
-    var WU >= 0;     # amt of product WU to produce
+    var WU >= 0;    # amt of product WU to produce
     var yWU binary; # Binary used for fixed cost if used
     
     # CONSTRAINTS -------------------------------------------------
-    s.t. buyAtLeastMin: WU <= availWU*yWU;    # Buy at least min amount
-    s.t. map_yWU:       WU >= minBuyAmt*yWU;  # Under the upper bound
+    s.t. buyAtLeastMin: WU <= availWU   * yWU;    # Buy at least min amount
+    s.t. map_yWU:       WU >= minBuyAmt * yWU;  # Under the upper bound
 
 # END OF WU - Basic Marginal Cost Model =========================
 
