@@ -7,7 +7,7 @@ reset;
 option solver cplex;
 
 # GLOBAL PARAMETERS -----------------------------------------------
-param theDemand := 17999; # The demanded amount of products
+param theDemand := 5000; # The demanded amount of products
 param M := 10000000;      # Large scaler that is not inf
 
 
@@ -20,16 +20,18 @@ param M := 10000000;      # Large scaler that is not inf
 
     # DECISION VARIABLES ------------------------------------------
     var WRS >= 0;   #amt of product WRS to produce
+    var yWRS binary; # Binary used for fixed cost if used
     
     # CONSTRAINTS -------------------------------------------------
-    s.t. upperBoundWRS: WRS <= availWRS;
+    s.t. map_yWRS: WRS <= M*yWRS;        # Map the decision var WRS to yWRS 
+    s.t. upperBoundWRS: WRS <= availWRS; # Can only use what is available
 
 # END OF WRS - Basic Marginal Cost Model =========================
 
         
 
 # OBJECTIVE -----------------------------------------------------
-minimize cost: mcWRS*WRS;
+minimize cost: fixWRS*yWRS + mcWRS*WRS; # WRS: Fixed plus variable
 
 # SOLVE THE MODE ==================================================
     
