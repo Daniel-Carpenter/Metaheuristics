@@ -1,5 +1,5 @@
 #DSA/ISE 5113 Integer Programming
-#Example IP: Marginal + Fixed Cost Example
+#Example IP: Marginal, with restricted range (must be greater than k)
 
 reset;
 
@@ -11,33 +11,33 @@ param theDemand := 5000; # The demanded amount of products
 param M := 10000000;      # Large scaler that is not inf
 
 
-# WRS - Marginal Cost + Fixed Cost Model ===============================
+# WU - Marginal Cost + Fixed Cost Model ===============================
 
     # PARAMETERS --------------------------------------------------
-    param mcWRS    := 2.30;  # Marginal cost compnent of WRS
-    param fixWRS   := 20000; # Fixed Cost component of WRS
-    param availWRS := 14000; # Amount of WRS that is available 
+    param mcWU      := 4.25;  # Marginal cost compnent of WU
+    param availWU   := 22000; # Amount of WU that is available 
+    param minBuyAmt := 15000; # Must buy at least 15k 
 
     # DECISION VARIABLES ------------------------------------------
-    var WRS >= 0;   #amt of product WRS to produce
-    var yWRS binary; # Binary used for fixed cost if used
+    var WU >= 0;     # amt of product WU to produce
+    var yWU binary; # Binary used for fixed cost if used
     
     # CONSTRAINTS -------------------------------------------------
-    s.t. map_yWRS: WRS <= M*yWRS;        # Map the decision var WRS to yWRS 
-    s.t. upperBoundWRS: WRS <= availWRS; # Can only use what is available
+    s.t. buyAtLeastMin: WU <= availWU*yWU;    # Buy at least min amount
+    s.t. map_yWU:       WU >= minBuyAmt*yWU;  # Under the upper bound
 
-# END OF WRS - Basic Marginal Cost Model =========================
+# END OF WU - Basic Marginal Cost Model =========================
 
         
 
 # OBJECTIVE -----------------------------------------------------
-minimize cost: fixWRS*yWRS + mcWRS*WRS; # WRS: Fixed plus variable
+minimize cost: + mcWU*WU; # WU: Restricted range to over 15k
 
 # SOLVE THE MODE ==================================================
     
     # Constraint to make it produce  at least the demanded amount
-    s.t. meetTheDemand: WRS >= theDemand;
+    s.t. meetTheDemand: WU >= theDemand;
 
 
     solve;
-    display WRS; # Amount of WRS Used
+    display WU; # Amount of WU Used
