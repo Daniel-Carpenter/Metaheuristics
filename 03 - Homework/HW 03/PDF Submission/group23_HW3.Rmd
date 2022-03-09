@@ -264,11 +264,51 @@ $$
 
 ## Code and Output
 
-### Code
-<!-- ![ ]("Images/prob1CodeAndData.png"){ width=90% } -->
+### Code  
+
+![ ]("Images/prob3CodeAndData1.png"){ width=100% }  
+
+![ ]("Images/prob3CodeAndData2.png"){ width=100% }  
+
+![ ]("Images/prob3CodeAndData3.png"){ width=100% }  
+
+
+\newpage
 
 ### Output
-<!-- ![ ]("Images/prob1Output.png") -->
+
+**Summary table of Output**  
+
+Demand	| WII	| WRS	| WE	|  WU	|  WOW | Total Cost
+--------|-----|-----|-----|-----|------|------------
+5000	 | 0 |	 0 | 	 5000 | 	 0| 	 0 |	 19750.000000
+10000	 | 3000 |	 0 | 	 7000 | 	 0| 	 0 |	 42500.000000
+25000	 | 4000 |	 14000 | 	 7000 | 	 0| 	 0 |	 99650.000000
+35000	 | 0 |	 14000 | 	 6000 | 	 15000| 	 0 |	 139650.000000
+45000	 | 0 |	 14000 | 	 6000 | 	 0| 	 25000 |	 177800.000000
+50000	 | 4000 |	 14000 | 	 7000 | 	 0| 	 25000 |	 201550.000000
+55000	 | 0 |	 14000 | 	 1000 | 	 15000| 	 25000 |	 221800.000000  
+
+  
+
+**Snapshots of Compilation**  
+
+<br>
+  
+![ ]("Images/prob3Output1.png")  
+
+![ ]("Images/prob3Output2.png")  
+
+![ ]("Images/prob3Output3.png")  
+
+![ ]("Images/prob3Output4.png")  
+
+![ ]("Images/prob3Output5.png")  
+
+![ ]("Images/prob3Output6.png")  
+
+![ ]("Images/prob3Output7.png")  
+
 
 
 
