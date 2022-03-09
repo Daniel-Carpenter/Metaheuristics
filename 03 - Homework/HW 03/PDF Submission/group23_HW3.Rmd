@@ -1,7 +1,7 @@
 ---
 title:    "Homework 3 - Integer Programming"
 subtitle: "Adv. Analytics and Metaheuristics"
-author:   "Daniel Carpenter and Iker Zarandona"
+author:   "Daniel Carpenter"
 date:     "March 2022"
 fontsize: 12pt
 geometry: margin=1in
@@ -241,25 +241,25 @@ is much more.
 ### Parameters
 Parameter Name | Description 
 ---------------|--------------
-theDemand | The demanded amount of products
-M         | Large scaler that is not inf, used for logical constraints via Big M Method
-mcWII     | Marginal cost component of WII. Set to $4.95
-availWII  | Amount of WII that is available. Set to 18,000
-mcWRS     | Marginal cost component of WRS. Set to $2.30
-fixWRS    | Fixed Cost component of WRS. Set to 20,000
-availWRS  | Amount of WRS that is available. Set to 14,000
-mcWE1     | If we buy from WRS, then Marg. cost for WE set to $3.95
-mcWE2     | If we do not buy from WRS, then Marg. cost for WE set to $4.10
-availWE   | Amount of WE that is available. Set to 7,000
-mcWU      | Marginal cost component of WU. Set to 4.25
-availWU   | Amount of WU that is available. Set to 22,000
-minBuyAmt | Must buy at least 15k of WU. Set to 15,000
-mcWOW1    | Marginal cost of 9.50 for WOW 3000 upper bound                  
-mcWOW1Upper | 3000 upper bound
-mcWOW2    | Marginal cost of 4.90 for WOW 3000 + 6000 = 9000 upper bound    
-mcWOW2Upper | 3000 + 6000 = 9000 upper bound
-mcWOW3    | Marginal cost of 2.75 for WOW Cannot exceed 25000 due to supply 
-mcWOW3Upper Cannot exceed 25000 due to supply 25000
+$theDemand$    | The demanded amount of products
+$M$            | Large scaler that is not inf, used for logical constraints via Big M Method
+$mcWII$        | Marginal cost component of $WII$. Set to $4.95
+$mcWRS$        | Marginal cost component of $WRS$. Set to $2.30
+$mcWE1$        | If we buy from $WRS$, then Marg. cost for $WE$ set to $3.95
+$mcWE2$        | If we do not buy from $WRS$, then Marg. cost for $WE$ set to $4.10
+$mcWU$         | Marginal cost component of $WU$. Set to 4.25
+$mcWOW1$       | Marginal cost of 9.50 for $WOW$ 3000 upper bound                  
+$mcWOW1Upper$  | $WOW$ 3000 upper bound
+$mcWOW2$       | Marginal cost of 4.90 for $WOW$ 3000 + 6000 = 9000 upper bound    
+$mcWOW2Upper$  | $WOW$ 3000 + 6000 = 9000 upper bound
+$mcWOW3$       | Marginal cost of 2.75 for $WOW$ Cannot exceed 25000 due to supply 
+$mcWOW3Upper$  | $WOW$ Cannot exceed 25000 due to supply 25000
+$fixWRS$       | Fixed Cost component of $WRS$. Set to 20,000
+$availWII$     | Amount of $WII$ that is available. Set to 18,000
+$availWRS$     | Amount of $WRS$ that is available. Set to 14,000
+$availWE$      | Amount of $WE$ that is available. Set to 7,000
+$availWU$      | Amount of $WU$ that is available. Set to 22,000
+$minBuyAmt$    | Must buy at least 15k of $WU$. Set to 15,000
 
 
 ### Decision Variables
@@ -267,13 +267,13 @@ mcWOW3Upper Cannot exceed 25000 due to supply 25000
 #### Main Decision Variables:
 Variable Name | Description 
 --------------|--------------
-WII           | Amount of product $WOW$ to produce
+WII           | Amount of product $WII$ to produce
 WRS           | Amount of product $WRS$ to produce
 WU            | Amount of product $WU$  to produce
 WE            | Amount of product $WE$  to produce
+WOW           | Amount of product $WOW$ to produce
 WE1           | Decision variable associated with $3.95$ marginal cost for $WE$
 WE2           | Decision variable associated with $4.10$ marginal cost for $WE$
-WOW           | Amount of product $WOW$ to produce
 d1WOW         | Piece wise component 1 of var $WOW$
 d2WOW         | Piece wise component 2 of var $WOW$ 
 d3WOW         | Piece wise component 3 of var $WOW$
@@ -281,15 +281,15 @@ d3WOW         | Piece wise component 3 of var $WOW$
 #### Binary Helper Decision Variables:
 Variable Name | Description 
 --------------|--------------
-yWRS1         | Used for fixed $WRS$ cost if used
 yWRS          | Used if $WRS$ is selected
+yWRS1         | Used for fixed $WRS$ cost if used
 yWII          | Used if $WII$ is selected
-yWE1          | Used if $WE1$  is selected
-yWE2          | Used if $WE2$  is selected
-z             | Used to activate only one constraint for $WE$ (below)
+yWE1          | Used if $WE1$ is selected
+yWE2          | Used if $WE2$ is selected
 yWU           | Used for fixed cost if $WU$ used
-y1WOW         | To model piecewise cost for var $WOW$
-y2WOW         | To model piecewise cost for var $WOW$
+y1WOW         | To model piece wise cost for var $WOW$
+y2WOW         | To model piece wise cost for var $WOW$
+z             | Used to activate only one constraint for $WE$
 
 ### Objective Function
 $minimize cost:$  
@@ -306,33 +306,58 @@ $minimize cost:$
 
 \newpage
 
-### Constraints
+### Constraints (*grouped by production variable*)
+
+#### Upper Bound Constraints
 Description | Constraint 
-----------------|--------------
+------------|--------------
 Upper bound on $WII$ production | $upperBoundWII: WII \leq availWII$
 Upper bound on $WU$  production | $upperBoundWU:  WU  \leq availWU$
 Upper bound on $WE$  production | $upperBoundWE:  WE  \leq availWE$
 Upper bound and map to $WRS$ via Big M | $map\_yWRS1: WRS \leq availWRS \times yWRS1$
-Map the $W$ vars to the $y$ binary     | $mapWE1: WE1  \leq M \times yWE1$
+
+#### WE Constraints
+Description | Constraint 
+------------|--------------
+Map the $WE$ vars to the $y$ binary     | $mapWE1: WE1  \leq M \times yWE1$
 ""                                 | $mapWE2: WE2  \leq M \times yWE2$
 Map the $WRS$ vars to the $y$ binary | $mapWRS: WRS  \leq M \times yWRS$
 Map the $WII$ vars to the $y$ binary | $mapWII: WII  \leq M \times yWII$
-WE: If buy from WRS, then can do WE1. (Use of Mz to choose one constraint) | $ifWRS\_ThenWE1: yWRS \leq yWE1 + M\times z$     
-WE: If $WE2$, cannot do $WII$. (Use of $Mz$ to choose one constraint) | $ifWRS\_thenNotWII: yWE2 +  yWII \leq 1 + M\times (1-z)$
-WE: If $WE1$, then cannot do $WE2$, Must choose one | $only1WE: yWE1 + yWE2 \leq 1$
-WE: Finally, set WE to the sum of WE1 and WE2 for the final output | $setWE: WE = WE1 + WE2$
-WU: Buy at least min amount | $buyAtLeastMin: WU \leq availWU   \times yWU$
-WU: Under the upper bound   | $map\_yWU:      WU \geq minBuyAmt \times yWU$
-WOW: connect WOW with d1WOW, d2WOW, and d3WOW; | $X_WOW: WOW = d1WOW + d2WOW + d3WOW$
-WOW: ensure that the piece wise costs are used correctly, | $piece1a: mcWOW1Upper \times y1WOW \leq d1WOW$
-WOW: First Piece (Between 0 and Upper) | $piece1b: d1WOW \leq mcWOW1Upper$
-WOW: Second Piece (Between last piece and Upper) | $piece2a: mcWOW2Upper \times y2WOW \leq d2WOW$
-WOW: Second Piece (Between last piece and Upper) | $piece2b: d2WOW \leq mcWOW2Upper \times y1WOW$
-WOW: Third Piece (Between last piece and Upper) | $piece3: d3WOW \leq mcWOW3Upper \times y2WOW$
-WOW: Cannot go over upper | $upperBoundWOW: WOW \leq mcWOW3Upper$
-Meet the total demand | $meetTheDemand: WII + WRS + WE + WU + WOW \geq theDemand$
+If buy from $WRS$, then can do $WE1$. (Use of Mz to choose one constraint) | $ifWRS\_ThenWE1: yWRS \leq yWE1 + M\times z$     
+If $WE2$, cannot do $WII$. (Use of $Mz$ to choose one constraint) | $ifWRS\_thenNotWII: yWE2 +  yWII \leq 1 + M\times (1-z)$
+If $WE1$, then cannot do $WE2$, Must choose one | $only1WE: yWE1 + yWE2 \leq 1$
+Finally, set $WE$ to the sum of $WE1$ and $WE2$ for the final output | $setWE: WE = WE1 + WE2$
 
-**CX:**  Non-negatitvity of Decision Vars
+#### WU Constraints
+Description | Constraint 
+------------|--------------
+Buy at least min amount | $buyAtLeastMin: WU \leq availWU   \times yWU$
+Under the upper bound   | $map\_yWU:      WU \geq minBuyAmt \times yWU$
+
+
+#### WOW Constraints
+Description | Constraint 
+------------|--------------
+Connect $WOW$ with $d1WOW$, $d2WOW$, and $d3WOW$ | $X\_WOW: WOW = d1WOW + d2WOW + d3WOW$
+Ensure that the piece wise costs are used correctly | $piece1a: mcWOW1Upper \times y1WOW \leq d1WOW$
+First Piece (Between 0 and Upper) | $piece1b: d1WOW \leq mcWOW1Upper$
+Second Piece (Between last piece and Upper) | $piece2a: mcWOW2Upper \times y2WOW \leq d2WOW$
+Second Piece (Between last piece and Upper) | $piece2b: d2WOW \leq mcWOW2Upper \times y1WOW$
+Third Piece (Between last piece and Upper) | $piece3: d3WOW \leq mcWOW3Upper \times y2WOW$
+Cannot go over upper | $upperBoundWOW: WOW \leq mcWOW3Upper$
+
+#### Meet the total demand  
+$$
+meetTheDemand: WII + WRS + WE + WU + WOW \geq theDemand
+$$
+
+#### Non-negatitvity or Binary Constraints of Decision Vars
+Description  | Constraint 
+-------------|--------------
+Non-Negative | $WII, WRS, WU, WE, WOW,$
+-            | $WE1, WE2, d1WOW, d2WOW, d3WOW \geq 0$
+Binary       | $yWRS, yWRS1, yWII, yWE1,$
+-            | $yWE2, yWU, y1WOW, y2WOW, z \in (1,0)$
 
 \newpage
 
@@ -340,7 +365,7 @@ Meet the total demand | $meetTheDemand: WII + WRS + WE + WU + WOW \geq theDemand
 
 ### Code  
 
-![ ]("Images/prob3CodeAndData1.png"){ width=100% }  
+![ ]("Images/prob3CodeAndData1.png"){ width=70% }  
 
 ![ ]("Images/prob3CodeAndData2.png"){ width=100% }  
 
@@ -350,6 +375,8 @@ Meet the total demand | $meetTheDemand: WII + WRS + WE + WU + WOW \geq theDemand
 \newpage
 
 ### Output
+
+> Below shows the amount to produce of each tupe of wigit and its respective cost, given the demand
 
 **Summary table of Output**  
 
