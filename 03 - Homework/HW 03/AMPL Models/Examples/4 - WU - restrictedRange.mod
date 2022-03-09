@@ -31,7 +31,7 @@ param M         := 10000000; # Large scaler that is not inf
         
 
 # OBJECTIVE -----------------------------------------------------
-minimize cost: + mcWU*WU; # WU: Restricted range to over 15k
+minimize cost: mcWU*WU; # WU: Restricted range to over 15k
 
 # SOLVE THE MODE ==================================================
     

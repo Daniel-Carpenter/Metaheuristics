@@ -229,3 +229,47 @@ $$
 * The optimal cost actually stays the same, but the amount of iterations to get to that solution 
 is much more. 
 * The values of the decision variables are the same.
+
+
+\newpage
+
+# - Problem `3`
+
+
+## Mathematical Formulation
+
+### Sets
+Set Name | Description 
+---------|--------------
+
+### Parameters
+Parameter Name | Description 
+---------------|--------------
+
+### Decision Variables
+Variable Name | Description 
+--------------|--------------
+
+### Objective Function
+$$
+$$
+
+\newpage
+
+### Constraints
+
+**C1:** 
+
+\newpage
+
+## Code and Output
+
+### Code
+<!-- ![ ]("Images/prob1CodeAndData.png"){ width=90% } -->
+
+### Output
+<!-- ![ ]("Images/prob1Output.png") -->
+
+
+
+

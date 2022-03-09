@@ -20,17 +20,17 @@ param M         := 10000000; # Large scaler that is not inf
 
     # DECISION VARIABLES ------------------------------------------
     var WRS >= 0;    # amt of product WRS to produce
-    var yWRS binary; # Binary used for fixed cost if used
+    var yWRS1 binary; # Binary used for fixed cost if used
     
     # CONSTRAINTS -------------------------------------------------
-    s.t. map_yWRS: WRS <= availWRS * yWRS; # Upper bound and map
+    s.t. map_yWRS1: WRS <= availWRS * yWRS1; # Upper bound and map
 
 # END OF WRS - Basic Marginal Cost Model =========================
 
         
 
 # OBJECTIVE -----------------------------------------------------
-minimize cost: fixWRS*yWRS + mcWRS*WRS; # WRS: Fixed plus variable
+minimize cost: fixWRS*yWRS1 + mcWRS*WRS; # WRS: Fixed plus variable
 
 # SOLVE THE MODE ==================================================
     

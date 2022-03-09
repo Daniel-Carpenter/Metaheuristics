@@ -66,7 +66,7 @@ s.t. upperBoundWII: WII <= 18000; # Meet the upper bound limit
         
 
 # OBJECTIVE -----------------------------------------------------
-minimize cost: mcWE1*WE1 + mcWE2*WE2  # WE Addition
+minimize cost: mcWE1*WE1 + mcWE2*WE2  # WE: Continguint mc based on scenario
                + 1000*WRS + 1000*WII;
 
 # SOLVE THE MODE ==================================================
