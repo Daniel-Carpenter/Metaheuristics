@@ -132,3 +132,42 @@ then no zappers at all            | $noZappers: spaceRays \geq totalProduction -
 ![ ]("Images/prob2Output.png")
 
 
+
+\newpage
+# - Problem `3`
+## Model Overview
+
+### Assumptions and Calculations for Network Flow Diagram
+<HERE>
+
+<!-- \newpage -->
+### Network Flow Diagram
+<!-- ![ ]("Images/network.png"){ width=100% } -->
+
+
+<!-- \newpage -->
+## Mathematical Formulation
+
+### Sets, Parameters, Decision Vars
+Set Name | Description 
+---------|--------------
+$NODES$	| Set of all nodes in above network flow diagram: 
+
+
+![ ]("Images/glm1.png"){ width=70% }
+
+### Objective, and Constraints
+![ ]("Images/glm2.png"){ width=70% }  
+
+* Upper and lower bounds use to direct the flow of the product
+
+\newpage
+## Code and Output
+
+### Model: `Problem3.mod`
+* Used `gmcnfp.txt` from course website and renamed to `Problem3.mod`.
+* Added `Problem3.dat;` `solve;` and `display x;`
+
+### Data: `Problem3.dat`
+
+<!-- ![ ]("Images/prob3Output.png") -->
