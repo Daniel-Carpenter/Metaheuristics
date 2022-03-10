@@ -94,9 +94,41 @@ $$
 \newpage
 # - Problem `2`
 
-### Additions to Model
-Addition Type | Name | Description 
---------------|--------------
-Parameter     | $M$ | "Big M," which is a large scaler used to help model disjunctive constraints
-Decision Var. | $z$ | Determines which constraint to activate.
-<!-- Decision Var. | $y$ | Helps map z to the  -->
+## Additions to Model 
+> Please assume that the mathematical formulation in the course videos are present as well (see code), just named objects are named differently but hopefully are convienent to interpret
+
+
+### Parameters
+Name | Description 
+------|-------------
+$M$ | "Big M," which is a large scaler used to help model disjunctive constraints
+
+### New Decision Vars
+Name | Description 
+-----|--------------
+$z$               | Determines which constraint to activate.
+$totalProduction$ | Simple variable that is Zappers + Spacerays
+
+### New Constraints
+Description | Constraint 
+-----|--------------
+Set Total Production to Zappers + Spacerays | $setTotalProd: totalProduction = spaceRays + zappers$      
+If total production is $\geq$ 400 | $isGreaterThan400: totalProduction  \geq 400 + M \times z$ 
+then zappers must be 70% of total | $zappersAre70Perc: zappers \geq 0.70 \times totalProduction + M \times z$
+If total Production is $\leq$ 400 | $isLessThan400: totalProduction  \leq 400 + M \times (1 - z)$ 
+then no zappers at all            | $noZappers: spaceRays \geq totalProduction - M \times (1 - z)$
+
+
+\newpage
+## Code and Output
+
+### Code
+![ ]("Images/prob2CodeAndData.png"){ width=85% }
+
+\newpage
+### Output
+* Optimal solution included more than 400, so zappers are 70% of production
+
+![ ]("Images/prob2Output.png")
+
+
