@@ -1,0 +1,19 @@
+# Daniel Carpenter
+# Exam 1
+# Problem 1
+
+data;
+
+# The three types of products, High-Gloss, Semi-Gloss, and Flat
+set P := High Flat Semi;
+
+#  rawA     The amount of raw ingredient A needed to produce product p ∈ P;
+#  rawB     The amount of raw ingredient B needed to produce product p ∈ P;
+#  demand   The minimum demand to be met for product p ∈ P;
+#  profit   The associated profit for product p ∈ P;
+param: 
+            rawA    rawB    demand  profit := 
+    High	2	    4	    200 	30
+    Semi	3	    2	    200 	20
+    Flat	5	    7	    150 	50
+    ;

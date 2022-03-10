@@ -24,32 +24,79 @@ knitr::opts_chunk$set(echo = TRUE)
 ### Sets
 Set Name | Description 
 ---------|--------------
+$P$ | The three types of products, High-Gloss, Semi-Gloss, and Flat
+
 
 ### Parameters
 Parameter Name | Description 
 ---------------|--------------
+$rawA_p$       | The amount of raw ingredient $A$ needed to produce product $p \in P$ 
+$rawB_p$       | The amount of raw ingredient $B$ needed to produce product $p \in P$ 
+$demand_p$     | The minimum demand to be met for product $p \in P$ 
+$profit_p$     | The associated profit for product $p \in P$ 
 
 ### Decision Variables
 Variable Name | Description 
 --------------|--------------
+$amtToProduce_p$ | The amount of product $p \in P$ to produce and is ion the set of integers
+
 
 ### Objective Function
 $$
+maximize \ theProfit: \sum_p amtToProduce_p \times profit_p
 $$
 
 \newpage
 
 ### Constraints
 
-**C1:** 
+**C1:** Meet the minimum demand for each product
+$$
+meetMinDemand: amtToProduce_p \geq demand_p
+, \ \forall \ p \in P
+$$
+
+**C2:** Cannot exceed the supply of Raw Material A
+$$
+rawSupplyA: \sum_p amtToProduce_p \times rawA_p \leq 4,000
+$$
+
+**C3:** Cannot exceed the supply of Raw Material B
+$$
+rawSupplyB: \sum_p amtToProduce_p \times rawB_p \leq 6,000
+$$
+
+**C4:** Ratio of 3:2 for High and Semi Gloss, respectively  
+
+* Since $\frac{3}{2} = 1.5$, the amount of high gloss produced must always be $1.5 \times$ semi gloss
+$$
+highToSemiRatio: 1.5 \times amtToProduce_{Semi\in P} = amtToProduce_{High\in P}
+$$
+
+**C5:** Non-Negativity Constraints and is Integer
+$$
+amtToProduce \geq 0, \in \mathbb{Z}
+$$
 
 \newpage
 
 ## Code and Output
 
 ### Code
-<!-- ![ ]("Images/prob1CodeAndData.png"){ width=90% } -->
+![ ]("Images/prob1CodeAndData.png"){ width=90% }
 
 ### Output
-<!-- ![ ]("Images/prob1Output.png") -->
+* Not High to Semi is a 3:2 ratio and all demand and supply constraints are satisfied.
 
+![ ]("Images/prob1Output.png")
+
+
+\newpage
+# - Problem `2`
+
+### Additions to Model
+Addition Type | Name | Description 
+--------------|--------------
+Parameter     | $M$ | "Big M," which is a large scaler used to help model disjunctive constraints
+Decision Var. | $z$ | Determines which constraint to activate.
+<!-- Decision Var. | $y$ | Helps map z to the  -->
