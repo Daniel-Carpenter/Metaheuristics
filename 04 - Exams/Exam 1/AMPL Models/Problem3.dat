@@ -7,35 +7,62 @@
 #      default node requirements are 0
 #      default multiplier is 1
 
+                                   # For each period (1..4)
+set NODES :=  	i1 i2 i3 i4 i4end  # Inventory, plus ending i in period 4
+                p1 p2 p3 p4        # Produce chemicals
+                   m2 m3 m4        # Manufacture Product
+                f1 f2 f3 f4        # The Final Product
+                d1 d2 d3 d4        # The demand
+                z4                 # Flow balance zero out node
+                ;
+		
 
-set NODES :=  	p1 p2 p3 p4            #product time period nodes
-		c1 c2 c3 c4 c5 c5p;    #cash flow time period nodes
+set ARCS := 	(i1, f1) (i2, f2) (i3, f3) (i4, f4)     # Inventory to Final Product
+                (p1, m2) (p2, m3) (p3, m4) (p4, z4)     # Send product to manufacturing plant
+                         (m2, f2) (m3, f3) (m4, f4)     # Manufacturer to the final product
+                (f1, d1) (f2, d2) (f3, d3) (f4, d4)     # Final Product to Demand
+                (f1, i2) (f2, i3) (f3, i4) (f4, i4end)  # Final Product to next period Inventory
+                         (f2, z4) (f3, z4) (f4, z4)     # Send left over product to virtual to zero out/balance
+                (d1, z4) (d2, z4) (d3, z4) (d4, z4)     
+                ;
 
-set ARCS := 	(p1,p2) (p2,p3) (p3, p4)            #inventory arcs
-                (c1,c2) (c2,c3) (c3, c4) (c4, c5)   #cash flow arcs  
-		(c5, c5p)                           #virtual arc
-		(p1,c2) (p2,c3) (p3, c4) (p4, c5)   #sell arcs
-                (c1,p2) (c2,p3) (c3, p4);           #buy arcs
+param b:= i1 2000 # Inital inventory
+          p1 7500 # Max production in each period
+          p2 9000 
+          p3 8500 
+          p4 9200 
+          i4end -2000
+          ;
 
-param b:= p1 750     #initial product on-hand
-	  c1 8500;   #initial cash on-hand
 
 #specify costs, upper bound, and multipliers for each arc
-param:           c     u     mu :=
-        [p1, p2] 0.50  1500  0.99   #holding cost, capacity, 1-spoilage rate
-        [p2, p3] 0.50  1500  0.99
-        [p3, p4] 0.50  1500  0.99
-        [c1, c2] . . 1.0025         #short-term interest
-        [c2, c3] . . 1.0025
-        [c3, c4] . . 1.0025
-        [c4, c5] . . 1.0025  
-        [p1, c2] . . 10             #product price
-       	[p2, c3] . . 40    
-        [p3, c4] . . 80
-        [p4, c5] . . 50
-        [c1, p2] . . 0.1            #1/price 
-        [c2, p3] . . 0.025
-        [c3, p4] . . 0.0125
-        [c5, c5p] -1 . 0;           #virtual arc has negative cost to icentavize flow
+param:                  c       l       u     mu :=
+        [i1, f1]        .       .       .     .      # cost per gallon, st, deterioration rate of 8%
+        [i2, f2]        .       .       .     0.92   
+        [i3, f3]        .       .       .     0.92   
+        [i4, f4]        .       .       .     0.92       
+        [p1, m2]        2.50    .       .     0.85   # cost per gallon, 85% of raw materials make gallon of product
+        [p2, m3]        2.50    .       .     0.85   
+        [p3, m4]        3.00    .       .     0.85   
+        [p4, z4]        3.50    .       .     0     
+        [m2, f2]        11.00   .       .     .      # cost per gallon
+        [m3, f3]        11.00   .       .     .   
+        [m4, f4]        11.00   .       .     .       
+        [f1, d1]        .       2000    3000  38     # cost of selling, min/max demand, selling price per gal 
+        [f2, d2]        .       2500    3000  40   
+        [f3, d3]        .       2800    5000  42   
+        [f4, d4]        .       2500    5000  42       
+        [f1, i2]        1.30    .       3000  .     # Cost of storing, max storage of product
+        [f2, i3]        1.30    .       3000  .   
+        [f3, i4]        1.30    .       3000  .   
+        [f4, i4end]     1.30    .       .     .     # Must have 2k of product at end in inventory
+        [d1, z4]        .       .       .     0     # virtual to balance the network (no incentive)
+        [d2, z4]        .       .       .     0     
+        [d3, z4]        .       .       .     0     
+        [d4, z4]        .       .       .     0     
+        [f2, z4]        .       .       .     0     
+        [f3, z4]        .       .       .     0     
+        [f4, z4]        .       .       .     0     
+        ;
 
   
