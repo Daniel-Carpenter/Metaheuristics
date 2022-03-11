@@ -139,18 +139,19 @@ then no zappers at all            | $noZappers: spaceRays \geq totalProduction -
 
 ### Assumptions and Calculations for Network Flow Diagram
 * Starting/Ending inventory is 2,000
-* In period 1, can only use inventory to meet demand since it takes a period to produce the chemicals
+* In period 1, can only use inventory to meet demand since it takes a period to produce the chemicals. Hence, we can not manufacture in period 1.
 * $\mu$ used to either show:
   * The 85:100 ratio when converting raw materials in production (seen as 0.85)
   * Converting the final product into dollars when selling, or
   * Showing the 8% degradation when storing the final product in inventory that did not sell (seen as 0.92, which is 1 minus 8%)
+* To balance the network, a virtual node is used (the black node) and its dependent arcs use multipliers of 0. 
+* End of period 4 shown like another period for simplicity
 
-<!-- \newpage -->
 ### Network Flow Diagram
-<!-- ![ ]("Images/network.png"){ width=100% } -->
+![ ]("Images/network.png"){ width=100% }
 
 
-<!-- \newpage -->
+\newpage
 ## Mathematical Formulation
 
 ### Sets, Parameters, Decision Vars
@@ -174,5 +175,14 @@ $NODES$	| Set of all nodes in above network flow diagram:
 * Added `Problem3.dat;` `solve;` and `display x;`
 
 ### Data: `Problem3.dat`
+![ ]("Images/prob3CodeAndData.png"){ width=80%}
 
-<!-- ![ ]("Images/prob3Output.png") -->
+
+### Output 
+* Below shows how much of product is sent from node i to node j
+* i is displayed on each row, and j is on each column
+* For example, f3 sent 2,800 gallons to d3, interpreted as follows:
+  * In period 3, 2,800 gallons of product were demanded.
+* Note that values sent to virtual node means that nothing those values were not produced.
+
+![ ]("Images/prob3Output.png")
