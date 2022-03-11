@@ -138,7 +138,12 @@ then no zappers at all            | $noZappers: spaceRays \geq totalProduction -
 ## Model Overview
 
 ### Assumptions and Calculations for Network Flow Diagram
-<HERE>
+* Starting/Ending inventory is 2,000
+* In period 1, can only use inventory to meet demand since it takes a period to produce the chemicals
+* $\mu$ used to either show:
+  * The 85:100 ratio when converting raw materials in production (seen as 0.85)
+  * Converting the final product into dollars when selling, or
+  * Showing the 8% degradation when storing the final product in inventory that did not sell (seen as 0.92, which is 1 minus 8%)
 
 <!-- \newpage -->
 ### Network Flow Diagram

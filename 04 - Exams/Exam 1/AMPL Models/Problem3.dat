@@ -1,12 +1,12 @@
-#Generalized Network Flow Problem - data file for Political Action Figures Example problem -- 
-#a.k.a.: "Feel the burn and make optimization great again!"
-#Charles Nicholson, ISE 5113, 2020
+# Daniel Carpenter
+# Exam 1
+# Problem 2
 
-#use with Generalized flow model: GMCNFP.txt model
 #note: default arc costs and lower bounds are 0
 #      default arc upper bounds are infinity
 #      default node requirements are 0
 #      default multiplier is 1
+
 
 set NODES :=  	p1 p2 p3 p4            #product time period nodes
 		c1 c2 c3 c4 c5 c5p;    #cash flow time period nodes
@@ -21,7 +21,7 @@ param b:= p1 750     #initial product on-hand
 	  c1 8500;   #initial cash on-hand
 
 #specify costs, upper bound, and multipliers for each arc
-param:  c u mu :=
+param:           c     u     mu :=
         [p1, p2] 0.50  1500  0.99   #holding cost, capacity, 1-spoilage rate
         [p2, p3] 0.50  1500  0.99
         [p3, p4] 0.50  1500  0.99

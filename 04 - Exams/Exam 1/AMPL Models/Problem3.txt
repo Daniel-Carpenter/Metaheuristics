@@ -5,6 +5,7 @@
 #
 # Parameters not specified in the data file will get their default values.
 
+reset;
 options solver cplex;
 
 set NODES;                        # nodes in the network
@@ -26,6 +27,11 @@ subject to flow_balance {i in NODES}:
 sum{j in NODES: (i,j) in ARCS} x[i,j] - sum{j in NODES: (j,i) in ARCS} mu[j,i] * x[j,i] = b[i];
 
 subject to capacity {(i,j) in ARCS}: l[i,j] <= x[i,j] <= u[i,j];
+
+# COMMANDS
+data Problem3.dat;
+solve;
+display x;
 
 
 
