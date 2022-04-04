@@ -57,7 +57,7 @@ Num | Method Name | Explanation
 ### Potential problems with `heuristics`
 * Could accidentally find local maximums or minimums  
 
-<img src = "Images/range.png" width = 550> <br>
+<img src = "Images/range.png"> <br>
 
 
 ---
