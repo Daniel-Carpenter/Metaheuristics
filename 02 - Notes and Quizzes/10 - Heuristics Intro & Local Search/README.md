@@ -55,7 +55,8 @@ Num | Method Name | Explanation
 
 
 ### Potential problems with `heuristics`
-* Could accidentally find local maximums or minimums
+* Could accidentally find local maximums or minimums  
+
 <img src = "Images/range.png" width = 550> <br>
 
 
@@ -151,7 +152,8 @@ COnstraints | Same |Still have constraints, need to figure out to handle them th
 
 ### Hill Climbing with `random walk`
 * Allows to search the entire space (through random walk) 
-* Overcomes local max/min
+* Overcomes local max/min  
+
 <img src = "Images/rw.png" width = 550> <br>
 
 
@@ -171,7 +173,8 @@ COnstraints | Same |Still have constraints, need to figure out to handle them th
 
 ### `Stochastic Beam Search`
 * Overcomes local beam search disadvantages
-* Assigns higher probability to potentially better solutions 
+* Assigns higher probability to potentially better solutions   
+
 <img src = "Images/sbeams.png" width = 550> <br>
 
 ## Metaheuristics
