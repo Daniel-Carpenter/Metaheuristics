@@ -13,5 +13,5 @@
 * [Solution explanation here](https://en.wikipedia.org/wiki/Bridge_and_torch_problem)
 * Originally, I moved A over the bridge every time, but that totaled 19 minutes (infeasible). I then realized that moving C and D together in the second crossing would minimize total time. See below with a feasible solution:
 
-    <img src = 'Solution 1.1.png' width = 600> <br>
-    <img src = 'Solution 1.2.png' width = 600> <br>
+    <img src = 'Solution 1.1.png' width = 900> <br>
+    <img src = 'Solution 1.2.png' width = 900> <br>
