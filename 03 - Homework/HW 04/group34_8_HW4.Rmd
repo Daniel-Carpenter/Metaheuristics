@@ -1,0 +1,129 @@
+---
+title: "Homework 4"
+subtitle: 'Hill Climbing Methods'
+author: "Daniel Carpenter & Kyle (Chris) Ferguson"
+date: "April 2022"
+output: 
+  html_document: 
+    theme: yeti
+    toc: yes
+    toc_float: yes
+    toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	include = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+```
+
+# Question 1: Strategies
+
+## (a) Initial Solution
+> Define and defend a strategy for determining an initial solution to this knapsack problem for a neighborhood-based heuristic.
+
+We will choose to randomly generate a starting list of binary values for the knapsack problem. This solution will allows us to calculate a the the knapsack weight then begin comparing to other neighborhoods.
+
+## (b) Neighborhood Structures 
+> Describe 3 neighborhood structure definitions that you think would work well for this problem. Compute the size of each neighborhood.
+
+Without any adjustment to the neighborhoods: For each neighborhood, there are 150 neighbors. Since the knapsack problem uses a $n$-dimensional binary vector, the total solution space is $2^n$, which is $2^{150}$, or: 
+```{r}
+paste('Total Solution space:', 2^150)
+```
+
+## (c) Infeasibility
+> During evaluation of a candidate solution, it may be discovered to be infeasible. In this case, provide 2 strategies for handling infeasible solutions:
+
+1. We may return the value of -1 to return
+2. ???
+
+# Global Variables
+
+```{python globals}
+# need some python libraries
+from random import Random  # need this for the random number generation -- do not change
+import numpy as np
+
+
+# to setup a random number generator, we will specify a "seed" value
+# need this for the random number generation -- do not change
+seed = 51132021
+myPRNG = Random(seed)
+
+# to get a random number between 0 and 1, use this:             myPRNG.random()
+# to get a random number between lwrBnd and upprBnd, use this:  myPRNG.uniform(lwrBnd,upprBnd)
+# to get a random integer between lwrBnd and upprBnd, use this: myPRNG.randint(lwrBnd,upprBnd)
+
+# number of elements in a solution
+n = 150
+
+# create an "instance" for the knapsack problem
+value = []
+for i in range(0, n):
+    value.append(round(myPRNG.triangular(150, 2000, 500), 1))
+
+weights = []
+for i in range(0, n):
+    weights.append(round(myPRNG.triangular(8, 300, 95), 1))
+
+# define max weight for the knapsack
+maxWeight = 2500
+```
+
+# Question 2: Local Search with Best Improvement
+
+```{python functions, eval=FALSE}
+# monitor the number of solutions evaluated
+solutionsChecked = 0
+
+# function to evaluate a solution x
+
+
+def evaluate(x):
+
+    a = np.array(x)
+    b = np.array(value)
+    c = np.array(weights)
+
+    totalValue = np.dot(a, b)  # compute the value of the knapsack selection
+    # compute the weight value of the knapsack selection
+    totalWeight = np.dot(a, c)
+
+    if totalWeight > totalValue:
+        print("Infeasible. Need to define logic here to deal with infeasible solutions") # TODO
+
+    # returns a list of both total value and total weight
+    return [totalValue, totalWeight]
+
+
+# here is a simple function to create a neighborhood
+# 1-flip neighborhood of solution x
+def neighborhood(x):
+
+    nbrhood = [] 
+
+    # Set up n number of neighbors with list of lists
+    for i in range(0, n):
+        nbrhood.append(x[:])
+        
+        # Flip the neighbor from 0 to 1 or 1 to 0
+        if nbrhood[i][i] == 1:
+            nbrhood[i][i] = 0
+        else:
+            nbrhood[i][i] = 1
+
+    return nbrhood
+
+
+# create the initial solution
+def initial_solution():
+    x = []  # i recommend creating the solution as a list
+    # need logic here! # TODO
+    # https://towardsdatascience.com/how-to-implement-the-hill-climbing-algorithm-in-python-1c65c29469de
+
+    return x
+```

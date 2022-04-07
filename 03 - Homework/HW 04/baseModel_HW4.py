@@ -11,7 +11,7 @@
 
 # ------------------------------------------------------------------------------
 
-# Student name: Daniel Carpenter
+# Student name: Daniel Carpenter & Kyle (Chris) Ferguson
 # Date: April 2022
 
 
@@ -65,6 +65,9 @@ def evaluate(x):
     # compute the weight value of the knapsack selection
     totalWeight = np.dot(a, c)
 
+    if totalWeight > totalValue:
+        print("Infeasible. Need to define logic here to deal with infeasible solutions") # TODO
+
     # returns a list of both total value and total weight
     return [totalValue, totalWeight]
 
@@ -73,10 +76,13 @@ def evaluate(x):
 # 1-flip neighborhood of solution x
 def neighborhood(x):
 
-    nbrhood = []
+    nbrhood = [] 
 
+    # Set up n number of neighbors with list of lists
     for i in range(0, n):
         nbrhood.append(x[:])
+        
+        # Flip the neighbor from 0 to 1 or 1 to 0
         if nbrhood[i][i] == 1:
             nbrhood[i][i] = 0
         else:
@@ -88,8 +94,8 @@ def neighborhood(x):
 # create the initial solution
 def initial_solution():
     x = []  # i recommend creating the solution as a list
-
-    # need logic here!
+    # need logic here! # TODO
+    # https://towardsdatascience.com/how-to-implement-the-hill-climbing-algorithm-in-python-1c65c29469de
 
     return x
 
@@ -122,7 +128,6 @@ while done == 0:
     if f_best == f_curr:  # if there were no improving solutions in the neighborhood
         done = 1
     else:
-
         x_curr = x_best[:]  # else: move to the neighbor solution and continue
         f_curr = f_best[:]  # evalute the current solution
 
