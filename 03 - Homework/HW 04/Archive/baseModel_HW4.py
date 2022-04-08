@@ -55,7 +55,7 @@ solutionsChecked = 0
 # function to evaluate a solution x
 
 
-def evaluate(x, r):
+def evaluate(x):
 
     # r = -1
 
@@ -63,16 +63,20 @@ def evaluate(x, r):
     b = np.array(value)
     c = np.array(weights)
 
-    totalValue  = np.dot(a, b)  # compute the value of the knapsack selection
-    totalWeight = np.dot(a, c)  # compute the weight value of the knapsack selection
+    totalValue = np.dot(a, b)  # compute the value of the knapsack selection
+    # compute the weight value of the knapsack selection
+    totalWeight = np.dot(a, c)
 
-    # Recurision for handling infeasible solutions
-    if totalWeight > maxWeight:
-        x[r] = 0            # Don't include the index r from the knapsack
-        evaluate(x, r - 1)  # Try again on the next to last element
-    else: 
-        # Finish the process if the total weight is satisfied
-        return [totalValue, totalWeight]
+    # if totalWeight > maxWeight:
+    #     return -1
+    #     # TODO
+    #     x[r] = 0            # Don't include the last element in bag
+    #     # print(totalWeight)
+    #     evaluate(x - 1)  # Try again on the next to last element
+        
+    # else: 
+    #     return [totalValue, totalWeight]
+        
         
     # returns a list of both total value and total weight
     return [totalValue, totalWeight]
@@ -99,19 +103,21 @@ def neighborhood(x):
 
 # create the initial solution
 def initial_solution():
-    
-    # Start with nothing in the knapsack
-    x = [0] * n  
+    x = [0] * n  # i recommend creating the solution as a list
 
-    # Random Initial Solution start - this works too, but less optimal:
-    # x = []  # i recommend creating the solution as a list
-
-    # # Randomly create a list of binary values from 0 to n    
-    # for i in range(0, n):
-    #     x.append(myPRNG.randint(0,1))
+    # while evaluate(x)[1] <= maxWeight:
+    #     randIdx = myPRNG.randint(0,n-1)
+        
+    #     if (evaluate(x)[1] + weights[randIdx] <= maxWeight):
+    #         x[randIdx] = 1
 
     return x
 
+# x = initial_solution()
+# print(evaluate(x)[1])
+# print(len(x))
+# print(x)
+    
 
 # varaible to record the number of solutions evaluated
 solutionsChecked = 0
@@ -119,10 +125,10 @@ solutionsChecked = 0
 x_curr = initial_solution()  # x_curr will hold the current solution
 x_best = x_curr[:]  # x_best will hold the best solution
 
-r = -1 # last element in list
+# r = -1 # last element in list
 
 # f_curr will hold the evaluation of the current soluton
-f_curr = evaluate(x_curr, r)
+f_curr = evaluate(x_curr)
 f_best = f_curr[:]
 
 
@@ -130,23 +136,24 @@ f_best = f_curr[:]
 done = 0
 
 while done == 0:
-    # print('Best value: ',    f_best[0])
-    # print('Current value: ', f_curr[0])
+    print('Best value: ',    f_best[0])
+    print('Current value: ', f_curr[0])
+    print('Total Weight: ', f_curr[1])
 
     # create a list of all neighbors in the neighborhood of x_curr
     Neighborhood = neighborhood(x_curr)
 
     for s in Neighborhood:  # evaluate every member in the neighborhood of x_curr
         solutionsChecked = solutionsChecked + 1
-        if evaluate(s, r)[0] > f_best[0]:
+        if evaluate(s)[0] > f_best[0]:
             # find the best member and keep track of that solution
             x_best = s[:]
-            f_best = evaluate(s, r)[:]  # and store its evaluation
+            f_best = evaluate(s)[:]  # and store its evaluation
 
 
     # -------------------------------------------------------------------------
     # ADDED `and` the current solution must be less than the max weight 
-    if f_best == f_curr and (f_curr[1] < maxWeight):  # if there were no improving solutions in the neighborhood
+    if f_best == f_curr and (f_curr[1] <= maxWeight):  # if there were no improving solutions in the neighborhood
         done = 1
     # -------------------------------------------------------------------------
     
