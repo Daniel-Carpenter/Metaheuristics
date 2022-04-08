@@ -272,7 +272,7 @@ div.tocify {
 <p>During evaluation of a candidate solution, it may be discovered to be infeasible. In this case, provide 2 strategies for handling infeasible solutions:</p>
 </blockquote>
 <ol style="list-style-type: decimal">
-<li>We may return the value of -1 to return</li>
+<li>If the solution is infeasible (i.e., the <span class="math inline">\(initial\_solution \geq maxWeight\)</span>), then we will iteratively remove values from the knapsack until the bag’s weight is less than the max allowable weight.</li>
 <li>???</li>
 </ol>
 </div>

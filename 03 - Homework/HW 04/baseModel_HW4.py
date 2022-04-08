@@ -71,7 +71,7 @@ def evaluate(x, r):
         
         # TODO
         x[r] = 0            # Don't include the last element in bag
-        print(totalWeight)
+        # print(totalWeight)
         evaluate(x, r - 1)  # Try again on the next to last element
         
     else: 
@@ -129,6 +129,8 @@ f_best = f_curr[:]
 done = 0
 
 while done == 0:
+    # print('Best value: ',    f_best[0])
+    # print('Current value: ', f_curr[0])
 
     # create a list of all neighbors in the neighborhood of x_curr
     Neighborhood = neighborhood(x_curr)
@@ -140,8 +142,14 @@ while done == 0:
             x_best = s[:]
             f_best = evaluate(s, r)[:]  # and store its evaluation
 
-    if f_best == f_curr:  # if there were no improving solutions in the neighborhood
+
+    # -------------------------------------------------------------------------
+    # ADDED `and` the current solution must be less than the max weight 
+    if f_best == f_curr and (f_curr[1] < maxWeight):  # if there were no improving solutions in the neighborhood
         done = 1
+    # -------------------------------------------------------------------------
+    
+    
     else:
         x_curr = x_best[:]  # else: move to the neighbor solution and continue
         f_curr = f_best[:]  # evalute the current solution
