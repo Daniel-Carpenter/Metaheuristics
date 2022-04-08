@@ -38,7 +38,9 @@ paste('Total Solution space:', 2^150)
 ## (c) Infeasibility
 > During evaluation of a candidate solution, it may be discovered to be infeasible. In this case, provide 2 strategies for handling infeasible solutions:
 
-1. We may return the value of -1 to return
+1. If the solution is infeasible (i.e., the $initial\_solution \geq maxWeight$),
+then we will iteratively remove values from the knapsack until the bag's weight is
+less than the max allowable weight.
 2. ???
 
 # Global Variables

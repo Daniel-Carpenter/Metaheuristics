@@ -55,7 +55,9 @@ solutionsChecked = 0
 # function to evaluate a solution x
 
 
-def evaluate(x):
+def evaluate(x, r):
+
+    # r = -1
 
     a = np.array(x)
     b = np.array(value)
@@ -65,9 +67,17 @@ def evaluate(x):
     # compute the weight value of the knapsack selection
     totalWeight = np.dot(a, c)
 
-    if totalWeight > totalValue:
-        print("Infeasible. Need to define logic here to deal with infeasible solutions") # TODO
-
+    if totalWeight > maxWeight:
+        
+        # TODO
+        x[r] = 0            # Don't include the last element in bag
+        print(totalWeight)
+        evaluate(x, r - 1)  # Try again on the next to last element
+        
+    else: 
+        return [totalValue, totalWeight]
+        
+        
     # returns a list of both total value and total weight
     return [totalValue, totalWeight]
 
@@ -94,8 +104,10 @@ def neighborhood(x):
 # create the initial solution
 def initial_solution():
     x = []  # i recommend creating the solution as a list
-    # need logic here! # TODO
-    # https://towardsdatascience.com/how-to-implement-the-hill-climbing-algorithm-in-python-1c65c29469de
+
+    # Randomly create a list of binary values from 0 to n    
+    for i in range(0, n):
+        x.append(myPRNG.randint(0,1))
 
     return x
 
@@ -105,8 +117,11 @@ solutionsChecked = 0
 
 x_curr = initial_solution()  # x_curr will hold the current solution
 x_best = x_curr[:]  # x_best will hold the best solution
+
+r = -1 # last element in list
+
 # f_curr will hold the evaluation of the current soluton
-f_curr = evaluate(x_curr)
+f_curr = evaluate(x_curr, r)
 f_best = f_curr[:]
 
 
@@ -120,10 +135,10 @@ while done == 0:
 
     for s in Neighborhood:  # evaluate every member in the neighborhood of x_curr
         solutionsChecked = solutionsChecked + 1
-        if evaluate(s)[0] > f_best[0]:
+        if evaluate(s, r)[0] > f_best[0]:
             # find the best member and keep track of that solution
             x_best = s[:]
-            f_best = evaluate(s)[:]  # and store its evaluation
+            f_best = evaluate(s, r)[:]  # and store its evaluation
 
     if f_best == f_curr:  # if there were no improving solutions in the neighborhood
         done = 1
