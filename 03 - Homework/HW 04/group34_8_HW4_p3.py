@@ -137,7 +137,7 @@ def initial_solution():
 
 """
 ===============================================================================
-Question 2 - Hill Climbing with Best Improvement
+Question 3 - Hill Climbing with First Acceptance
 ===============================================================================
 """
 
@@ -149,7 +149,7 @@ solutionsChecked = 0
 x_curr = initial_solution()  # x_curr will hold the current solution
 x_best = x_curr[:]  # x_best will hold the best solution
 
-r = -1 # last element in list
+r = randIdx = myPRNG.randint(0,n-1) # a random index
 
 # f_curr will hold the evaluation of the current soluton
 f_curr = evaluate(x_curr, r)
@@ -171,6 +171,8 @@ while done == 0:
             # find the best member and keep track of that solution
             x_best = s[:]
             f_best = evaluate(s, r)[:]  # and store its evaluation
+            
+            break # >> Exit loop << (first accept change from best acceptance)
 
     # Checks for platueau and feasibility
     if f_best == f_curr and (f_curr[1] < maxWeight):  # if there were no improving solutions in the neighborhood

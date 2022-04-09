@@ -1,71 +1,32 @@
----
-title: "Homework 4"
-subtitle: 'Hill Climbing Methods'
-author: "Daniel Carpenter & Kyle (Chris) Ferguson"
-date: "April 2022"
-output:
-  pdf_document: 
-    toc: yes
-    toc_depth: 2
-    highlight: tango
-  # html_document:
-  #   theme: yeti
-  #   toc: yes
-  #   toc_float: yes
-  #   toc_depth: 2
----
+"""
+Hill Climbing
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-	echo = TRUE,
-	include = TRUE,
-	message = FALSE,
-	warning = FALSE,
-	tidy.opts=list(width.cutoff=60), 
-	tidy=TRUE
-)
-```
+Student name: Daniel Carpenter & Kyle (Chris) Ferguson
+Date: April 2022
+"""
 
-\newpage
+# Do Not change:
+#   random number generator
+#   number of items (should be 150)
+#   random problem instance
+#   weight limit of the knapsack
 
-# Question 1: Strategies
+# =============================================================================
+# INPUTS - Do not change
+# =============================================================================
 
-## (a) Initial Solution
-> Define and defend a strategy for determining an initial solution to this knapsack problem for a neighborhood-based heuristic.
-
-* Our algorithm for the `initial_solution()` function randomly generates a list of binary $\in (0, 1)$ values for the knapsack problem, `1` if an item is included in the knapsack and `0` if the item is excluded 
-* Since the solution could randomly generate an infeasible solution (i.e., the `totalWeight` $\geq$ `maxWeight`), the `initial_solution()` function handles it by randomly removing items from the knapsack until it is under the `maxWeight`.
-* After the generation of the initial solution, the evaluate function searches for better solutions.
-* We considered beginning with nothing in the knapsack (list of `0`'s from item `0` to `n`), but we researched and found that a common approach is to begin with a randomly generated solution.
-
-## (b) Neighborhood Structures 
-> Describe 3 neighborhood structure definitions that you think would work well for this problem. Compute the size of each neighborhood.
-
-1. Without any adjustment to the neighborhoods: For each neighborhood, there are 150 neighbors. Since the knapsack problem uses a $n$-dimensional binary vector, the total solution space is $2^n$, which is $2^{150}$
-2. Using [variable neighborhood search](https://en.wikipedia.org/wiki/Variable_neighborhood_search), the algorithm attempts to find a "global optimum", where it explores "distant" neighborhoods relative to the incumbent solution. Similar to other approaches, it will repeat until it finds a local optima. This approach may provide an enhancement since it will compare the incumbent solution to other solutions "far" from it, providing a better opportunity to finding the global maximum. *Metaheuristics—the metaphor exposed* by Kenneth Sorensen  provides an overview of this concept as well.
-3. Simulated annealing may also work well since it will analyze multiple items to be placed in the knapsack; however, some items may be chosen over others which could cause a local minimum to occur. See *Metaheuristics—the metaphor exposed* by Kenneth Sorensen page 7.
-
-## (c) Infeasibility
-> During evaluation of a candidate solution, it may be discovered to be infeasible. In this case, provide 2 strategies for handling infeasible solutions:
-
-Note both approaches are similar:  
-
-1. *Chosen Method in model:* If the solution is infeasible (i.e., the `totalWeight` $\geq$ `maxWeight`), then we will *randomly* remove values from the knapsack until the bag's weight is less than the max allowable weight.  
-2. If the solution is infeasible, then we will *iteratively* (from last item in list to beginning) remove values from the knapsack until the bag's weight is less than the max allowable weight.
-
-\newpage
-
-# Global Variables
-> Input variables like the *random seed*, *values and weights* data for knapsack, and the *maximum allowable weight* 
-
-```{python globals, echo=TRUE}
 # Import python libraries
 from random import Random  # need this for the random number generation -- do not change
 import numpy as np
 
-# Set the seed
+
+# Set the seet 
 seed = 51132021
 myPRNG = Random(seed)
+
+# to get a random number between 0 and 1, use this:             myPRNG.random()
+# to get a random number between lwrBnd and upprBnd, use this:  myPRNG.uniform(lwrBnd,upprBnd)
+# to get a random integer between lwrBnd and upprBnd, use this: myPRNG.randint(lwrBnd,upprBnd)
 
 n = 150 # number of elements in a solution
 
@@ -80,12 +41,8 @@ for i in range(0, n):
 
 # define max weight for the knapsack
 maxWeight = 2500
-```
 
-# Key Functions
-> Functions to provide *initial solution*, create a *neighborhood* and *evaluate* better solutions
 
-```{python functions, echo=TRUE}
 # =============================================================================
 # EVALUATE FUNCTION - evaluate a solution x
 # =============================================================================
@@ -176,13 +133,13 @@ def initial_solution():
             knapsackSatisfiesWeight = True
 
     return x
-```
 
 
-\newpage
-
-# Question 2: Local Search with Best Improvement
-```{python hillClimbBestImprove, echo=TRUE}
+"""
+===============================================================================
+Question 2 - Hill Climbing with Best Improvement
+===============================================================================
+"""
 
 ## GET INITIAL SOLUTION -------------------------------------------------------
 
@@ -231,60 +188,3 @@ print("\nFinal number of solutions checked: ", solutionsChecked, '\n',
       "Weight is: ", f_best[1], '\n',
       "Total number of items selected: ", np.sum(x_best), '\n\n',
       "Best solution: ", x_best)
-```
-
-
-\newpage
-
-# Question 3: Local Search with First Improvement
-```{python hillClimbFirstImprove, echo=TRUE}
-## GET INITIAL SOLUTION -------------------------------------------------------
-
-# variable to record the number of solutions evaluated
-solutionsChecked = 0
-
-x_curr = initial_solution()  # x_curr will hold the current solution
-x_best = x_curr[:]  # x_best will hold the best solution
-
-r = randIdx = myPRNG.randint(0,n-1) # a random index
-
-# f_curr will hold the evaluation of the current soluton
-f_curr = evaluate(x_curr, r)
-f_best = f_curr[:]
-
-
-## BEGIN LOCAL SEARCH LOGIC ---------------------------------------------------
-done = 0
-
-while done == 0:
-
-    # create a list of all neighbors in the neighborhood of x_curr
-    Neighborhood = neighborhood(x_curr)
-
-    for s in Neighborhood:  # evaluate every member in the neighborhood of x_curr
-        solutionsChecked = solutionsChecked + 1
-        if evaluate(s, r)[0] > f_best[0]:
-            
-            # find the best member and keep track of that solution
-            x_best = s[:]
-            f_best = evaluate(s, r)[:]  # and store its evaluation
-            
-            break # >> Exit loop << (first accept change from best acceptance)
-
-    # Checks for platueau and feasibility
-    if f_best == f_curr and (f_curr[1] < maxWeight):  # if there were no improving solutions in the neighborhood
-        done = 1
-    
-    else:
-        x_curr = x_best[:]  # else: move to the neighbor solution and continue
-        f_curr = f_best[:]  # evalute the current solution
-
-        print("\nTotal number of solutions checked: ", solutionsChecked)
-        print("Best value found so far: ", f_best)
-
-print("\nFinal number of solutions checked: ", solutionsChecked, '\n',
-      "Best value found: ", f_best[0], '\n',
-      "Weight is: ", f_best[1], '\n',
-      "Total number of items selected: ", np.sum(x_best), '\n\n',
-      "Best solution: ", x_best)
-```
