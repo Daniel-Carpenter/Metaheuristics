@@ -1,27 +1,26 @@
-# basic hill climbing search provided as base code for the DSA/ISE 5113 course
-# author: Charles Nicholson
-# date revised: 3/26/2021
+"""
+Hill Climbing
 
-# NOTE: YOU MAY CHANGE ALMOST ANYTHING YOU LIKE IN THIS CODE.
-# However, I would like all students to have the same problem instance, therefore please do not change anything relating to:
+Student name: Daniel Carpenter & Kyle (Chris) Ferguson
+Date: April 2022
+"""
+
+# Do Not change:
 #   random number generator
 #   number of items (should be 150)
 #   random problem instance
 #   weight limit of the knapsack
 
-# ------------------------------------------------------------------------------
-
-# Student name: Daniel Carpenter & Kyle (Chris) Ferguson
-# Date: April 2022
-
+# =============================================================================
+# INPUTS - Do not change
+# =============================================================================
 
 # need some python libraries
 from random import Random  # need this for the random number generation -- do not change
 import numpy as np
 
 
-# to setup a random number generator, we will specify a "seed" value
-# need this for the random number generation -- do not change
+# Set the seet 
 seed = 51132021
 myPRNG = Random(seed)
 
@@ -29,8 +28,7 @@ myPRNG = Random(seed)
 # to get a random number between lwrBnd and upprBnd, use this:  myPRNG.uniform(lwrBnd,upprBnd)
 # to get a random integer between lwrBnd and upprBnd, use this: myPRNG.randint(lwrBnd,upprBnd)
 
-# number of elements in a solution
-n = 150
+n = 150 # number of elements in a solution
 
 # create an "instance" for the knapsack problem
 value = []
@@ -44,17 +42,15 @@ for i in range(0, n):
 # define max weight for the knapsack
 maxWeight = 2500
 
-# change anything you like below this line ------------------------------------
-# some of the provided functions are intetionally incomplete
-# also, you may wish to restructure the approach entirely -- this is NOT the world's best Python code
 
+# =============================================================================
+# EVALUATE FUNCTION - evaluate a solution x
+# =============================================================================
 
 # monitor the number of solutions evaluated
 solutionsChecked = 0
 
 # function to evaluate a solution x
-
-
 def evaluate(x, r):
 
     # r = -1
@@ -78,7 +74,10 @@ def evaluate(x, r):
     return [totalValue, totalWeight]
 
 
-# here is a simple function to create a neighborhood
+# =============================================================================
+# NEIGHBORHOOD FUNCTION - simple function to create a neighborhood
+# =============================================================================
+
 # 1-flip neighborhood of solution x
 def neighborhood(x):
 
@@ -97,7 +96,11 @@ def neighborhood(x):
     return nbrhood
 
 
-# create the initial solution
+# =============================================================================
+# INITIAL SOLUTION FUNCTION - create the initial solution
+# =============================================================================
+
+# create a feasible initial solution
 def initial_solution():
     
     # Start with nothing in the knapsack
@@ -113,7 +116,13 @@ def initial_solution():
     return x
 
 
-# varaible to record the number of solutions evaluated
+# =============================================================================
+# DRIVER - Create initial solution and begin local search
+# =============================================================================
+
+## GET INITIAL SOLUTION -------------------------------------------------------
+
+# variable to record the number of solutions evaluated
 solutionsChecked = 0
 
 x_curr = initial_solution()  # x_curr will hold the current solution
@@ -126,7 +135,7 @@ f_curr = evaluate(x_curr, r)
 f_best = f_curr[:]
 
 
-# begin local search overall logic ----------------
+## BEGIN LOCAL SEARCH LOGIC ---------------------------------------------------
 done = 0
 
 while done == 0:
@@ -139,17 +148,14 @@ while done == 0:
     for s in Neighborhood:  # evaluate every member in the neighborhood of x_curr
         solutionsChecked = solutionsChecked + 1
         if evaluate(s, r)[0] > f_best[0]:
+            
             # find the best member and keep track of that solution
             x_best = s[:]
             f_best = evaluate(s, r)[:]  # and store its evaluation
 
-
-    # -------------------------------------------------------------------------
-    # ADDED `and` the current solution must be less than the max weight 
+    # ADDED `and`: the current solution must be less than the max weight 
     if f_best == f_curr and (f_curr[1] < maxWeight):  # if there were no improving solutions in the neighborhood
         done = 1
-    # -------------------------------------------------------------------------
-    
     
     else:
         x_curr = x_best[:]  # else: move to the neighbor solution and continue
