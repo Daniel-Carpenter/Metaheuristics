@@ -426,7 +426,7 @@ def kRestartsHillClimbFirstAccept(k_restarts, numSolutionsToShow):
 ```
 
 ## 4.3 Call the function `kRestartsHillClimbFirstAccept()`
-> Call the funtion and show the first 2 solutions
+> Call the function and show the first 2 solutions
 
 ```{python, echo=TRUE}
 k_restarts         = 25 # Number of restarts
