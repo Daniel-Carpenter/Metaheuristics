@@ -7,11 +7,11 @@ output:
   pdf_document:
     toc: yes
     toc_depth: '2'
-  html_document:
-    theme: yeti
-    toc: yes
-    toc_float: yes
-    toc_depth: 2
+  # html_document:
+  #   theme: yeti
+  #   toc: yes
+  #   toc_float: yes
+  #   toc_depth: 2
 ---
 
 ```{r setup, include=FALSE}
@@ -41,8 +41,8 @@ knitr::opts_chunk$set(
 > Describe 3 neighborhood structure definitions that you think would work well for this problem. Compute the size of each neighborhood.
 
 1. Without any adjustment to the neighborhoods: For each neighborhood, there are 150 neighbors. Since the knapsack problem uses a $n$-dimensional binary vector, the total solution space is $2^n$, which is $2^{150}$
-2. ***`TODO`***
-3. ***`TODO`***
+2. Using [variable neighborhood search](https://en.wikipedia.org/wiki/Variable_neighborhood_search), the algorithm attempts to find a "global optimum", where it explores "distant" neighborhoods relative to the incumbent solution. Similar to other approaches, it will repeat until it finds a local optima. This approach may provide an enhancement since it will compare the incumbent solution to other solutions "far" from it, providing a better opportunity to finding the global maximum. *Metaheuristics—the metaphor exposed* by Kenneth Sorensen  provides an overview of this concept as well.
+3. Simulated annealing may also work well since it will analyze multiple items to be placed in the knapsack; however, some items may be chosen over others which could cause a local minimum to occur. See *Metaheuristics—the metaphor exposed* by Kenneth Sorensen page 7.
 
 ## (c) Infeasibility
 > During evaluation of a candidate solution, it may be discovered to be infeasible. In this case, provide 2 strategies for handling infeasible solutions:
