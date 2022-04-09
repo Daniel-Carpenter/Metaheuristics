@@ -15,7 +15,7 @@ Date: April 2022
 # INPUTS - Do not change
 # =============================================================================
 
-# need some python libraries
+# Import python libraries
 from random import Random  # need this for the random number generation -- do not change
 import numpy as np
 
@@ -53,21 +53,26 @@ solutionsChecked = 0
 # function to evaluate a solution x
 def evaluate(x, r):
 
-    # r = -1
+    itemInclusionList = np.array(x)
+    valueOfItems      = np.array(value)
+    weightOfItems     = np.array(weights)
 
-    a = np.array(x)
-    b = np.array(value)
-    c = np.array(weights)
+    totalValue  = np.dot(itemInclusionList, valueOfItems)   # compute the value of the knapsack selection
+    totalWeight = np.dot(itemInclusionList, weightOfItems)  # compute the weight value of the knapsack selection
 
-    totalValue  = np.dot(a, b)  # compute the value of the knapsack selection
-    totalWeight = np.dot(a, c)  # compute the weight value of the knapsack selection
-
-    # Recurision for handling infeasible solutions
+    # Handling infeasibility --------------------------------------------------
+    
+    # If the total weight exceeds the max allowable weight, then 
     if totalWeight > maxWeight:
-        x[r] = 0            # Don't include the index r from the knapsack
-        evaluate(x, r - 1)  # Try again on the next to last element
+        
+        # Randomly remove ann item. If not feasible, then try evaluating again until feasible
+        randIdx = myPRNG.randint(0,n-1) # generate random item index to remove
+        x[r] = 0                        # Don't include the index r from the knapsack
+        evaluate(x, r=randIdx)          # Try again on the next to last element
+        
     else: 
         # Finish the process if the total weight is satisfied
+        # (returns a list of both total value and total weight)
         return [totalValue, totalWeight]
         
     # returns a list of both total value and total weight
@@ -102,16 +107,30 @@ def neighborhood(x):
 
 # create a feasible initial solution
 def initial_solution():
+
+    x = [] # empty list for x to hold binary values indicating if item i is in knapsack
+
+    # Create a initial solution for knapsack (Could be infeasible), by 
+    # randomly create a list of binary values from 0 to n. 1 if item is in the knapsack
+    for item in range(0, n):
+        x.append(myPRNG.randint(0,1))
+        
+    totalWeight = np.dot(np.array(x), np.array(weights)) # Sumproduct of weights and is included
     
-    # Start with nothing in the knapsack
-    x = [0] * n  
+    
+    # While the bag is infeasible, randomly remove items from the bag.
+    # Stop once a feasible solution is found.
+    knapsackSatisfiesWeight = totalWeight <= maxWeight # True if the knapsack is a feasible solution, else false
 
-    # Random Initial Solution start - this works too, but less optimal:
-    # x = []  # i recommend creating the solution as a list
-
-    # # Randomly create a list of binary values from 0 to n    
-    # for i in range(0, n):
-    #     x.append(myPRNG.randint(0,1))
+    while not knapsackSatisfiesWeight:
+        
+        randIdx = myPRNG.randint(0,n-1) # Generate random index of item in knapsack and remove item
+        x[randIdx] = 0
+        
+        # If the knapsack is feasible, then stop the loop and go with the solution
+        totalWeight = np.dot(np.array(x), np.array(weights)) # Recalc. Sumproduct of weights and is included
+        if (totalWeight <= maxWeight):
+            knapsackSatisfiesWeight = True
 
     return x
 

@@ -103,20 +103,31 @@ def neighborhood(x):
 
 # create the initial solution
 def initial_solution():
-    x = [0] * n  # i recommend creating the solution as a list
 
-    # while evaluate(x)[1] <= maxWeight:
-    #     randIdx = myPRNG.randint(0,n-1)
+    x = [] # empty list for x to hold binary values indicating if item i is in knapsack
+
+    # Create a initial solution for knapsack (Could be infeasible), by 
+    # randomly create a list of binary values from 0 to n. 1 if item is in the knapsack
+    for item in range(0, n):
+        x.append(myPRNG.randint(0,1))
         
-    #     if (evaluate(x)[1] + weights[randIdx] <= maxWeight):
-    #         x[randIdx] = 1
+    totalWeight = np.dot(np.array(x), np.array(weights)) # Sumproduct of weights and is included
+    
+    
+    # While the bag is infeasible, randomly remove items from the bag.
+    # Stop once a feasible solution is found.
+    knapsackSatisfiesWeight = totalWeight <= maxWeight # True if the knapsack is a feasible solution, else false
+
+    while not knapsackSatisfiesWeight:
+        
+        randIdx = myPRNG.randint(0,n-1) # Generate random index of item in knapsack and remove item
+        x[randIdx] = 0
+        
+        # If the knapsack is feasible, then stop the loop and go with the solution
+        if (evaluate(x)[1] <= maxWeight):
+            knapsackSatisfiesWeight = True
 
     return x
-
-# x = initial_solution()
-# print(evaluate(x)[1])
-# print(len(x))
-# print(x)
     
 
 # varaible to record the number of solutions evaluated

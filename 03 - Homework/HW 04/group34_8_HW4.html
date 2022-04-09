@@ -255,46 +255,53 @@ div.tocify {
 <blockquote>
 <p>Define and defend a strategy for determining an initial solution to this knapsack problem for a neighborhood-based heuristic.</p>
 </blockquote>
-<p>We will choose to randomly generate a starting list of binary values for the knapsack problem. This solution will allows us to calculate a the the knapsack weight then begin comparing to other neighborhoods.</p>
+<ul>
+<li>Our algorithm for the <code>initial_solution()</code> function randomly generates a list of binary <span class="math inline">\(\in (0, 1)\)</span> values for the knapsack problem, <code>1</code> if an item is included in the knapsack and <code>0</code> if the item is excluded</li>
+<li>Since the solution could randomly generate an infeasible solution (i.e., the <code>totalWeight</code> <span class="math inline">\(\geq\)</span> <code>maxWeight</code>), the <code>initial_solution()</code> function handles it by randomly removing items from the knapsack until it is under the <code>maxWeight</code>.</li>
+<li>After the generation of the initial solution, the evaluate function searches for better solutions.</li>
+<li>We considered beginning with nothing in the knapsack (list of <code>0</code>’s from item <code>0</code> to <code>n</code>), but we researched and found that a common approach is to begin with a randomly generated solution.</li>
+</ul>
 </div>
 <div id="b-neighborhood-structures" class="section level2">
 <h2>(b) Neighborhood Structures</h2>
 <blockquote>
 <p>Describe 3 neighborhood structure definitions that you think would work well for this problem. Compute the size of each neighborhood.</p>
 </blockquote>
-<p>Without any adjustment to the neighborhoods: For each neighborhood, there are 150 neighbors. Since the knapsack problem uses a <span class="math inline">\(n\)</span>-dimensional binary vector, the total solution space is <span class="math inline">\(2^n\)</span>, which is <span class="math inline">\(2^{150}\)</span>, or:</p>
-<pre class="r"><code>paste(&#39;Total Solution space:&#39;, 2^150)</code></pre>
-<pre><code>## [1] &quot;Total Solution space: 1.42724769270596e+45&quot;</code></pre>
+<ol style="list-style-type: decimal">
+<li>Without any adjustment to the neighborhoods: For each neighborhood, there are 150 neighbors. Since the knapsack problem uses a <span class="math inline">\(n\)</span>-dimensional binary vector, the total solution space is <span class="math inline">\(2^n\)</span>, which is <span class="math inline">\(2^{150}\)</span></li>
+<li><strong><em><code>TODO</code></em></strong></li>
+<li><strong><em><code>TODO</code></em></strong></li>
+</ol>
 </div>
 <div id="c-infeasibility" class="section level2">
 <h2>(c) Infeasibility</h2>
 <blockquote>
 <p>During evaluation of a candidate solution, it may be discovered to be infeasible. In this case, provide 2 strategies for handling infeasible solutions:</p>
 </blockquote>
+<p>Note both approaches are similar:</p>
 <ol style="list-style-type: decimal">
-<li>If the solution is infeasible (i.e., the <span class="math inline">\(initial\_solution \geq maxWeight\)</span>), then we will iteratively remove values from the knapsack until the bag’s weight is less than the max allowable weight.</li>
-<li>???</li>
+<li><em>Chosen Method in model:</em> If the solution is infeasible (i.e., the <code>totalWeight</code> <span class="math inline">\(\geq\)</span> <code>maxWeight</code>), then we will <em>randomly</em> remove values from the knapsack until the bag’s weight is less than the max allowable weight.<br />
+</li>
+<li>If the solution is infeasible, then we will <em>iteratively</em> (from last item in list to beginning) remove values from the knapsack until the bag’s weight is less than the max allowable weight.</li>
 </ol>
+<hr />
+<p><br></p>
 </div>
 </div>
 <div id="global-variables" class="section level1">
 <h1>Global Variables</h1>
-<pre class="python"><code># need some python libraries
+<blockquote>
+<p>Input variables like the <em>random seed</em>, <em>values and weights</em> data for knapsack, and the <em>maximum allowable weight</em></p>
+</blockquote>
+<pre class="python"><code># Import python libraries
 from random import Random  # need this for the random number generation -- do not change
 import numpy as np
 
-
-# to setup a random number generator, we will specify a &quot;seed&quot; value
-# need this for the random number generation -- do not change
+# Set the seed
 seed = 51132021
 myPRNG = Random(seed)
 
-# to get a random number between 0 and 1, use this:             myPRNG.random()
-# to get a random number between lwrBnd and upprBnd, use this:  myPRNG.uniform(lwrBnd,upprBnd)
-# to get a random integer between lwrBnd and upprBnd, use this: myPRNG.randint(lwrBnd,upprBnd)
-
-# number of elements in a solution
-n = 150
+n = 150 # number of elements in a solution
 
 # create an &quot;instance&quot; for the knapsack problem
 value = []
@@ -307,33 +314,54 @@ for i in range(0, n):
 
 # define max weight for the knapsack
 maxWeight = 2500</code></pre>
+<hr />
+<p><br></p>
 </div>
-<div id="question-2-local-search-with-best-improvement" class="section level1">
-<h1>Question 2: Local Search with Best Improvement</h1>
-<pre class="python"><code># monitor the number of solutions evaluated
+<div id="key-functions" class="section level1">
+<h1>Key Functions</h1>
+<blockquote>
+<p>Functions to provide <em>initial solution</em>, create a <em>neighborhood</em> and <em>evaluate</em> better solutions</p>
+</blockquote>
+<pre class="python"><code># =============================================================================
+# EVALUATE FUNCTION - evaluate a solution x
+# =============================================================================
+
+# monitor the number of solutions evaluated
 solutionsChecked = 0
 
 # function to evaluate a solution x
+def evaluate(x, r):
 
+    itemInclusionList = np.array(x)
+    valueOfItems      = np.array(value)
+    weightOfItems     = np.array(weights)
 
-def evaluate(x):
+    totalValue  = np.dot(itemInclusionList, valueOfItems)   # compute the value of the knapsack selection
+    totalWeight = np.dot(itemInclusionList, weightOfItems)  # compute the weight value of the knapsack selection
 
-    a = np.array(x)
-    b = np.array(value)
-    c = np.array(weights)
-
-    totalValue = np.dot(a, b)  # compute the value of the knapsack selection
-    # compute the weight value of the knapsack selection
-    totalWeight = np.dot(a, c)
-
-    if totalWeight &gt; totalValue:
-        print(&quot;Infeasible. Need to define logic here to deal with infeasible solutions&quot;) # TODO
-
+    # Handling infeasibility --------------------------------------------------
+    
+    # If the total weight exceeds the max allowable weight, then 
+    if totalWeight &gt; maxWeight:
+        
+        # Randomly remove ann item. If not feasible, then try evaluating again until feasible
+        randIdx = myPRNG.randint(0,n-1) # generate random item index to remove
+        x[r] = 0                        # Don&#39;t include the index r from the knapsack
+        evaluate(x, r=randIdx)          # Try again on the next to last element
+        
+    else: 
+        # Finish the process if the total weight is satisfied
+        # (returns a list of both total value and total weight)
+        return [totalValue, totalWeight]
+        
     # returns a list of both total value and total weight
     return [totalValue, totalWeight]
 
 
-# here is a simple function to create a neighborhood
+# =============================================================================
+# NEIGHBORHOOD FUNCTION - simple function to create a neighborhood
+# =============================================================================
+
 # 1-flip neighborhood of solution x
 def neighborhood(x):
 
@@ -352,13 +380,43 @@ def neighborhood(x):
     return nbrhood
 
 
-# create the initial solution
+# =============================================================================
+# INITIAL SOLUTION FUNCTION - create the initial solution
+# =============================================================================
+
+# create a feasible initial solution
 def initial_solution():
-    x = []  # i recommend creating the solution as a list
-    # need logic here! # TODO
-    # https://towardsdatascience.com/how-to-implement-the-hill-climbing-algorithm-in-python-1c65c29469de
+
+    x = [] # empty list for x to hold binary values indicating if item i is in knapsack
+
+    # Create a initial solution for knapsack (Could be infeasible), by 
+    # randomly create a list of binary values from 0 to n. 1 if item is in the knapsack
+    for item in range(0, n):
+        x.append(myPRNG.randint(0,1))
+        
+    totalWeight = np.dot(np.array(x), np.array(weights)) # Sumproduct of weights and is included
+    
+    
+    # While the bag is infeasible, randomly remove items from the bag.
+    # Stop once a feasible solution is found.
+    knapsackSatisfiesWeight = totalWeight &lt;= maxWeight # True if the knapsack is a feasible solution, else false
+
+    while not knapsackSatisfiesWeight:
+        
+        randIdx = myPRNG.randint(0,n-1) # Generate random index of item in knapsack and remove item
+        x[randIdx] = 0
+        
+        # If the knapsack is feasible, then stop the loop and go with the solution
+        totalWeight = np.dot(np.array(x), np.array(weights)) # Recalc. Sumproduct of weights and is included
+        if (totalWeight &lt;= maxWeight):
+            knapsackSatisfiesWeight = True
 
     return x</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="question-2-local-search-with-best-improvement" class="section level1">
+<h1>Question 2: Local Search with Best Improvement</h1>
 </div>
 
 
