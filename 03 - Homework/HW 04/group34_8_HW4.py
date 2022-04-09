@@ -135,9 +135,11 @@ def initial_solution():
     return x
 
 
-# =============================================================================
-# DRIVER - Create initial solution and begin local search
-# =============================================================================
+"""
+===============================================================================
+Question 2 - Hill Climbing with Best Improvement
+===============================================================================
+"""
 
 ## GET INITIAL SOLUTION -------------------------------------------------------
 
@@ -158,8 +160,6 @@ f_best = f_curr[:]
 done = 0
 
 while done == 0:
-    # print('Best value: ',    f_best[0])
-    # print('Current value: ', f_curr[0])
 
     # create a list of all neighbors in the neighborhood of x_curr
     Neighborhood = neighborhood(x_curr)
@@ -172,7 +172,7 @@ while done == 0:
             x_best = s[:]
             f_best = evaluate(s, r)[:]  # and store its evaluation
 
-    # ADDED `and`: the current solution must be less than the max weight 
+    # Checks for platueau and feasibility
     if f_best == f_curr and (f_curr[1] < maxWeight):  # if there were no improving solutions in the neighborhood
         done = 1
     
@@ -183,8 +183,8 @@ while done == 0:
         print("\nTotal number of solutions checked: ", solutionsChecked)
         print("Best value found so far: ", f_best)
 
-print("\nFinal number of solutions checked: ", solutionsChecked)
-print("Best value found: ", f_best[0])
-print("Weight is: ", f_best[1])
-print("Total number of items selected: ", np.sum(x_best))
-print("Best solution: ", x_best)
+print("\nFinal number of solutions checked: ", solutionsChecked, '\n',
+      "Best value found: ", f_best[0], '\n',
+      "Weight is: ", f_best[1], '\n',
+      "Total number of items selected: ", np.sum(x_best), '\n\n',
+      "Best solution: ", x_best)

@@ -1,5 +1,6 @@
 ---
 title: "Homework 4"
+subtitle: 'Hill Climbing Methods'
 author: "Daniel Carpenter & Kyle (Chris) Ferguson"
 date: "April 2022"
 output:
@@ -11,7 +12,6 @@ output:
     toc: yes
     toc_float: yes
     toc_depth: 2
-subtitle: Hill Climbing Methods
 ---
 
 ```{r setup, include=FALSE}
@@ -19,7 +19,9 @@ knitr::opts_chunk$set(
 	echo = TRUE,
 	include = TRUE,
 	message = FALSE,
-	warning = FALSE
+	warning = FALSE,
+	tidy.opts=list(width.cutoff=60), 
+	tidy=TRUE
 )
 ```
 
@@ -176,3 +178,52 @@ def initial_solution():
 ```
 
 # Question 2: Local Search with Best Improvement
+```{python hillClimbBestImprove, echo=TRUE}
+## GET INITIAL SOLUTION -------------------------------------------------------
+
+# variable to record the number of solutions evaluated
+solutionsChecked = 0
+
+x_curr = initial_solution()  # x_curr will hold the current solution
+x_best = x_curr[:]  # x_best will hold the best solution
+
+r = -1 # last element in list
+
+# f_curr will hold the evaluation of the current soluton
+f_curr = evaluate(x_curr, r)
+f_best = f_curr[:]
+
+
+## BEGIN LOCAL SEARCH LOGIC ---------------------------------------------------
+done = 0
+
+while done == 0:
+
+    # create a list of all neighbors in the neighborhood of x_curr
+    Neighborhood = neighborhood(x_curr)
+
+    for s in Neighborhood:  # evaluate every member in the neighborhood of x_curr
+        solutionsChecked = solutionsChecked + 1
+        if evaluate(s, r)[0] > f_best[0]:
+            
+            # find the best member and keep track of that solution
+            x_best = s[:]
+            f_best = evaluate(s, r)[:]  # and store its evaluation
+
+    # Checks for platueau and feasibility
+    if f_best == f_curr and (f_curr[1] < maxWeight):  # if there were no improving solutions in the neighborhood
+        done = 1
+    
+    else:
+        x_curr = x_best[:]  # else: move to the neighbor solution and continue
+        f_curr = f_best[:]  # evalute the current solution
+
+        print("\nTotal number of solutions checked: ", solutionsChecked)
+        print("Best value found so far: ", f_best)
+
+print("\nFinal number of solutions checked: ", solutionsChecked, '\n',
+      "Best value found: ", f_best[0], '\n',
+      "Weight is: ", f_best[1], '\n',
+      "Total number of items selected: ", np.sum(x_best), '\n\n',
+      "Best solution: ", x_best)
+```
