@@ -137,56 +137,140 @@ def initial_solution():
 
 """
 ===============================================================================
-Question 3 - Hill Climbing with First Acceptance
+Question 4 - Hill Climbing Random Restarts using First Acceptance
 ===============================================================================
 """
 
-## GET INITIAL SOLUTION -------------------------------------------------------
+# =============================================================================
+# Function to generate a hill climb with random resets 
+# =============================================================================
 
-# variable to record the number of solutions evaluated
-solutionsChecked = 0
+# Returns a list of the best solution found:
+#   [0] totalValue:       Total value of the value bag
+#   [1] totalWeight:      Associated weight of the bag
+#   [2] solutionsChecked: Number of solutions checked
+#   [3] numberOfItems:    Total number of items packed
+#   [4] itemsPacked:      A list of the items packed
 
-x_curr = initial_solution()  # x_curr will hold the current solution
-x_best = x_curr[:]  # x_best will hold the best solution
+# The indices of the solutions returned from `hillClimbFirstAccept()` function
+VALUE_IDX      = 0 # The value index of the output to the hill climb function
+WEIGHT_IDX     = 1 # Weight of the solution
+SOL_CHCKED_IDX = 2 # The numner of solutions checked
+NUM_ITEMS_IDX  = 3 # The number of items in the solutions knapsack
+ITEMS_PCKD_IDX = 4 # List of the items packed
 
-r = randIdx = myPRNG.randint(0,n-1) # a random index
-
-# f_curr will hold the evaluation of the current soluton
-f_curr = evaluate(x_curr, r)
-f_best = f_curr[:]
-
-
-## BEGIN LOCAL SEARCH LOGIC ---------------------------------------------------
-done = 0
-
-while done == 0:
-
-    # create a list of all neighbors in the neighborhood of x_curr
-    Neighborhood = neighborhood(x_curr)
-
-    for s in Neighborhood:  # evaluate every member in the neighborhood of x_curr
-        solutionsChecked = solutionsChecked + 1
-        if evaluate(s, r)[0] > f_best[0]:
-            
-            # find the best member and keep track of that solution
-            x_best = s[:]
-            f_best = evaluate(s, r)[:]  # and store its evaluation
-            
-            break # >> Exit loop << (first accept change from best acceptance)
-
-    # Checks for platueau and feasibility
-    if f_best == f_curr and (f_curr[1] < maxWeight):  # if there were no improving solutions in the neighborhood
-        done = 1
+def hillClimbFirstAccept():
     
-    else:
-        x_curr = x_best[:]  # else: move to the neighbor solution and continue
-        f_curr = f_best[:]  # evalute the current solution
+    ## GET INITIAL SOLUTION -------------------------------------------------------
+    
+    # variable to record the number of solutions evaluated
+    solutionsChecked = 0
+    
+    x_curr = initial_solution()  # x_curr will hold the current solution
+    x_best = x_curr[:]  # x_best will hold the best solution
+    
+    r = randIdx = myPRNG.randint(0,n-1) # a random index
+    
+    # f_curr will hold the evaluation of the current soluton
+    f_curr = evaluate(x_curr, r)
+    f_best = f_curr[:]
+    
+    
+    ## BEGIN LOCAL SEARCH LOGIC ---------------------------------------------------
+    done = 0
+    
+    while done == 0:
+    
+        # create a list of all neighbors in the neighborhood of x_curr
+        Neighborhood = neighborhood(x_curr)
+    
+        for s in Neighborhood:  # evaluate every member in the neighborhood of x_curr
+            solutionsChecked = solutionsChecked + 1
+            if evaluate(s, r)[0] > f_best[0]:
+                
+                # find the best member and keep track of that solution
+                x_best = s[:]
+                f_best = evaluate(s, r)[:]  # and store its evaluation
+                
+                break # >> Exit loop << (first accept change from best acceptance)
+    
+        # Checks for platueau and feasibility
+        if f_best == f_curr and (f_curr[1] < maxWeight):  # if there were no improving solutions in the neighborhood
+            done = 1
+        
+        else:
+            x_curr = x_best[:]  # else: move to the neighbor solution and continue
+            f_curr = f_best[:]  # evalute the current solution
+    
+            # print("\nTotal number of solutions checked: ", solutionsChecked)
+            # print("Best value found so far: ", f_best)
+    
+    return [              # Return a list of important values:
+        f_best[0],        # totalValue
+        f_best[1],        # totalWeight
+        solutionsChecked, # solutionsChecked
+        np.sum(x_best),   # numberOfItems
+        x_best            # itemsPacked
+        ]
 
-        print("\nTotal number of solutions checked: ", solutionsChecked)
-        print("Best value found so far: ", f_best)
+        
+# =============================================================================
+# Function to do Hill Climbing with random restarts (using first acceptance)
+# =============================================================================
 
-print("\nFinal number of solutions checked: ", solutionsChecked, '\n',
-      "Best value found: ", f_best[0], '\n',
-      "Weight is: ", f_best[1], '\n',
-      "Total number of items selected: ", np.sum(x_best), '\n\n',
-      "Best solution: ", x_best)
+def kRestartsHillClimbFirstAccept(k_restarts, numSolutionsToShow):
+    
+    # List of the optimal solutions, including the returned output from the 
+    # `hillClimbFirstAccept()` function
+    optimalSolutions = [] 
+    bestIdx          = 0  # Stores the index of the best value
+    
+    # Iterate through k restarts of hill climbing with first accept
+    for theCurrentRestart in range(0, k_restarts):
+        optimalSolutions.append(hillClimbFirstAccept())
+        
+        # See the optimal value of the restart
+        # print('Sol. Idx: [%g]' % theCurrentRestart, '\tVal: %g' % 
+        #       optimalSolutions[theCurrentRestart][VALUE_IDX]) # Comment to hide best value from restart
+        
+        # Check to see if the current solution is better than the incumbant. 
+        if (theCurrentRestart != 0) and (  optimalSolutions[theCurrentRestart][VALUE_IDX] 
+                                         > optimalSolutions[bestIdx][VALUE_IDX]):
+            
+            # If this solution is better, then store it as the best index
+            bestIdx = theCurrentRestart
+            
+    
+    # Simple function to print a solution (from list idx) of restarted solutions
+    def printSolution(solutionIdx):
+        
+        # Print the output
+        print('Solution Index: ', solutionIdx, '\n',
+              'Solution value:',  optimalSolutions[solutionIdx][VALUE_IDX], '\n',
+              'Solution weight:', optimalSolutions[solutionIdx][WEIGHT_IDX], '\n',
+              'Number of solutions checked:', optimalSolutions[solutionIdx][SOL_CHCKED_IDX], '\n',
+              'Number of items in bag:',   optimalSolutions[solutionIdx][NUM_ITEMS_IDX], '\n',
+              'List of items packed:',   optimalSolutions[solutionIdx][ITEMS_PCKD_IDX], '\n'
+              )
+        
+    
+    # RETRIEVE AND PRINT SOLUTIONS  -------------------------------------------
+        
+    # Print best solution
+    print('\n-------- THE *BEST* SOLUTION --------'), printSolution(bestIdx) 
+    
+    print('\n-------- %g Other Solutions --------\n' % numSolutionsToShow)
+    
+    # Print solutions (number to show defined in the function)
+    for solutionNum in range(0, numSolutionsToShow):
+        printSolution(solutionNum) # print another example
+        
+    # Return the best solution, best idx, and the list of restarted solutions
+    return [optimalSolutions[bestIdx][VALUE_IDX], bestIdx, optimalSolutions]
+    
+
+k_restarts         = 25 # Number of restarts
+numSolutionsToShow = 2  # Number of solutions to show. Could be the optimal FYI
+
+# Call function - Random restarts with *first* acceptance hill climbing
+kRestartsHillClimbFirstAccept(k_restarts, numSolutionsToShow)
