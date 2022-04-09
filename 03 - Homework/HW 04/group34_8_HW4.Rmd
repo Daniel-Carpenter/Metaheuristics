@@ -56,7 +56,8 @@ Note both approaches are similar:
 \newpage
 
 # Global Variables
-> Input variables like the *random seed*, *values and weights* data for knapsack, and the *maximum allowable weight* 
+> Input variables like the *random seed*, *values and weights* data for knapsack, and the *maximum allowable weight*   
+> Please assume these are referenced by following code chunks
 
 ```{python globals, echo=TRUE}
 # Import python libraries
@@ -83,7 +84,8 @@ maxWeight = 2500
 ```
 
 # Key Functions
-> Functions to provide *initial solution*, create a *neighborhood* and *evaluate* better solutions
+> Functions to provide *initial solution*, create a *neighborhood* and *evaluate* better solutions  
+> Please assume these are referenced by following code chunks  
 
 ```{python functions, echo=TRUE}
 # =============================================================================
@@ -434,4 +436,87 @@ numSolutionsToShow = 2  # Number of solutions to show. Could be the optimal FYI
 
 # Call function - Random restarts with *first* acceptance hill climbing
 kRestartsHillClimbFirstAccept(k_restarts, numSolutionsToShow)
+```
+
+
+
+\newpage
+
+# Question 5: Local Search with Random Walk
+
+## Function for HC w. Random Walk, using *Best Acceptance*
+
+> Function that performs hill climb with random walk, using best acceptance method.  
+> There is a probability of p to either hill climb or go on a random walk  
+> Binomial experiment chosen since it models a probability of success or failure,  
+> in this case a succuss is considered continuing to climb the hill and search   
+> for better solution. Failure is going on a random walk.  
+
+```{python, echo=TRUE}
+def hillClimbRandWalk(probOfClimb=0.50): # default probability 50%
+    
+    ## GET INITIAL SOLUTION -------------------------------------------------------
+    
+    # variable to record the number of solutions evaluated
+    solutionsChecked = 0
+    
+    x_curr = initial_solution()  # x_curr will hold the current solution
+    x_best = x_curr[:]  # x_best will hold the best solution
+    
+    r = randIdx = myPRNG.randint(0,n-1) # a random index
+    
+    # f_curr will hold the evaluation of the current soluton
+    f_curr = evaluate(x_curr, r)
+    f_best = f_curr[:]
+    
+    
+    ## BEGIN LOCAL SEARCH LOGIC ---------------------------------------------------
+    done = 0
+    
+    while done == 0:
+    
+        # create a list of all neighbors in the neighborhood of x_curr
+        Neighborhood = neighborhood(x_curr)
+    
+        for s in Neighborhood:  # evaluate every member in the neighborhood of x_curr
+            solutionsChecked = solutionsChecked + 1
+            if evaluate(s, r)[0] > f_best[0]:
+                
+                # find the best member and keep track of that solution
+                x_best = s[:]
+                f_best = evaluate(s, r)[:]  # and store its evaluation
+                
+        # Checks for platueau and feasibility
+        if f_best == f_curr and (f_curr[1] < maxWeight):  # if there were no improving solutions in the neighborhood
+                    
+            # 1 if take hill climb path, 0 if take random walk path
+            # Binomial chosen since gives result given probability of success
+            takeHillClimbPath = np.random.binomial(1, probOfClimb, 1) 
+    
+            # If the binomial experiment choses to take the hill clim path,
+            # then we know we are done. Else, choose a random neighbor
+            if takeHillClimbPath == 1:
+                done = 1
+            
+        
+        else:
+            x_curr = x_best[:]  # else: move to the neighbor solution and continue
+            f_curr = f_best[:]  # evalute the current solution
+    
+            # Commented out just to keep the output cleaner
+            # print("\nTotal number of solutions checked: ", solutionsChecked)
+            # print("Best value found so far: ", f_best)
+    
+    print("\nFinal number of solutions checked: ", solutionsChecked, '\n',
+          "Best value found: ", f_best[0], '\n',
+          "Weight is: ", f_best[1], '\n',
+          "Total number of items selected: ", np.sum(x_best), '\n\n',
+          "Best solution: ", x_best)
+```
+
+## Call the Function `hillClimbRandWalk()`
+> Call the function, given the probability to hill climb (rather than random walk)
+
+```{python, echo=TRUE}
+hillClimbRandWalk(probOfClimb=0.33)
 ```
