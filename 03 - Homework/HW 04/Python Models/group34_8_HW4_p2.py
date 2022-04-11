@@ -180,11 +180,14 @@ while done == 0:
         x_curr = x_best[:]  # else: move to the neighbor solution and continue
         f_curr = f_best[:]  # evalute the current solution
 
-        print("\nTotal number of solutions checked: ", solutionsChecked)
-        print("Best value found so far: ", f_best)
+        # print("\nTotal number of solutions checked: ", solutionsChecked)
+        # print("Best value found so far: ", f_best)
 
 print("\nFinal number of solutions checked: ", solutionsChecked, '\n',
       "Best value found: ", f_best[0], '\n',
       "Weight is: ", f_best[1], '\n',
       "Total number of items selected: ", np.sum(x_best), '\n\n',
       "Best solution: ", x_best)
+
+# for the summary output
+q2 = [solutionsChecked, np.sum(x_best), f_best[1], f_best[0]]

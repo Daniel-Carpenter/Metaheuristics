@@ -141,60 +141,75 @@ Question 5 - Hill Climbing w/Random Walk (with First Acceptance)
 ===============================================================================
 """
 
-## GET INITIAL SOLUTION -------------------------------------------------------
-
-# variable to record the number of solutions evaluated
-solutionsChecked = 0
-
-x_curr = initial_solution()  # x_curr will hold the current solution
-x_best = x_curr[:]  # x_best will hold the best solution
-
-r = randIdx = myPRNG.randint(0,n-1) # a random index
-
-# f_curr will hold the evaluation of the current soluton
-f_curr = evaluate(x_curr, r)
-f_best = f_curr[:]
-
-
-## BEGIN LOCAL SEARCH LOGIC ---------------------------------------------------
-done = 0
-prob = 0.5 #set a probability you want to use
-
-while done == 0:
-
-    # create a list of all neighbors in the neighborhood of x_curr
-    Neighborhood = neighborhood(x_curr)
-    test_prob = myPRNG.random() #chooses a random number between 0,1
+def hillClimbRandWalkFirstAccept(prob=0.50):
     
-    if test_prob >= prob: #if the random number is greater than the probability desired
-        x_curr = Neighborhood[myPRNG.randint(0,n-1)][:]
-        f_curr = evaluate(x_curr,r)
+    ## GET INITIAL SOLUTION -------------------------------------------------------
+    
+    # variable to record the number of solutions evaluated
+    solutionsChecked = 0
+    
+    x_curr = initial_solution()  # x_curr will hold the current solution
+    x_best = x_curr[:]  # x_best will hold the best solution
+    
+    r = randIdx = myPRNG.randint(0,n-1) # a random index
+    
+    # f_curr will hold the evaluation of the current soluton
+    f_curr = evaluate(x_curr, r)
+    f_best = f_curr[:]
+    
+    
+    ## BEGIN LOCAL SEARCH LOGIC ---------------------------------------------------
+    done = 0
+    
+    while done == 0:
+    
+        # create a list of all neighbors in the neighborhood of x_curr
+        Neighborhood = neighborhood(x_curr)
+        test_prob = myPRNG.random() #chooses a random number between 0,1
         
+        if test_prob >= prob: #if the random number is greater than the probability desired
+            x_curr = Neighborhood[myPRNG.randint(0,n-1)][:]
+            f_curr = evaluate(x_curr,r)
+            
+        
+        else:
+            for s in Neighborhood:  # evaluate every member in the neighborhood of x_curr
+                solutionsChecked = solutionsChecked + 1
+                if evaluate(s, r)[0] > f_best[0]:
     
-    else:
-        for s in Neighborhood:  # evaluate every member in the neighborhood of x_curr
-            solutionsChecked = solutionsChecked + 1
-            if evaluate(s, r)[0] > f_best[0]:
-
-                # find the best member and keep track of that solution
-                x_best = s[:]
-                f_best = evaluate(s, r)[:]  # and store its evaluation
-
-                break # >> Exit loop << (first accept change from best acceptance)
-
-    # Checks for platueau and feasibility
-    if f_best == f_curr and (f_curr[1] < maxWeight):  # if there were no improving solutions in the neighborhood
-        done = 1
+                    # find the best member and keep track of that solution
+                    x_best = s[:]
+                    f_best = evaluate(s, r)[:]  # and store its evaluation
     
-    else:
-        x_curr = x_best[:]  # else: move to the neighbor solution and continue
-        f_curr = f_best[:]  # evalute the current solution
+                    break # >> Exit loop << (first accept change from best acceptance)
+    
+        # Checks for platueau and feasibility
+        if f_best == f_curr and (f_curr[1] < maxWeight):  # if there were no improving solutions in the neighborhood
+            done = 1
+        
+        else:
+            x_curr = x_best[:]  # else: move to the neighbor solution and continue
+            f_curr = f_best[:]  # evalute the current solution
+    
+            # print("\nTotal number of solutions checked: ", solutionsChecked)
+            # print("Best value found so far: ", f_best)
+    
+    print("\nFinal number of solutions checked: ", solutionsChecked, '\n',
+          "Best value found: ", f_best[0], '\n',
+          "Weight is: ", f_best[1], '\n',
+          "Total number of items selected: ", np.sum(x_best), '\n\n',
+          "Best solution: ", x_best)
+    
+    # For printing final results
+    q5 = [solutionsChecked, np.sum(x_best), f_best[1], f_best[0]]
+    
 
-        print("\nTotal number of solutions checked: ", solutionsChecked)
-        print("Best value found so far: ", f_best)
+    return (q5)
 
-print("\nFinal number of solutions checked: ", solutionsChecked, '\n',
-      "Best value found: ", f_best[0], '\n',
-      "Weight is: ", f_best[1], '\n',
-      "Total number of items selected: ", np.sum(x_best), '\n\n',
-      "Best solution: ", x_best)
+# Call the function with two probs
+
+# Probability of 75%
+hillClimbRandWalkFirstAccept(prob=0.75)
+
+# Probability of 1%
+hillClimbRandWalkFirstAccept(prob=0.01)

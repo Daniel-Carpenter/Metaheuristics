@@ -43,16 +43,17 @@ knitr::opts_chunk$set(
 ## (b) Neighborhood Structures 
 > Describe 3 neighborhood structure definitions that you think would work well for this problem. Compute the size of each neighborhood.
 
-1. Without any adjustment to the neighborhoods: For each neighborhood, there are 150 neighbors. Since the knapsack problem uses a $n$-dimensional binary vector, the total solution space is $2^n$, which is $2^{150}$
-2. Using [variable neighborhood search](https://en.wikipedia.org/wiki/Variable_neighborhood_search), the algorithm attempts to find a "global optimum", where it explores "distant" neighborhoods relative to the incumbent solution. Similar to other approaches, it will repeat until it finds a local optima. This approach may provide an enhancement since it will compare the incumbent solution to other solutions "far" from it, providing a better opportunity to finding the global maximum. *Metaheuristics—the metaphor exposed* by Kenneth Sorensen  provides an overview of this concept as well.
-3. Simulated annealing may also work well since it will analyze multiple items to be placed in the knapsack; however, some items may be chosen over others which could cause a local minimum to occur. See *Metaheuristics—the metaphor exposed* by Kenneth Sorensen page 7.
+1. Using [variable neighborhood search](https://en.wikipedia.org/wiki/Variable_neighborhood_search), the algorithm attempts to find a "global optimum", where it explores "distant" neighborhoods relative to the incumbent solution. Similar to other approaches, it will repeat until it finds a local optima. This approach may provide an enhancement since it will compare the incumbent solution to other solutions "far" from it, providing a better opportunity to finding the global maximum. *Metaheuristics—the metaphor exposed* by Kenneth Sorensen  provides an overview of this concept as well.
+2. Simulated annealing may also work well since it will analyze multiple items to be placed in the knapsack; however, some items may be chosen over others which could cause a local minimum to occur. See *Metaheuristics—the metaphor exposed* by Kenneth Sorensen page 7.
+3. Lastly, the bee colony swarm algorithm could allow for a good approach when overcoming local optima. Since the method keeps track of solutions and allows for exploration of other solutions, it may allow a similar approach to how $k$ random restarts works.
+4. Without any adjustment to the neighborhoods: For each neighborhood, there are 150 neighbors. Since the knapsack problem uses a $n$-dimensional binary vector, the total solution space is $2^n$, which is $2^{150}$
 
 ## (c) Infeasibility
 > During evaluation of a candidate solution, it may be discovered to be infeasible. In this case, provide 2 strategies for handling infeasible solutions:
 
 Note both approaches are similar:  
 
-1. *Chosen Method in model:* If the solution is infeasible (i.e., the `totalWeight` $\geq$ `maxWeight`), then we will *randomly* remove values from the knapsack until the bag's weight is less than the max allowable weight.  
+1. *Chosen Method in model:* If the solution is infeasible (i.e., the `totalWeight` $\geq$ `maxWeight`), then we will *randomly* remove values from the knapsack until the bag's weight is less than the max allowable weight. The function then recursively reevaluates using the `evaluation()` function.  
 2. If the solution is infeasible, then we will *iteratively* (from last item in list to beginning) remove values from the knapsack until the bag's weight is less than the max allowable weight.
 
 \newpage
@@ -85,7 +86,7 @@ for i in range(0, n):
 maxWeight = 2500
 ```
 
-# Key Functions
+# Key Global Functions
 > Functions to provide *initial solution*, create a *neighborhood* and *evaluate* better solutions  
 > Please assume these are referenced by following code chunks  
 
@@ -440,18 +441,24 @@ def kRestartsHillClimbFirstAccept(k_restarts, numSolutionsToShow):
           ]
         
     # Return the best solution, best idx, and the list of restarted solutions
-    return q4
+    return (q4)
 ```
 
 ## 4.3 Call the function `kRestartsHillClimbFirstAccept()`
 > Call the function and show the first 2 solutions
+> Show output with two values of $k$ in inputs   
+
 
 ```{python, echo=TRUE}
-k_restarts         = 25 # Number of restarts
 numSolutionsToShow = 2  # Number of solutions to show. Could be the optimal FYI
 
 # Call function - Random restarts with *first* acceptance hill climbing
-q4 = kRestartsHillClimbFirstAccept(k_restarts, numSolutionsToShow)
+
+## Restart 10 times
+q4_1 = kRestartsHillClimbFirstAccept(k_restarts=10, numSolutionsToShow=2)
+
+## Restart 50 times
+q4_2 = kRestartsHillClimbFirstAccept(k_restarts=50, numSolutionsToShow=2)
 ```
 
 
@@ -460,85 +467,100 @@ q4 = kRestartsHillClimbFirstAccept(k_restarts, numSolutionsToShow)
 
 # Question 5: Local Search with Random Walk
 
-## HC w. Random Walk, using *First Acceptance*
+## 5.1 Function for HC w. Random Walk, using *First Acceptance*
 
 > Function that performs hill climb with random walk, using best acceptance method.  
 > There is a probability of $p$ to either hill climb or go on a random walk  
 
 ```{python, echo=TRUE}
-## GET INITIAL SOLUTION -------------------------------------------------------
-
-# variable to record the number of solutions evaluated
-solutionsChecked = 0
-
-x_curr = initial_solution()  # x_curr will hold the current solution
-x_best = x_curr[:]  # x_best will hold the best solution
-
-r = randIdx = myPRNG.randint(0,n-1) # a random index
-
-# f_curr will hold the evaluation of the current soluton
-f_curr = evaluate(x_curr, r)
-f_best = f_curr[:]
-
-
-## BEGIN LOCAL SEARCH LOGIC ---------------------------------------------------
-done = 0
-prob = 0.5 #set a probability you want to use
-
-while done == 0:
-
-    # create a list of all neighbors in the neighborhood of x_curr
-    Neighborhood = neighborhood(x_curr)
-    test_prob = myPRNG.random() #chooses a random number between 0,1
+def hillClimbRandWalkFirstAccept(prob=0.50):
     
-    if test_prob >= prob: #if the random number is greater than the probability desired
-        x_curr = Neighborhood[myPRNG.randint(0,n-1)][:]
-        f_curr = evaluate(x_curr,r)
+    ## GET INITIAL SOLUTION -------------------------------------------------------
+    
+    # variable to record the number of solutions evaluated
+    solutionsChecked = 0
+    
+    x_curr = initial_solution()  # x_curr will hold the current solution
+    x_best = x_curr[:]  # x_best will hold the best solution
+    
+    r = randIdx = myPRNG.randint(0,n-1) # a random index
+    
+    # f_curr will hold the evaluation of the current soluton
+    f_curr = evaluate(x_curr, r)
+    f_best = f_curr[:]
+    
+    
+    ## BEGIN LOCAL SEARCH LOGIC ---------------------------------------------------
+    done = 0
+    
+    while done == 0:
+    
+        # create a list of all neighbors in the neighborhood of x_curr
+        Neighborhood = neighborhood(x_curr)
+        test_prob = myPRNG.random() #chooses a random number between 0,1
         
+        if test_prob >= prob: #if the random number is greater than the probability desired
+            x_curr = Neighborhood[myPRNG.randint(0,n-1)][:]
+            f_curr = evaluate(x_curr,r)
+            
+        
+        else:
+            for s in Neighborhood:  # evaluate every member in the neighborhood of x_curr
+                solutionsChecked = solutionsChecked + 1
+                if evaluate(s, r)[0] > f_best[0]:
     
-    else:
-        for s in Neighborhood:  # evaluate every member in the neighborhood of x_curr
-            solutionsChecked = solutionsChecked + 1
-            if evaluate(s, r)[0] > f_best[0]:
-
-                # find the best member and keep track of that solution
-                x_best = s[:]
-                f_best = evaluate(s, r)[:]  # and store its evaluation
-
-                break # >> Exit loop << (first accept change from best acceptance)
-
-    # Checks for platueau and feasibility
-    if f_best == f_curr and (f_curr[1] < maxWeight):  # if there were no improving solutions in the neighborhood
-        done = 1
+                    # find the best member and keep track of that solution
+                    x_best = s[:]
+                    f_best = evaluate(s, r)[:]  # and store its evaluation
     
-    else:
-        x_curr = x_best[:]  # else: move to the neighbor solution and continue
-        f_curr = f_best[:]  # evalute the current solution
+                    break # >> Exit loop << (first accept change from best acceptance)
+    
+        # Checks for platueau and feasibility
+        if f_best == f_curr and (f_curr[1] < maxWeight):  # if there were no improving solutions in the neighborhood
+            done = 1
+        
+        else:
+            x_curr = x_best[:]  # else: move to the neighbor solution and continue
+            f_curr = f_best[:]  # evalute the current solution
+    
+            # print("\nTotal number of solutions checked: ", solutionsChecked)
+            # print("Best value found so far: ", f_best)
+    
+    print("\nFinal number of solutions checked: ", solutionsChecked, '\n',
+          "Best value found: ", f_best[0], '\n',
+          "Weight is: ", f_best[1], '\n',
+          "Total number of items selected: ", np.sum(x_best), '\n\n',
+          "Best solution: ", x_best)
+    
+    # For printing final results
+    q5 = [solutionsChecked, np.sum(x_best), f_best[1], f_best[0]]
+    
 
-        print("\nTotal number of solutions checked: ", solutionsChecked)
-        print("Best value found so far: ", f_best)
+    return (q5)
+```
 
-print("\nFinal number of solutions checked: ", solutionsChecked, '\n',
-      "Best value found: ", f_best[0], '\n',
-      "Weight is: ", f_best[1], '\n',
-      "Total number of items selected: ", np.sum(x_best), '\n\n',
-      "Best solution: ", x_best)
-      
-      
-q5 = [solutionsChecked, np.sum(x_best), f_best[1], f_best[0]]
+
+## 5.2 Call the function `hillClimbRandWalkFirstAccept()`
+> Show output with two values of $p$ in inputs   
+
+``` {python callFun, echo = TRUE}
+# Probability of 75%
+q5_1 = hillClimbRandWalkFirstAccept(prob=0.75)
+
+# Probability of 1%
+q5_2 = hillClimbRandWalkFirstAccept(prob=0.01)
 ```
 
 \newpage
 
 # Summary Output of each Model
 
-```{python eval=TRUE, include=FALSE}
-
+```{python outputList, eval=TRUE, include=FALSE}
 # Get the list of questions to send to R
-output = [q2, q3, q4, q5]
+output = [q2, q3, q4_1, q4_2, q5_1, q5_2]
 ```
 
-```{r eval=TRUE, message=FALSE, warning=FALSE, include=FALSE}
+```{r makeSummaryOut, eval=TRUE, message=FALSE, warning=FALSE, include=FALSE}
 library(reticulate)
 
 # Get the python question list from above
@@ -547,7 +569,7 @@ pyList <- py$output
 # Create empty data frame to append results to
 df <- data.frame()
 
-for (i in 1:4) {
+for (i in 1:length(pyList)) {
   newRow <- as.data.frame(pyList[i][1])
   colnames(newRow) <- c('Iterations', '# Items Selected', 'Weight', 'Objective')
   
@@ -557,12 +579,14 @@ for (i in 1:4) {
 
 rownames(df) <- c('Local Search with Best Improvement',
                   'Local Search with First Improvement',
-                  'Local Search with Random Restarts',
-                  'Local Search with Random Walk, using First Acceptence'
+                  'Local Search with Random Restarts (k=10)',
+                  'Local Search with Random Restarts (k=50)',
+                  'Local Search with Random Walk, using First Acceptence (p=0.75)',
+                  'Local Search with Random Walk, using First Acceptence (p=0.01)'
                   )
 ```
 
-```{r, echo=TRUE}
+```{r createSummaryOut, echo=TRUE}
 knitr::kable(df)
 ```
 

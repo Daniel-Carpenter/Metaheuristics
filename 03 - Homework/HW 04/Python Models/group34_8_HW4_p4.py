@@ -252,8 +252,8 @@ def kRestartsHillClimbFirstAccept(k_restarts, numSolutionsToShow):
               'Number of items in bag:',   optimalSolutions[solutionIdx][NUM_ITEMS_IDX], '\n',
               'List of items packed:',   optimalSolutions[solutionIdx][ITEMS_PCKD_IDX], '\n'
               )
-        
-    
+              
+          
     # RETRIEVE AND PRINT SOLUTIONS  -------------------------------------------
         
     # Print best solution
@@ -265,12 +265,21 @@ def kRestartsHillClimbFirstAccept(k_restarts, numSolutionsToShow):
     for solutionNum in range(0, numSolutionsToShow):
         printSolution(solutionNum) # print another example
         
+    # for the summary output
+    q4 = [optimalSolutions[bestIdx][SOL_CHCKED_IDX], 
+          optimalSolutions[bestIdx][NUM_ITEMS_IDX],
+          optimalSolutions[bestIdx][WEIGHT_IDX], 
+          optimalSolutions[bestIdx][VALUE_IDX]
+          ]
+        
     # Return the best solution, best idx, and the list of restarted solutions
-    return [optimalSolutions[bestIdx][VALUE_IDX], bestIdx, optimalSolutions]
+    return (q4)
     
 
-k_restarts         = 25 # Number of restarts
-numSolutionsToShow = 2  # Number of solutions to show. Could be the optimal FYI
-
 # Call function - Random restarts with *first* acceptance hill climbing
-kRestartsHillClimbFirstAccept(k_restarts, numSolutionsToShow)
+
+## restarts 10 times
+q4_1 = kRestartsHillClimbFirstAccept(k_restarts=10, numSolutionsToShow=2)
+
+## restarts 50 times
+q4_2 = kRestartsHillClimbFirstAccept(k_restarts=50, numSolutionsToShow=2)

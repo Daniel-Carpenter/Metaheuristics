@@ -190,3 +190,6 @@ print("\nFinal number of solutions checked: ", solutionsChecked, '\n',
       "Weight is: ", f_best[1], '\n',
       "Total number of items selected: ", np.sum(x_best), '\n\n',
       "Best solution: ", x_best)
+
+# for the summary output
+q3 = [solutionsChecked, np.sum(x_best), f_best[1], f_best[0]]
