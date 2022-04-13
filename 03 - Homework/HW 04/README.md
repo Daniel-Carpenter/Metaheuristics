@@ -1,72 +1,110 @@
----
-title: "Homework 4"
-subtitle: 'Hill Climbing Methods'
-author: "Daniel Carpenter & Kyle (Chris) Ferguson"
-date: "April 2022"
-output:
-  # pdf_document: 
-  #   toc: yes
-  #   toc_depth: 2
-  #   highlight: tango
-  # html_document:
-  #   theme: yeti
-  #   toc: yes
-  #   toc_float: yes
-  #   toc_depth: 2
-  github_document:
-    toc: yes
-    # number_sections: yes
-    toc_depth: 2
----
+Homework 4
+================
+Daniel Carpenter & Kyle (Chris) Ferguson
+April 2022
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-	echo = TRUE,
-	include = TRUE,
-	message = FALSE,
-	warning = FALSE,
-	tidy.opts=list(width.cutoff=60), 
-	tidy=TRUE
-)
-```
-
-\newpage
+-   [Question 1: Strategies](#question-1-strategies)
+    -   [(a) Initial Solution](#a-initial-solution)
+    -   [(b) Neighborhood Structures](#b-neighborhood-structures)
+    -   [(c) Infeasibility](#c-infeasibility)
+-   [Global Variables](#global-variables)
+-   [Key Global Functions](#key-global-functions)
+-   [Question 2: Local Search with Best
+    Improvement](#question-2-local-search-with-best-improvement)
+-   [Question 3: Local Search with First
+    Improvement](#question-3-local-search-with-first-improvement)
+-   [Question 4: Local Search with Random
+    Restarts](#question-4-local-search-with-random-restarts)
+    -   [4.1 Hill Climbing First Accept Function
+        `hillClimbFirstAccept()`](#41-hill-climbing-first-accept-function-hillclimbfirstaccept)
+    -   [4.2 Random Restarts Function
+        `kRestartsHillClimbFirstAccept()`](#42-random-restarts-function-krestartshillclimbfirstaccept)
+    -   [4.3 Call the function
+        `kRestartsHillClimbFirstAccept()`](#43-call-the-function-krestartshillclimbfirstaccept)
+-   [Question 5: Local Search with Random
+    Walk](#question-5-local-search-with-random-walk)
+    -   [5.1 Function for HC w. Random Walk, using *First
+        Acceptance*](#51-function-for-hc-w-random-walk-using-first-acceptance)
+    -   [5.2 Call the function
+        `hillClimbRandWalkFirstAccept()`](#52-call-the-function-hillclimbrandwalkfirstaccept)
+-   [Summary Output of each Model](#summary-output-of-each-model)
 
 > ***Please see the final page for the summary output.***
 
 # Question 1: Strategies
 
 ## (a) Initial Solution
-> Define and defend a strategy for determining an initial solution to this knapsack problem for a neighborhood-based heuristic.
 
-* Our algorithm for the `initial_solution()` function randomly generates a list of binary $\in (0, 1)$ values for the knapsack problem, `1` if an item is included in the knapsack and `0` if the item is excluded 
-* Since the solution could randomly generate an infeasible solution (i.e., the `totalWeight` $\geq$ `maxWeight`), the `initial_solution()` function handles it by randomly removing items from the knapsack until it is under the `maxWeight`.
-* After the generation of the initial solution, the evaluate function searches for better solutions.
-* We considered beginning with nothing in the knapsack (list of `0`'s from item `0` to `n`), but we researched and found that a common approach is to begin with a randomly generated solution.
+> Define and defend a strategy for determining an initial solution to
+> this knapsack problem for a neighborhood-based heuristic.
 
-## (b) Neighborhood Structures 
-> Describe 3 neighborhood structure definitions that you think would work well for this problem. Compute the size of each neighborhood.
+-   Our algorithm for the `initial_solution()` function randomly
+    generates a list of binary  ∈ (0, 1) values for the knapsack
+    problem, `1` if an item is included in the knapsack and `0` if the
+    item is excluded
+-   Since the solution could randomly generate an infeasible solution
+    (i.e., the `totalWeight` ≥ `maxWeight`), the `initial_solution()`
+    function handles it by randomly removing items from the knapsack
+    until it is under the `maxWeight`.
+-   After the generation of the initial solution, the evaluate function
+    searches for better solutions.
+-   We considered beginning with nothing in the knapsack (list of `0`’s
+    from item `0` to `n`), but we researched and found that a common
+    approach is to begin with a randomly generated solution.
 
-1. Using [variable neighborhood search](https://en.wikipedia.org/wiki/Variable_neighborhood_search), the algorithm attempts to find a "global optimum", where it explores "distant" neighborhoods relative to the incumbent solution. Similar to other approaches, it will repeat until it finds a local optima. This approach may provide an enhancement since it will compare the incumbent solution to other solutions "far" from it, providing a better opportunity to finding the global maximum. *Metaheuristics—the metaphor exposed* by Kenneth Sorensen  provides an overview of this concept as well.
-2. Simulated annealing may also work well since it will analyze multiple items to be placed in the knapsack; however, some items may be chosen over others which could cause a local minimum to occur. See *Metaheuristics—the metaphor exposed* by Kenneth Sorensen page 7.
-3. Lastly, the bee colony swarm algorithm could allow for a good approach when overcoming local optima. Since the method keeps track of solutions and allows for exploration of other solutions, it may allow a similar approach to how $k$ random restarts works.
-4. Without any adjustment to the neighborhoods: For each neighborhood, there are 150 neighbors. Since the knapsack problem uses a $n$-dimensional binary vector, the total solution space is $2^n$, which is $2^{150}$
+## (b) Neighborhood Structures
+
+> Describe 3 neighborhood structure definitions that you think would
+> work well for this problem. Compute the size of each neighborhood.
+
+1.  Using [variable neighborhood
+    search](https://en.wikipedia.org/wiki/Variable_neighborhood_search),
+    the algorithm attempts to find a “global optimum”, where it explores
+    “distant” neighborhoods relative to the incumbent solution. Similar
+    to other approaches, it will repeat until it finds a local optima.
+    This approach may provide an enhancement since it will compare the
+    incumbent solution to other solutions “far” from it, providing a
+    better opportunity to finding the global maximum.
+    *Metaheuristics—the metaphor exposed* by Kenneth Sorensen provides
+    an overview of this concept as well.
+2.  Simulated annealing may also work well since it will analyze
+    multiple items to be placed in the knapsack; however, some items may
+    be chosen over others which could cause a local minimum to occur.
+    See *Metaheuristics—the metaphor exposed* by Kenneth Sorensen
+    page 7.
+3.  Lastly, the bee colony swarm algorithm could allow for a good
+    approach when overcoming local optima. Since the method keeps track
+    of solutions and allows for exploration of other solutions, it may
+    allow a similar approach to how *k* random restarts works.
+4.  Without any adjustment to the neighborhoods: For each neighborhood,
+    there are 150 neighbors. Since the knapsack problem uses a
+    *n*-dimensional binary vector, the total solution space is
+    2<sup>*n*</sup>, which is 2<sup>150</sup>
 
 ## (c) Infeasibility
-> During evaluation of a candidate solution, it may be discovered to be infeasible. In this case, provide 2 strategies for handling infeasible solutions:
 
-Note both approaches are similar:  
+> During evaluation of a candidate solution, it may be discovered to be
+> infeasible. In this case, provide 2 strategies for handling infeasible
+> solutions:
 
-1. *Chosen Method in model:* If the solution is infeasible (i.e., the `totalWeight` $\geq$ `maxWeight`), then we will *randomly* remove values from the knapsack until the bag's weight is less than the max allowable weight. The function then recursively reevaluates using the `evaluation()` function.  
-2. If the solution is infeasible, then we will *iteratively* (from last item in list to beginning) remove values from the knapsack until the bag's weight is less than the max allowable weight.
+Note both approaches are similar:
 
-\newpage
+1.  *Chosen Method in model:* If the solution is infeasible (i.e., the
+    `totalWeight` ≥ `maxWeight`), then we will *randomly* remove values
+    from the knapsack until the bag’s weight is less than the max
+    allowable weight. The function then recursively reevaluates using
+    the `evaluation()` function.  
+2.  If the solution is infeasible, then we will *iteratively* (from last
+    item in list to beginning) remove values from the knapsack until the
+    bag’s weight is less than the max allowable weight.
 
 # Global Variables
-> Input variables like the *random seed*, *values and weights* data for knapsack, and the *maximum allowable weight*   
+
+> Input variables like the *random seed*, *values and weights* data for
+> knapsack, and the *maximum allowable weight*  
 > Please assume these are referenced by following code chunks
 
-```{python globals, echo=TRUE}
+``` python
 # Import python libraries
 from random import Random  # need this for the random number generation -- do not change
 import numpy as np
@@ -91,10 +129,12 @@ maxWeight = 2500
 ```
 
 # Key Global Functions
-> Functions to provide *initial solution*, create a *neighborhood* and *evaluate* better solutions  
-> Please assume these are referenced by following code chunks  
 
-```{python functions, echo=TRUE}
+> Functions to provide *initial solution*, create a *neighborhood* and
+> *evaluate* better solutions  
+> Please assume these are referenced by following code chunks
+
+``` python
 # =============================================================================
 # EVALUATE FUNCTION - evaluate a solution x
 # =============================================================================
@@ -187,12 +227,9 @@ def initial_solution():
     return x
 ```
 
-
-\newpage
-
 # Question 2: Local Search with Best Improvement
-```{python hillClimbBestImprove, echo=TRUE}
 
+``` python
 ## GET INITIAL SOLUTION -------------------------------------------------------
 
 # variable to record the number of solutions evaluated
@@ -242,14 +279,23 @@ print("\nFinal number of solutions checked: ", solutionsChecked, '\n',
       "Best solution: ", x_best)
       
 # for the summary output
+```
+
+    ## 
+    ## Final number of solutions checked:  11250 
+    ##  Best value found:  24760.699999999997 
+    ##  Weight is:  2427.6 
+    ##  Total number of items selected:  20 
+    ## 
+    ##  Best solution:  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1]
+
+``` python
 q2 = [solutionsChecked, np.sum(x_best), f_best[1], f_best[0]]
 ```
 
-
-\newpage
-
 # Question 3: Local Search with First Improvement
-```{python hillClimbFirstImprove, echo=TRUE}
+
+``` python
 ## GET INITIAL SOLUTION -------------------------------------------------------
 
 # variable to record the number of solutions evaluated
@@ -293,7 +339,25 @@ while done == 0:
 
         print("\nTotal number of solutions checked: ", solutionsChecked)
         print("Best value found so far: ", f_best)
+```
 
+    ## 
+    ## Total number of solutions checked:  1
+    ## Best value found so far:  [16370.1, 2484.5]
+    ## 
+    ## Total number of solutions checked:  4
+    ## Best value found so far:  [14764.6, 2378.2000000000003]
+    ## 
+    ## Total number of solutions checked:  5
+    ## Best value found so far:  [15264.9, 2432.8]
+    ## 
+    ## Total number of solutions checked:  9
+    ## Best value found so far:  [14243.6, 2460.2]
+    ## 
+    ## Total number of solutions checked:  14
+    ## Best value found so far:  [12617.800000000001, 2276.7]
+
+``` python
 print("\nFinal number of solutions checked: ", solutionsChecked, '\n',
       "Best value found: ", f_best[0], '\n',
       "Weight is: ", f_best[1], '\n',
@@ -301,20 +365,29 @@ print("\nFinal number of solutions checked: ", solutionsChecked, '\n',
       "Best solution: ", x_best)
       
 # for the summary output
-q3 = [solutionsChecked, np.sum(x_best), f_best[1], f_best[0]]
 ```
 
+    ## 
+    ## Final number of solutions checked:  17 
+    ##  Best value found:  12617.800000000001 
+    ##  Weight is:  2276.7 
+    ##  Total number of items selected:  15 
+    ## 
+    ##  Best solution:  [1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
 
-\newpage
+``` python
+q3 = [solutionsChecked, np.sum(x_best), f_best[1], f_best[0]]
+```
 
 # Question 4: Local Search with Random Restarts
 
 ## 4.1 Hill Climbing First Accept Function `hillClimbFirstAccept()`
-> Function that includes all of the hill climbing with *first acceptance* logic  
+
+> Function that includes all of the hill climbing with *first
+> acceptance* logic  
 > Returns a list of best solution found (see below for details of list)
 
-
-```{python, echo=TRUE}
+``` python
 # Returns a list of the best solution found:
 #   [0] totalValue:       Total value of the value bag
 #   [1] totalWeight:      Associated weight of the bag
@@ -386,10 +459,13 @@ def hillClimbFirstAccept():
 ```
 
 ## 4.2 Random Restarts Function `kRestartsHillClimbFirstAccept()`
-> Function that calls the first acceptance function and repeats `k` number of times  
-> Returns the best solution, best solution's index, and the list of restarted solutions
 
-```{python, echo=TRUE}
+> Function that calls the first acceptance function and repeats `k`
+> number of times  
+> Returns the best solution, best solution’s index, and the list of
+> restarted solutions
+
+``` python
 def kRestartsHillClimbFirstAccept(k_restarts, numSolutionsToShow):
     
     # List of the optimal solutions, including the returned output from the 
@@ -449,11 +525,11 @@ def kRestartsHillClimbFirstAccept(k_restarts, numSolutionsToShow):
 ```
 
 ## 4.3 Call the function `kRestartsHillClimbFirstAccept()`
-> Call the function and show the first 2 solutions
-> Show output with two values of $k$ in inputs   
 
+> Call the function and show the first 2 solutions Show output with two
+> values of *k* in inputs
 
-```{python, echo=TRUE}
+``` python
 numSolutionsToShow = 2  # Number of solutions to show. Could be the optimal FYI
 
 # Call function - Random restarts with *first* acceptance hill climbing
@@ -462,21 +538,74 @@ numSolutionsToShow = 2  # Number of solutions to show. Could be the optimal FYI
 q4_1 = kRestartsHillClimbFirstAccept(k_restarts=10, numSolutionsToShow=2)
 
 ## Restart 50 times
+```
+
+    ## 
+    ## -------- THE *BEST* SOLUTION --------
+    ## Solution Index:  2 
+    ##  Solution value: 16106.6 
+    ##  Solution weight: 2490.7000000000003 
+    ##  Number of solutions checked: 20 
+    ##  Number of items in bag: 21 
+    ##  List of items packed: [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] 
+    ## 
+    ## 
+    ## -------- 2 Other Solutions --------
+    ## 
+    ## Solution Index:  0 
+    ##  Solution value: 13006.8 
+    ##  Solution weight: 2449.8999999999996 
+    ##  Number of solutions checked: 208 
+    ##  Number of items in bag: 19 
+    ##  List of items packed: [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] 
+    ## 
+    ## Solution Index:  1 
+    ##  Solution value: 13627.5 
+    ##  Solution weight: 2381.0 
+    ##  Number of solutions checked: 7 
+    ##  Number of items in bag: 16 
+    ##  List of items packed: [1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+``` python
 q4_2 = kRestartsHillClimbFirstAccept(k_restarts=50, numSolutionsToShow=2)
 ```
 
-
-
-\newpage
+    ## 
+    ## -------- THE *BEST* SOLUTION --------
+    ## Solution Index:  9 
+    ##  Solution value: 19460.300000000003 
+    ##  Solution weight: 2438.7 
+    ##  Number of solutions checked: 14 
+    ##  Number of items in bag: 21 
+    ##  List of items packed: [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0] 
+    ## 
+    ## 
+    ## -------- 2 Other Solutions --------
+    ## 
+    ## Solution Index:  0 
+    ##  Solution value: 17700.2 
+    ##  Solution weight: 2499.2999999999997 
+    ##  Number of solutions checked: 1 
+    ##  Number of items in bag: 19 
+    ##  List of items packed: [0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] 
+    ## 
+    ## Solution Index:  1 
+    ##  Solution value: 18250.7 
+    ##  Solution weight: 2386.9 
+    ##  Number of solutions checked: 6 
+    ##  Number of items in bag: 20 
+    ##  List of items packed: [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 # Question 5: Local Search with Random Walk
 
 ## 5.1 Function for HC w. Random Walk, using *First Acceptance*
 
-> Function that performs hill climb with random walk, using best acceptance method.  
-> There is a probability of $p$ to either hill climb or go on a random walk  
+> Function that performs hill climb with random walk, using best
+> acceptance method.  
+> There is a probability of *p* to either hill climb or go on a random
+> walk
 
-```{python, echo=TRUE}
+``` python
 def hillClimbRandWalkFirstAccept(prob=0.50):
     
     ## GET INITIAL SOLUTION -------------------------------------------------------
@@ -543,28 +672,45 @@ def hillClimbRandWalkFirstAccept(prob=0.50):
     return (q5)
 ```
 
-
 ## 5.2 Call the function `hillClimbRandWalkFirstAccept()`
-> Show output with two values of $p$ in inputs   
 
-``` {python callFun, echo = TRUE}
+> Show output with two values of *p* in inputs
+
+``` python
 # Probability of 75%
 q5_1 = hillClimbRandWalkFirstAccept(prob=0.75)
 
 # Probability of 1%
+```
+
+    ## 
+    ## Final number of solutions checked:  578 
+    ##  Best value found:  12149.5 
+    ##  Weight is:  2351.5999999999995 
+    ##  Total number of items selected:  18 
+    ## 
+    ##  Best solution:  [1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+``` python
 q5_2 = hillClimbRandWalkFirstAccept(prob=0.01)
 ```
 
-\newpage
+    ## 
+    ## Final number of solutions checked:  33 
+    ##  Best value found:  14784.599999999999 
+    ##  Weight is:  2462.2999999999997 
+    ##  Total number of items selected:  19 
+    ## 
+    ##  Best solution:  [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1]
 
 # Summary Output of each Model
 
-```{python outputList, eval=TRUE, include=TRUE}
+``` python
 # Get the list of questions to send to R
 output = [q2, q3, q4_1, q4_2, q5_1, q5_2]
 ```
 
-```{r makeSummaryOut, eval=TRUE, message=FALSE, warning=FALSE, include=TRUE}
+``` r
 library(reticulate) # Package to convert Python to R / R to Python
 
 # >> Convert Python list to R list object <<
@@ -590,13 +736,15 @@ rownames(df) <- c('Local Search with Best Improvement',
                   )
 ```
 
-```{r createSummaryOut, echo=TRUE}
+``` r
 knitr::kable(df)
 ```
 
-
-
-
-
-
-
+|                                                                | Iterations | \# Items Selected | Weight | Objective |
+|:---------------------------------------------------------------|-----------:|------------------:|-------:|----------:|
+| Local Search with Best Improvement                             |      11250 |                20 | 2427.6 |   24760.7 |
+| Local Search with First Improvement                            |         17 |                15 | 2276.7 |   12617.8 |
+| Local Search with Random Restarts (k=10)                       |         20 |                21 | 2490.7 |   16106.6 |
+| Local Search with Random Restarts (k=50)                       |         14 |                21 | 2438.7 |   19460.3 |
+| Local Search with Random Walk, using First Acceptence (p=0.75) |        578 |                18 | 2351.6 |   12149.5 |
+| Local Search with Random Walk, using First Acceptence (p=0.01) |         33 |                19 | 2462.3 |   14784.6 |
