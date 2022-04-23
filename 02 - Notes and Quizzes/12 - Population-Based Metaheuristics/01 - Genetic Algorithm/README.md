@@ -90,7 +90,7 @@
     <img src = 'Images/tourney.png' width = 300> <br>
 * `Breed` parents to form `offspring`  
     - Given a `crossover probability`  
-    - Simple approach: randomly divide parents (`n`-bit string) into   two and swap latter halves
+    - Simple approach: randomly divide parents (`n`-bit string) into   two and swap latter halves  
     <img src = 'Images/crossover.png' width = 300> <br>
     - Could be more complex (multiple divisions, etc.)  
     - Should be feasible  
