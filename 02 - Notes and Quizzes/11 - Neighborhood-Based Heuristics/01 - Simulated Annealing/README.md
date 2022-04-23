@@ -36,12 +36,12 @@
 <br>
 
 ### Pseudo-Code
-<img src = 'Images/alg1.png'> <br>
-<img src = 'Images/alg2.png'> <br>
+<img src = 'Images/alg1.png' width = 700> <br>
+<img src = 'Images/alg2.png' width = 700> <br>
 
 ---
 <br>
 
 ## The Terminology: SA analogous to Thermodynamics
-<img src = 'Images/term.png' width = 550> <br>
+<img src = 'Images/term.png'  width = 550> <br>
 <img src = 'Images/term1.png' width = 550> <br>
