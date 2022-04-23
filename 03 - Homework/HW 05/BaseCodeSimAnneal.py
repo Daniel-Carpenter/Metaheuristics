@@ -175,25 +175,28 @@ x_curr = initial_solution()  # x_curr will hold the current solution
 f_curr = evaluate(x_curr) # f_curr holds the evaluation of the current soluton
 
 # Inputs for simmulated Annealing
-TOTAL_ITERS  = 100
+# TOTAL_ITERS  = 100
 INITIAL_TEMP = 1000 # TODO
 ACCEPTANCE_THRESHOLD = 5
 METHOD_CHOSEN = 'Caunchy'
+ITERS_WO_ACCEPT_THRESHOLD = 100000
 
 ## BEGIN LOCAL SEARCH LOGIC ---------------------------------------------------
 
 k_iter = 0 # Track the total iterations
+stoppingCriterionMet = False # Flag if the stopping criterion has been met or not. ends loop
 
 # Do not stop the procedure until the stoppping criterion is met
-while not stopTheProcedure(k_iter, TOTAL_ITERS): 
+while not stoppingCriterionMet: 
     
     # Create a list of all neighbors in the neighborhood of x_curr
     Neighborhood = neighborhood(x_curr)
     
     m_iter = 0 # Track the iterations at each temperature
-    numSolutionsAccepted = 0 # keep track of number of solutions accepted
+    numSolutionsAccepted = 0 # keep track of number of solutions accepted at this temp
+    numSolutionsNotAccepted = 0 # keep track of number of solutions accepted at this temp
     
-    while numSolutionsAccepted < ACCEPTANCE_THRESHOLD: # must search m times at each temp
+    while (numSolutionsAccepted < ACCEPTANCE_THRESHOLD) or not stoppingCriterionMet: # must search m times at each temp
         solutionsChecked += 1 # Notate another solution checked
 
         # Randomly select solution from neighbor of current solution
@@ -223,10 +226,16 @@ while not stopTheProcedure(k_iter, TOTAL_ITERS):
                 and f_randSolution[WEIGHT_IDX] <= maxWeight):  # and is feasible
                 x_curr = x_randSolution[:] # Store it as the current solution
                 f_curr = f_randSolution[:]
+            numSolutionsNotAccepted += 1
+            
+        
+        if (numSolutionsNotAccepted == ITERS_WO_ACCEPT_THRESHOLD):
+            stoppingCriterionMet = True
                 
         m_iter += 1 # Increment the iterations at a given temperature
     k_iter += 1 # Increment the total iterations 
                 
+print ('num not accepted:', numSolutionsNotAccepted)
     
 # Output of the solution ------------------------------------------------------
 valueOfBestBag     = f_curr[VALUE_IDX]
