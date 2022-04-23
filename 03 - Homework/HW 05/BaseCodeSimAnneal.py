@@ -156,8 +156,46 @@ f_curr = evaluate(x_curr, r)
 f_best = f_curr[:]
 
 
+# Inputs for simmulated Annealing
+k = 0 # TODO REMOVE
+
+TOTAL_ITERS  = 1000
+INITIAL_TEMP = 100 # TODO
+NUM_ITERS_AT_EACH_TEMP = 5
+
+# Stopping criterion
+def stopTheProcedure(k, TOTAL_ITERS):
+    return k == TOTAL_ITERS # stop if the iteration are greater than the max iters to perform
+
+# The cooling Schedule for the Caunchy method
+def caunchyCoolSchedule(INITIAL_TEMP , k):
+    # Calculuate and return the schedule output (t_k)
+    t_k = INITIAL_TEMP / (1 + k)               
+    return(t_k) 
+
+# The cooling Schedule for the Boltzmannmethod
+def boltzmannCoolSchedule(INITIAL_TEMP , k):
+    # Calculuate and return the schedule output (t_k)
+    t_k = INITIAL_TEMP / np.log(1 + k)               
+    return(t_k) 
+
+# General function that takes in a cooling schedule and calculates t[k] 
+# meant for ease of changing the cooling schedule
+def coolingSchedule(scheduleFunction, INITIAL_TEMP , k):
+    return(scheduleFunction(INITIAL_TEMP , k))
+
+
+# Logic for search
+solutionsDelta = 1000000 # TODO
+runifProb = myPRNG.uniform(0,1) # uniform from 0 to 1
+t_k = coolingSchedule(boltzmannCoolSchedule, INITIAL_TEMP , k)
+ # 
+if (runifProb <= np.exp(1)**(-solutionsDelta / t_k)):
+    print('current <- s') # TODO
+
 ## BEGIN LOCAL SEARCH LOGIC ---------------------------------------------------
 done = 0
+
 
 while done == 0:
 
