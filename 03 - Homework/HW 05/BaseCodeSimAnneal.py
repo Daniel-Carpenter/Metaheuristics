@@ -51,7 +51,7 @@ maxWeight = 2500
 solutionsChecked = 0
 
 # function to evaluate a solution x
-def evaluate(x, r):
+def evaluate(x, r=myPRNG.randint(0,n-1)):
 
     itemInclusionList = np.array(x)
     valueOfItems      = np.array(value)
@@ -141,28 +141,6 @@ Question 1 - Simulated Annealing
 ===============================================================================
 """
 
-## GET INITIAL SOLUTION -------------------------------------------------------
-
-# variable to record the number of solutions evaluated
-solutionsChecked = 0
-
-x_curr = initial_solution()  # x_curr will hold the current solution
-x_best = x_curr[:]  # x_best will hold the best solution
-
-r = randIdx = myPRNG.randint(0,n-1) # a random index for evaluation
-
-# f_curr will hold the evaluation of the current soluton
-f_curr = evaluate(x_curr, r)
-f_best = f_curr[:]
-
-
-# Inputs for simmulated Annealing
-k = 0 # TODO REMOVE
-
-TOTAL_ITERS  = 1000
-INITIAL_TEMP = 100 # TODO
-NUM_ITERS_AT_EACH_TEMP = 5
-
 # Stopping criterion
 def stopTheProcedure(k, TOTAL_ITERS):
     return k == TOTAL_ITERS # stop if the iteration are greater than the max iters to perform
@@ -185,47 +163,75 @@ def coolingSchedule(scheduleFunction, INITIAL_TEMP , k):
     return(scheduleFunction(INITIAL_TEMP , k))
 
 
-# Logic for search
-solutionsDelta = 1000000 # TODO
-runifProb = myPRNG.uniform(0,1) # uniform from 0 to 1
-t_k = coolingSchedule(boltzmannCoolSchedule, INITIAL_TEMP , k)
- # 
-if (runifProb <= np.exp(1)**(-solutionsDelta / t_k)):
-    print('current <- s') # TODO
+## GET INITIAL SOLUTION -------------------------------------------------------
+
+solutionsChecked = 0 # Keep track of the number of solutions checked
+
+x_curr = initial_solution()  # x_curr will hold the current solution
+f_curr = evaluate(x_curr) # f_curr holds the evaluation of the current soluton
+
+# Inputs for simmulated Annealing
+TOTAL_ITERS  = 100
+INITIAL_TEMP = 1000 # TODO
+ACCEPTANCE_THRESHOLD = 5
+
 
 ## BEGIN LOCAL SEARCH LOGIC ---------------------------------------------------
-done = 0
 
+VALUE_IDX  = 0
+WEIGHT_IDX = 1
 
-while done == 0:
+k_iter = 0 # Track the total iterations
 
+# do not stop the procedure until the stoppping criterion is met
+while not stopTheProcedure(k_iter, TOTAL_ITERS): 
+    
     # create a list of all neighbors in the neighborhood of x_curr
     Neighborhood = neighborhood(x_curr)
-
-    for s in Neighborhood:  # evaluate every member in the neighborhood of x_curr
-        solutionsChecked = solutionsChecked + 1
-        if evaluate(s, r)[0] > f_best[0]:
-            
-            # find the best member and keep track of that solution
-            x_best = s[:]
-            f_best = evaluate(s, r)[:]  # and store its evaluation
-
-    # Checks for platueau and feasibility
-    if f_best == f_curr and (f_curr[1] < maxWeight):  # if there were no improving solutions in the neighborhood
-        done = 1
     
-    else:
-        x_curr = x_best[:]  # else: move to the neighbor solution and continue
-        f_curr = f_best[:]  # evalute the current solution
+    m_iter = 0 # Track the iterations at each temperature
+    numSolutionsAccepted = 0 # keep track of number of solutions accepted
+    
+    while m_iter < ACCEPTANCE_THRESHOLD: # must search m times at each temp
+        solutionsChecked += 1 # Notate another solution checked
 
-        # print("\nTotal number of solutions checked: ", solutionsChecked)
-        # print("Best value found so far: ", f_best)
+        # Randomly select solution from neighbor of current solution
+        x_randSolution = Neighborhood[myPRNG.randint(0,n-1)] 
+        f_randSolution = evaluate(x_randSolution) # Evalute the solution
+        
+        
+        # CHECK TO SEE IF RANDOM SOLUTION IS BETTER THAN CURRENT --------------
+        
+        # If the random solution knapsack value is better and is feasible...
+        if (f_randSolution[VALUE_IDX] > f_curr[VALUE_IDX] and f_randSolution[WEIGHT_IDX] <= maxWeight):  
+            x_curr = x_randSolution[:] # Store it as the current solution
+            f_curr = f_randSolution[:]
+            numSolutionsAccepted += 1  # Notate that we accepted a solution at this temp
+
+        # EVEN THOUGH RANDOM SOLUTION WAS WORSE, ACCEPT IT WITH RANDOM PROB ---
+        else:
+            # difference between the random and current solution
+            solutionsDelta = f_randSolution[VALUE_IDX] - f_curr[VALUE_IDX] 
+            
+            # Using the given cooling schedule (boltzmann), update the temperature given iteration num
+            t_k = coolingSchedule(boltzmannCoolSchedule, INITIAL_TEMP , k_iter) 
+            runifProb = myPRNG.uniform(0,1) # With a uniform probability (from 0 to 1)...
+            
+            # Decide whether to choose the worse solution with random uniform prob 
+            if (runifProb <= np.exp(1)**(-solutionsDelta / t_k) 
+                and f_randSolution[WEIGHT_IDX] <= maxWeight):  # and is feasible
+                x_curr = x_randSolution[:] # Store it as the current solution
+                f_curr = f_randSolution[:]
+                
+        m_iter += 1 # increment the iterations at a given temperature
+    k_iter += 1 # increment the total iterations 
+                
 
 print("\nFinal number of solutions checked: ", solutionsChecked, '\n',
-      "Best value found: ", f_best[0], '\n',
-      "Weight is: ", f_best[1], '\n',
-      "Total number of items selected: ", np.sum(x_best), '\n\n',
-      "Best solution: ", x_best)
+      "Best value found: ", f_curr[VALUE_IDX], '\n',
+      "Weight is: ", f_curr[WEIGHT_IDX], '\n',
+      "Total number of items selected: ", np.sum(x_curr), '\n\n',
+      "Best solution: ", x_curr)
 
 # for the summary output
 # q2 = [solutionsChecked, np.sum(x_best), f_best[1], f_best[0]]
