@@ -48,3 +48,66 @@
 <img src = 'Images/term.png'  width = 550> <br>
 <img src = 'Images/term1.png' width = 550> <br>
 ***Above is the formula within `thermodynamics`. Do not use for SA!***
+
+---
+<br>
+<br>
+
+# Practical Implentation of SA - Overview  
+> Most methods below are subjective, but that is common in metaheuristics  
+
+1 - How to set the initial Temperature `T`?  
+2 - How to Set the Cooling Schedule?  
+3 - How Long Should be spent at each Temperature `M[k]`  
+4 - When do you stop the cooling schedule?  
+
+---
+<br>
+
+## Oveview of Implenting SA
+
+### `Adapative` vs. `Static` Approach:
+1. Could Have a static, predefined schedule
+2. Adapaptive
+
+### Conceptual Approach to `Cooling Schedules`:
+1. Do you want ***high*** number of iterations `k` at each temperature, with ***fewer*** temperatures `M[k]`
+1. Do you want ***low*** number of iterations `k` at each temperature, with ***more*** temperatures `M[k]`
+
+---
+<br>
+
+## 1 - How to `Set the initial Temperature` `T`?
+> Set to high value (subjective)
+
+### Ways to Set Initial Temperature:
+1. Make the first solutions very random so that the last solution is independent of the starting one
+2. Heating Algorithm: % of accepted moves relative to total moves reaches a set ratio
+
+---
+<br>
+
+## 2 - How to `Set the Cooling Schedule`?
+
+### Algorithm Options for Cooling Schedules:
+1. <img src = 'Images/cool.png'  width = 200> <- (*Most Common*)<br>
+1. <img src = 'Images/cool1.png'  width = 550> <br>
+
+---
+<br>
+
+## 3 - How Long Should be spent at each Temperature `M[k]`
+> Should depend on the size of the neighborhood and solution space  
+
+### Possible Approaches
+1. Generally increase `M[k]` as the temperature `T` decreases
+2. Accept a certain number of moves before moving to next temperature `T`
+
+---
+<br>
+
+## 4 - When to `Stop the procedure`
+> Highly subjective - depends on your data  
+
+<img src = 'Images/stop.png'  width = 550> <br>
+
