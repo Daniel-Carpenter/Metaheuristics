@@ -167,121 +167,94 @@ def coolingSchedule(scheduleFunction, INITIAL_TEMP , k):
     return(scheduleFunction(INITIAL_TEMP , k))
 
 
-# =============================================================================
-# SIMULATED ANNEALING ALGORITHM
-# =============================================================================
+## GET INITIAL SOLUTION -------------------------------------------------------
 
-def simAnnealKnapsack(TOTAL_ITERS, INITIAL_TEMP, ACCEPTANCE_THRESHOLD, COOLING_METHOD, METHOD_CHOSEN):
+solutionsChecked = 0 # Keep track of the number of solutions checked
+
+x_curr = initial_solution()  # x_curr will hold the current solution
+f_curr = evaluate(x_curr) # f_curr holds the evaluation of the current soluton
+
+# Inputs for simmulated Annealing
+# TOTAL_ITERS  = 100
+INITIAL_TEMP = 1000 # TODO
+ACCEPTANCE_THRESHOLD = 5
+METHOD_CHOSEN = 'Caunchy'
+ITERS_WO_ACCEPT_THRESHOLD = 100000
+
+## BEGIN LOCAL SEARCH LOGIC ---------------------------------------------------
+
+k_iter = 0 # Track the total iterations
+stoppingCriterionMet = False # Flag if the stopping criterion has been met or not. ends loop
+
+# Do not stop the procedure until the stoppping criterion is met
+while not stoppingCriterionMet: 
     
+    # Create a list of all neighbors in the neighborhood of x_curr
+    Neighborhood = neighborhood(x_curr)
     
-    ## GET INITIAL SOLUTION -------------------------------------------------------
+    m_iter = 0 # Track the iterations at each temperature
+    numSolutionsAccepted = 0 # keep track of number of solutions accepted at this temp
+    numSolutionsNotAccepted = 0 # keep track of number of solutions accepted at this temp
     
-    solutionsChecked = 0 # Keep track of the number of solutions checked
-    
-    x_curr = initial_solution()  # x_curr will hold the current solution
-    f_curr = evaluate(x_curr) # f_curr holds the evaluation of the current soluton
-    
-    ## BEGIN LOCAL SEARCH LOGIC ---------------------------------------------------
-    
-    k_iter = 0 # Track the total iterations
-    
-    # Do not stop the procedure until the stoppping criterion is met
-    while not stopTheProcedure(k_iter, TOTAL_ITERS): 
+    while (numSolutionsAccepted < ACCEPTANCE_THRESHOLD) or not stoppingCriterionMet: # must search m times at each temp
+        solutionsChecked += 1 # Notate another solution checked
+
+        # Randomly select solution from neighbor of current solution
+        x_randSolution = Neighborhood[myPRNG.randint(0,n-1)] 
+        f_randSolution = evaluate(x_randSolution) # Evalute the solution
         
-        # Create a list of all neighbors in the neighborhood of x_curr
-        Neighborhood = neighborhood(x_curr)
         
-        m_iter = 0 # Track the iterations at each temperature
-        numSolutionsAccepted = 0 # keep track of number of solutions accepted
+        # CHECK TO SEE IF RANDOM SOLUTION IS BETTER THAN CURRENT --------------
         
-        while numSolutionsAccepted < ACCEPTANCE_THRESHOLD: # must search m times at each temp
-            solutionsChecked += 1 # Notate another solution checked
-    
-            # Randomly select solution from neighbor of current solution
-            x_randSolution = Neighborhood[myPRNG.randint(0,n-1)] 
-            f_randSolution = evaluate(x_randSolution) # Evalute the solution
+        # If the random solution knapsack value is better and is feasible...
+        if (f_randSolution[VALUE_IDX] > f_curr[VALUE_IDX] and f_randSolution[WEIGHT_IDX] <= maxWeight):  
+            x_curr = x_randSolution[:] # Store it as the current solution
+            f_curr = f_randSolution[:]
+            numSolutionsAccepted += 1  # Notate that we accepted a solution at this temp
+
+        # EVEN THOUGH RANDOM SOLUTION WAS WORSE, ACCEPT IT WITH RANDOM PROB ---
+        else:
+            # difference between the random and current solution
+            solutionsDelta = f_randSolution[VALUE_IDX] - f_curr[VALUE_IDX] 
             
+            # Using the given cooling schedule (boltzmann), update the temperature given iteration num
+            t_k = coolingSchedule(boltzmannCoolSchedule, INITIAL_TEMP , k_iter) 
+            runifProb = myPRNG.uniform(0,1) # With a uniform probability (from 0 to 1)...
             
-            # CHECK TO SEE IF RANDOM SOLUTION IS BETTER THAN CURRENT --------------
-            
-            # If the random solution knapsack value is better and is feasible...
-            if (f_randSolution[VALUE_IDX] > f_curr[VALUE_IDX] and f_randSolution[WEIGHT_IDX] <= maxWeight):  
+            # Decide whether to choose the worse solution with random uniform prob 
+            if (runifProb <= np.exp(1)**(-solutionsDelta / t_k) 
+                and f_randSolution[WEIGHT_IDX] <= maxWeight):  # and is feasible
                 x_curr = x_randSolution[:] # Store it as the current solution
                 f_curr = f_randSolution[:]
-                numSolutionsAccepted += 1  # Notate that we accepted a solution at this temp
-    
-            # EVEN THOUGH RANDOM SOLUTION WAS WORSE, ACCEPT IT WITH RANDOM PROB ---
-            else:
-                # difference between the random and current solution
-                solutionsDelta = f_randSolution[VALUE_IDX] - f_curr[VALUE_IDX] 
-                
-                # Using the given cooling schedule (boltzmann), update the temperature given iteration num
-                t_k = coolingSchedule(COOLING_METHOD, INITIAL_TEMP , k_iter) 
-                runifProb = myPRNG.uniform(0,1) # With a uniform probability (from 0 to 1)...
-                
-                # Decide whether to choose the worse solution with random uniform prob 
-                if (runifProb <= np.exp(1)**(-solutionsDelta / t_k) 
-                    and f_randSolution[WEIGHT_IDX] <= maxWeight):  # and is feasible
-                    x_curr = x_randSolution[:] # Store it as the current solution
-                    f_curr = f_randSolution[:]
-                    
-            m_iter += 1 # Increment the iterations at a given temperature
-        k_iter += 1 # Increment the total iterations 
-                    
+            numSolutionsNotAccepted += 1
+            
         
-    # Output of the solution ------------------------------------------------------
-    valueOfBestBag     = f_curr[VALUE_IDX]
-    weightOfBestBag    = f_curr[WEIGHT_IDX]
-    numItemsSelected   = np.sum(x_curr)
-    selectedItemsInBag = x_curr[:]
+        if (numSolutionsNotAccepted == ITERS_WO_ACCEPT_THRESHOLD):
+            stoppingCriterionMet = True
+                
+        m_iter += 1 # Increment the iterations at a given temperature
+    k_iter += 1 # Increment the total iterations 
+                
+print ('num not accepted:', numSolutionsNotAccepted)
     
-    # Output a list for the summary output
-    solution = [INITIAL_TEMP, METHOD_CHOSEN, ACCEPTANCE_THRESHOLD, k_iter, 
-                solutionsChecked, numItemsSelected, weightOfBestBag, valueOfBestBag]
-    
-    print('\n\n--------- SOLUTION OVERVIEW ---------\n\n',
-          'Initial Temp t[0]:',          solution[0], '\n',
-          'Method t[k]:',                solution[1], '\n', 
-          'Acceptance Threshold M[k]: ', solution[2], '\n', 
-          '# Temps. Checked:',           solution[3], '\n', 
-          '# Iters:',                    solution[4], '\n', 
-          '# Items:',                    solution[5], '\n', 
-          'Weight of Bag:',              solution[6], '\n', 
-          'Value of Bag:',               solution[7], '\n',
-          '\n------------------------------------'
-          )
-    
-    return (solution)
+# Output of the solution ------------------------------------------------------
+valueOfBestBag     = f_curr[VALUE_IDX]
+weightOfBestBag    = f_curr[WEIGHT_IDX]
+numItemsSelected   = np.sum(x_curr)
+selectedItemsInBag = x_curr[:]
 
+# Output a list for the summary output
+solution = [INITIAL_TEMP, METHOD_CHOSEN, ACCEPTANCE_THRESHOLD, k_iter, 
+            solutionsChecked, numItemsSelected, weightOfBestBag, valueOfBestBag]
 
-# Call the algorithm given inputs (for Caunchy Method)
-call1 = simAnnealKnapsack(TOTAL_ITERS          = 100, 
-                          INITIAL_TEMP         = 1000, 
-                          ACCEPTANCE_THRESHOLD = 10, 
-                          COOLING_METHOD       = caunchyCoolSchedule, 
-                          METHOD_CHOSEN        = 'Caunchy'
-                          )
-
-# Call the algorithm given inputs (for Caunchy Method)
-call2 = simAnnealKnapsack(TOTAL_ITERS          = 200, 
-                          INITIAL_TEMP         = 500, 
-                          ACCEPTANCE_THRESHOLD = 5, 
-                          COOLING_METHOD       = caunchyCoolSchedule, 
-                          METHOD_CHOSEN        = 'Caunchy'
-                          )
-
-# Call the algorithm given inputs (for Caunchy Method)
-call3 = simAnnealKnapsack(TOTAL_ITERS          = 100, 
-                          INITIAL_TEMP         = 1000, 
-                          ACCEPTANCE_THRESHOLD = 10, 
-                          COOLING_METHOD       = caunchyCoolSchedule, 
-                          METHOD_CHOSEN        = 'Caunchy'
-                          )
-
-# Call the algorithm given inputs (for Caunchy Method)
-call4 = simAnnealKnapsack(TOTAL_ITERS          = 150, 
-                          INITIAL_TEMP         = 750, 
-                          ACCEPTANCE_THRESHOLD = 20, 
-                          COOLING_METHOD       = boltzmannCoolSchedule, 
-                          METHOD_CHOSEN        = 'Boltzmann'
-                          )
+print('\n\n--------- SOLUTION OVERVIEW ---------\n\n',
+      'Initial Temp t[0]:',          solution[0], '\n',
+      'Method t[k]:',                solution[1], '\n', 
+      'Acceptance Threshold M[k]: ', solution[2], '\n', 
+      '# Temps. Checked:',           solution[3], '\n', 
+      '# Iters:',                    solution[4], '\n', 
+      '# Items:',                    solution[5], '\n', 
+      'Weight of Bag:',              solution[6], '\n', 
+      'Value of Bag:',               solution[7], '\n',
+      '\n------------------------------------'
+      )
