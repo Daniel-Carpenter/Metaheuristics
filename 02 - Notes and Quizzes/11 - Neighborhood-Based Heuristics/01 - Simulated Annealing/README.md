@@ -21,9 +21,9 @@
 
 ### Controlling Bad Moves: Less bad as iterations increase:
 <img src = 'Images/probOfBadMove1.png' width = 400> <br>
-<img src = 'Images/probOfBadMove.png' width = 250> <br>
-<img src = 'Images/probOfBadMove2.png' width = 400> <br>
-<img src = 'Images/probOfBadMove3.png' width = 400> <br>
+<img src = 'Images/probOfBadMove.png'  width = 250> <br>
+<img src = 'Images/probOfBadMove2.png' width = 550> <br>
+<img src = 'Images/probOfBadMove3.png' width = 550> <br>
 
 ---
 <br>
@@ -36,8 +36,8 @@
 <br>
 
 ### Pseudo-Code
-<img src = 'Images/alg1.png' width = 550> <br>
-<img src = 'Images/alg2.png' width = 550> <br>
+<img src = 'Images/alg1.png'> <br>
+<img src = 'Images/alg2.png'> <br>
 
 ---
 <br>
