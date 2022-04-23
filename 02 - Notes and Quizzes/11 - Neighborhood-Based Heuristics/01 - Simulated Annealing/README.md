@@ -21,7 +21,9 @@
 
 ### Controlling Bad Moves: Less bad as iterations increase:
 <img src = 'Images/probOfBadMove1.png' width = 400> <br>
-<img src = 'Images/probOfBadMove.png'  width = 250> <br>
+<img src = 'Images/probOfBadMove.png'  width = 250>  
+*`T` is the temperature. Decrease the temperature on a schedule dependant on increased iterations*  
+*Above assumes minimization. Change to `f(s[2]) - f(s[1])` for **max**, since current solution needs to be more.*  <br>  
 <img src = 'Images/probOfBadMove2.png' width = 550> <br>
 <img src = 'Images/probOfBadMove3.png' width = 550> <br>
 
@@ -45,3 +47,4 @@
 ## The Terminology: SA analogous to Thermodynamics
 <img src = 'Images/term.png'  width = 550> <br>
 <img src = 'Images/term1.png' width = 550> <br>
+***Above is the formula within `thermodynamics`. Do not use for SA!***
