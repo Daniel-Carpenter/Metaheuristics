@@ -1,133 +1,193 @@
-#basic hill climbing search provided as base code for the DSA/ISE 5113 course
-#author: Charles Nicholson
-#date revised: 3/26/2021
+"""
+Simulated Annealing
 
-#NOTE: YOU MAY CHANGE ALMOST ANYTHING YOU LIKE IN THIS CODE.  
-#However, I would like all students to have the same problem instance, therefore please do not change anything relating to:
+Student name: Daniel Carpenter
+Date: April 2022
+"""
+
+# Do Not change:
 #   random number generator
 #   number of items (should be 150)
 #   random problem instance
 #   weight limit of the knapsack
 
-#------------------------------------------------------------------------------
+# =============================================================================
+# INPUTS - Do not change
+# =============================================================================
 
-#Student name:
-#Date: 
-
-
-#need some python libraries
-from random import Random   #need this for the random number generation -- do not change
+# Import python libraries
+from random import Random  # need this for the random number generation -- do not change
 import numpy as np
 
 
-#to setup a random number generator, we will specify a "seed" value
-#need this for the random number generation -- do not change
+# Set the seet 
 seed = 51132021
 myPRNG = Random(seed)
 
-#to get a random number between 0 and 1, use this:             myPRNG.random()
-#to get a random number between lwrBnd and upprBnd, use this:  myPRNG.uniform(lwrBnd,upprBnd)
-#to get a random integer between lwrBnd and upprBnd, use this: myPRNG.randint(lwrBnd,upprBnd)
+# to get a random number between 0 and 1, use this:             myPRNG.random()
+# to get a random number between lwrBnd and upprBnd, use this:  myPRNG.uniform(lwrBnd,upprBnd)
+# to get a random integer between lwrBnd and upprBnd, use this: myPRNG.randint(lwrBnd,upprBnd)
 
-#number of elements in a solution
-n = 150
+n = 150 # number of elements in a solution
 
-#create an "instance" for the knapsack problem
+# create an "instance" for the knapsack problem
 value = []
-for i in range(0,n):
-    value.append(round(myPRNG.triangular(150,2000,500),1))
-    
+for i in range(0, n):
+    value.append(round(myPRNG.triangular(150, 2000, 500), 1))
+
 weights = []
-for i in range(0,n):
-    weights.append(round(myPRNG.triangular(8,300,95),1))
-    
-#define max weight for the knapsack
+for i in range(0, n):
+    weights.append(round(myPRNG.triangular(8, 300, 95), 1))
+
+# define max weight for the knapsack
 maxWeight = 2500
 
-#change anything you like below this line ------------------------------------
-#some of the provided functions are intetionally incomplete
-#also, you may wish to restructure the approach entirely -- this is NOT the world's best Python code
 
+# =============================================================================
+# EVALUATE FUNCTION - evaluate a solution x
+# =============================================================================
 
-#monitor the number of solutions evaluated
+# monitor the number of solutions evaluated
 solutionsChecked = 0
 
-#function to evaluate a solution x
-def evaluate(x):
-          
-    a=np.array(x)
-    b=np.array(value)
-    c=np.array(weights)
+# function to evaluate a solution x
+def evaluate(x, r):
+
+    itemInclusionList = np.array(x)
+    valueOfItems      = np.array(value)
+    weightOfItems     = np.array(weights)
+
+    totalValue  = np.dot(itemInclusionList, valueOfItems)   # compute the value of the knapsack selection
+    totalWeight = np.dot(itemInclusionList, weightOfItems)  # compute the weight value of the knapsack selection
+
+    # Handling infeasibility --------------------------------------------------
     
-    totalValue = np.dot(a,b)     #compute the value of the knapsack selection
-    totalWeight = np.dot(a,c)    #compute the weight value of the knapsack selection
-    
-    return [totalValue, totalWeight]   #returns a list of both total value and total weight
-          
-       
-#here is a simple function to create a neighborhood
-#1-flip neighborhood of solution x         
-def neighborhood(x):
+    # If the total weight exceeds the max allowable weight, then 
+    if totalWeight > maxWeight:
         
-    nbrhood = []     
-    
-    for i in range(0,n):
+        # Randomly remove ann item. If not feasible, then try evaluating again until feasible
+        randIdx = myPRNG.randint(0,n-1) # generate random item index to remove
+        x[r] = 0                        # Don't include the index r from the knapsack
+        evaluate(x, r=randIdx)          # Try again on the next to last element
+        
+    else: 
+        # Finish the process if the total weight is satisfied
+        # (returns a list of both total value and total weight)
+        return [totalValue, totalWeight]
+        
+    # returns a list of both total value and total weight
+    return [totalValue, totalWeight]
+
+
+# =============================================================================
+# NEIGHBORHOOD FUNCTION - simple function to create a neighborhood
+# =============================================================================
+
+# 1-flip neighborhood of solution x
+def neighborhood(x):
+
+    nbrhood = [] 
+
+    # Set up n number of neighbors with list of lists
+    for i in range(0, n):
         nbrhood.append(x[:])
+        
+        # Flip the neighbor from 0 to 1 or 1 to 0
         if nbrhood[i][i] == 1:
             nbrhood[i][i] = 0
         else:
             nbrhood[i][i] = 1
-      
+
     return nbrhood
-          
 
 
-#create the initial solution
+# =============================================================================
+# INITIAL SOLUTION FUNCTION - create the initial solution
+# =============================================================================
+
+# create a feasible initial solution
 def initial_solution():
-    x = []   #i recommend creating the solution as a list
-    
-    #need logic here!
+
+    x = [] # empty list for x to hold binary values indicating if item i is in knapsack
+
+    # Create a initial solution for knapsack (Could be infeasible), by 
+    # randomly create a list of binary values from 0 to n. 1 if item is in the knapsack
+    for item in range(0, n):
+        x.append(myPRNG.randint(0,1))
         
+    totalWeight = np.dot(np.array(x), np.array(weights)) # Sumproduct of weights and is included
+    
+    
+    # While the bag is infeasible, randomly remove items from the bag.
+    # Stop once a feasible solution is found.
+    knapsackSatisfiesWeight = totalWeight <= maxWeight # True if the knapsack is a feasible solution, else false
+
+    while not knapsackSatisfiesWeight:
+        
+        randIdx = myPRNG.randint(0,n-1) # Generate random index of item in knapsack and remove item
+        x[randIdx] = 0
+        
+        # If the knapsack is feasible, then stop the loop and go with the solution
+        totalWeight = np.dot(np.array(x), np.array(weights)) # Recalc. Sumproduct of weights and is included
+        if (totalWeight <= maxWeight):
+            knapsackSatisfiesWeight = True
+
     return x
 
 
+"""
+===============================================================================
+Question 1 - Simulated Annealing
+===============================================================================
+"""
 
+## GET INITIAL SOLUTION -------------------------------------------------------
 
-#varaible to record the number of solutions evaluated
+# variable to record the number of solutions evaluated
 solutionsChecked = 0
 
-x_curr = initial_solution()  #x_curr will hold the current solution 
-x_best = x_curr[:]           #x_best will hold the best solution 
-f_curr = evaluate(x_curr)    #f_curr will hold the evaluation of the current soluton 
+x_curr = initial_solution()  # x_curr will hold the current solution
+x_best = x_curr[:]  # x_best will hold the best solution
+
+r = randIdx = myPRNG.randint(0,n-1) # a random index for evaluation
+
+# f_curr will hold the evaluation of the current soluton
+f_curr = evaluate(x_curr, r)
 f_best = f_curr[:]
 
 
-
-#begin local search overall logic ----------------
+## BEGIN LOCAL SEARCH LOGIC ---------------------------------------------------
 done = 0
-    
+
 while done == 0:
-            
-    Neighborhood = neighborhood(x_curr)   #create a list of all neighbors in the neighborhood of x_curr
-    
-    for s in Neighborhood:                #evaluate every member in the neighborhood of x_curr
+
+    # create a list of all neighbors in the neighborhood of x_curr
+    Neighborhood = neighborhood(x_curr)
+
+    for s in Neighborhood:  # evaluate every member in the neighborhood of x_curr
         solutionsChecked = solutionsChecked + 1
-        if evaluate(s)[0] > f_best[0]:   
-            x_best = s[:]                 #find the best member and keep track of that solution
-            f_best = evaluate(s)[:]       #and store its evaluation  
-    
-    if f_best == f_curr:               #if there were no improving solutions in the neighborhood
+        if evaluate(s, r)[0] > f_best[0]:
+            
+            # find the best member and keep track of that solution
+            x_best = s[:]
+            f_best = evaluate(s, r)[:]  # and store its evaluation
+
+    # Checks for platueau and feasibility
+    if f_best == f_curr and (f_curr[1] < maxWeight):  # if there were no improving solutions in the neighborhood
         done = 1
-    else:
-        
-        x_curr = x_best[:]         #else: move to the neighbor solution and continue
-        f_curr = f_best[:]         #evalute the current solution
-        
-        print ("\nTotal number of solutions checked: ", solutionsChecked)
-        print ("Best value found so far: ", f_best)        
     
-print ("\nFinal number of solutions checked: ", solutionsChecked)
-print ("Best value found: ", f_best[0])
-print ("Weight is: ", f_best[1])
-print ("Total number of items selected: ", np.sum(x_best))
-print ("Best solution: ", x_best)
+    else:
+        x_curr = x_best[:]  # else: move to the neighbor solution and continue
+        f_curr = f_best[:]  # evalute the current solution
+
+        # print("\nTotal number of solutions checked: ", solutionsChecked)
+        # print("Best value found so far: ", f_best)
+
+print("\nFinal number of solutions checked: ", solutionsChecked, '\n',
+      "Best value found: ", f_best[0], '\n',
+      "Weight is: ", f_best[1], '\n',
+      "Total number of items selected: ", np.sum(x_best), '\n\n',
+      "Best solution: ", x_best)
+
+# for the summary output
+# q2 = [solutionsChecked, np.sum(x_best), f_best[1], f_best[0]]
