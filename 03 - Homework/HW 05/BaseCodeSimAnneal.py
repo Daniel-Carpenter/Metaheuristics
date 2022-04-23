@@ -274,8 +274,8 @@ call2 = simAnnealKnapsack(TOTAL_ITERS          = 200,
 call3 = simAnnealKnapsack(TOTAL_ITERS          = 100, 
                           INITIAL_TEMP         = 1000, 
                           ACCEPTANCE_THRESHOLD = 10, 
-                          COOLING_METHOD       = caunchyCoolSchedule, 
-                          METHOD_CHOSEN        = 'Caunchy'
+                          COOLING_METHOD       = boltzmannCoolSchedule, 
+                          METHOD_CHOSEN        = 'Boltzmann'
                           )
 
 # Call the algorithm given inputs (for Caunchy Method)
