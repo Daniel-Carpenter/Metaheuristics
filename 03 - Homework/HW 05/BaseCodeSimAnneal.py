@@ -78,6 +78,10 @@ def evaluate(x, r=myPRNG.randint(0,n-1)):
     # returns a list of both total value and total weight
     return [totalValue, totalWeight]
 
+# Indices of the list returned from the evalution function
+VALUE_IDX  = 0 # Value of the bag
+WEIGHT_IDX = 1 # Weight of the bag
+
 
 # =============================================================================
 # NEIGHBORHOOD FUNCTION - simple function to create a neighborhood
@@ -174,25 +178,22 @@ f_curr = evaluate(x_curr) # f_curr holds the evaluation of the current soluton
 TOTAL_ITERS  = 100
 INITIAL_TEMP = 1000 # TODO
 ACCEPTANCE_THRESHOLD = 5
-
+METHOD_CHOSEN = 'Caunchy'
 
 ## BEGIN LOCAL SEARCH LOGIC ---------------------------------------------------
 
-VALUE_IDX  = 0
-WEIGHT_IDX = 1
-
 k_iter = 0 # Track the total iterations
 
-# do not stop the procedure until the stoppping criterion is met
+# Do not stop the procedure until the stoppping criterion is met
 while not stopTheProcedure(k_iter, TOTAL_ITERS): 
     
-    # create a list of all neighbors in the neighborhood of x_curr
+    # Create a list of all neighbors in the neighborhood of x_curr
     Neighborhood = neighborhood(x_curr)
     
     m_iter = 0 # Track the iterations at each temperature
     numSolutionsAccepted = 0 # keep track of number of solutions accepted
     
-    while m_iter < ACCEPTANCE_THRESHOLD: # must search m times at each temp
+    while numSolutionsAccepted < ACCEPTANCE_THRESHOLD: # must search m times at each temp
         solutionsChecked += 1 # Notate another solution checked
 
         # Randomly select solution from neighbor of current solution
@@ -223,15 +224,22 @@ while not stopTheProcedure(k_iter, TOTAL_ITERS):
                 x_curr = x_randSolution[:] # Store it as the current solution
                 f_curr = f_randSolution[:]
                 
-        m_iter += 1 # increment the iterations at a given temperature
-    k_iter += 1 # increment the total iterations 
+        m_iter += 1 # Increment the iterations at a given temperature
+    k_iter += 1 # Increment the total iterations 
                 
+    
+# Output of the solution ------------------------------------------------------
+valueOfBestBag     = f_curr[VALUE_IDX]
+weightOfBestBag    = f_curr[WEIGHT_IDX]
+numItemsSelected   = np.sum(x_curr)
+selectedItemsInBag = x_curr[:]
 
 print("\nFinal number of solutions checked: ", solutionsChecked, '\n',
-      "Best value found: ", f_curr[VALUE_IDX], '\n',
-      "Weight is: ", f_curr[WEIGHT_IDX], '\n',
-      "Total number of items selected: ", np.sum(x_curr), '\n\n',
-      "Best solution: ", x_curr)
+      "Best value found: ", valueOfBestBag, '\n',
+      "Weight is: ", weightOfBestBag, '\n',
+      "Total number of items selected: ", numItemsSelected, '\n\n',
+      "Best solution: ", selectedItemsInBag)
 
-# for the summary output
-# q2 = [solutionsChecked, np.sum(x_best), f_best[1], f_best[0]]
+# Output a list for the summary output
+solution = [INITIAL_TEMP, METHOD_CHOSEN, ACCEPTANCE_THRESHOLD, k_iter, 
+            solutionsChecked, numItemsSelected, weightOfBestBag, valueOfBestBag]
