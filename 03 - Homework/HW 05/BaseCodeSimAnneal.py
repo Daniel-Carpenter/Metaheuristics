@@ -171,7 +171,7 @@ def coolingSchedule(scheduleFunction, INITIAL_TEMP , k):
 # SIMULATED ANNEALING ALGORITHM
 # =============================================================================
 
-def simAnnealKnapsack(TOTAL_ITERS, INITIAL_TEMP, ACCEPTANCE_THRESHOLD, COOLING_METHOD, METHOD_CHOSEN):
+def simAnnealKnapsack(TOTAL_ITERS, INITIAL_TEMP, ACCEPTANCE_THRESHOLD, COOLING_METHOD):
     
     
     ## GET INITIAL SOLUTION -------------------------------------------------------
@@ -234,6 +234,9 @@ def simAnnealKnapsack(TOTAL_ITERS, INITIAL_TEMP, ACCEPTANCE_THRESHOLD, COOLING_M
     weightOfBestBag    = f_curr[WEIGHT_IDX]
     numItemsSelected   = np.sum(x_curr)
     selectedItemsInBag = x_curr[:]
+    if COOLING_METHOD == caunchyCoolSchedule: 
+        METHOD_CHOSEN = 'Caunchy' 
+    else: METHOD_CHOSEN = 'Boltzmann'
     
     # Output a list for the summary output
     solution = [INITIAL_TEMP, METHOD_CHOSEN, ACCEPTANCE_THRESHOLD, k_iter, 
@@ -258,30 +261,26 @@ def simAnnealKnapsack(TOTAL_ITERS, INITIAL_TEMP, ACCEPTANCE_THRESHOLD, COOLING_M
 call1 = simAnnealKnapsack(TOTAL_ITERS          = 100, 
                           INITIAL_TEMP         = 1000, 
                           ACCEPTANCE_THRESHOLD = 10, 
-                          COOLING_METHOD       = caunchyCoolSchedule, 
-                          METHOD_CHOSEN        = 'Caunchy'
+                          COOLING_METHOD       = caunchyCoolSchedule
                           )
 
 # Call the algorithm given inputs (for Caunchy Method)
 call2 = simAnnealKnapsack(TOTAL_ITERS          = 200, 
                           INITIAL_TEMP         = 500, 
                           ACCEPTANCE_THRESHOLD = 5, 
-                          COOLING_METHOD       = caunchyCoolSchedule, 
-                          METHOD_CHOSEN        = 'Caunchy'
+                          COOLING_METHOD       = caunchyCoolSchedule
                           )
 
 # Call the algorithm given inputs (for Caunchy Method)
 call3 = simAnnealKnapsack(TOTAL_ITERS          = 100, 
                           INITIAL_TEMP         = 1000, 
                           ACCEPTANCE_THRESHOLD = 10, 
-                          COOLING_METHOD       = boltzmannCoolSchedule, 
-                          METHOD_CHOSEN        = 'Boltzmann'
+                          COOLING_METHOD       = boltzmannCoolSchedule
                           )
 
 # Call the algorithm given inputs (for Caunchy Method)
 call4 = simAnnealKnapsack(TOTAL_ITERS          = 150, 
                           INITIAL_TEMP         = 750, 
                           ACCEPTANCE_THRESHOLD = 20, 
-                          COOLING_METHOD       = boltzmannCoolSchedule, 
-                          METHOD_CHOSEN        = 'Boltzmann'
+                          COOLING_METHOD       = boltzmannCoolSchedule
                           )
