@@ -15,8 +15,8 @@
 
 ## SA Conceptual Process
 1. Instead of choosing best move, choose a random move
-2. Acceptance Options
-    i. `If the move is BETTER` than the current solution, `Accept`
+2. Acceptance Options  
+    i. `If the move is BETTER` than the current solution, `Accept`  
     ii. `If the move is WORSE` than the current solution, `Accept with probability p`
 
 ### Controlling Bad Moves: Less bad as iterations increase:
