@@ -96,7 +96,7 @@
 ---
 <br>
 
-## 3 - How Long Should be spent at each Temperature `M[k]`
+## 3 - How Long should be Spent at Each Temperature `M[k]`
 > Should depend on the size of the neighborhood and solution space  
 
 ### Possible Approaches
@@ -106,7 +106,7 @@
 ---
 <br>
 
-## 4 - When to `Stop the procedure`
+## 4 - When to `Stop the Procedure`
 > Highly subjective - depends on your data  
 
 <img src = 'Images/stop.png'  width = 550> <br>
