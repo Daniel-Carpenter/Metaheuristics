@@ -234,12 +234,18 @@ weightOfBestBag    = f_curr[WEIGHT_IDX]
 numItemsSelected   = np.sum(x_curr)
 selectedItemsInBag = x_curr[:]
 
-print("\nFinal number of solutions checked: ", solutionsChecked, '\n',
-      "Best value found: ", valueOfBestBag, '\n',
-      "Weight is: ", weightOfBestBag, '\n',
-      "Total number of items selected: ", numItemsSelected, '\n\n',
-      "Best solution: ", selectedItemsInBag)
-
 # Output a list for the summary output
 solution = [INITIAL_TEMP, METHOD_CHOSEN, ACCEPTANCE_THRESHOLD, k_iter, 
             solutionsChecked, numItemsSelected, weightOfBestBag, valueOfBestBag]
+
+print('\n\n--------- SOLUTION OVERVIEW ---------\n\n',
+      'Initial Temp t[0]:',          solution[0], '\n',
+      'Method t[k]:',                solution[1], '\n', 
+      'Acceptance Threshold M[k]: ', solution[2], '\n', 
+      '# Temps. Checked:',           solution[3], '\n', 
+      '# Iters:',                    solution[4], '\n', 
+      '# Items:',                    solution[5], '\n', 
+      'Weight of Bag:',              solution[6], '\n', 
+      'Value of Bag:',               solution[7], '\n',
+      '\n------------------------------------'
+      )
