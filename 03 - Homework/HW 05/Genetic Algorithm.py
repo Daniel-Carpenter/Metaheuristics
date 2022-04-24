@@ -281,7 +281,7 @@ def rouletteWheel(pop, k=2): # default 2 parents
 # =============================================================================
 # MUTATE SOLUTIONS
 # =============================================================================
-def mutate(x, prob=mutationRate, maxChangesAllowed=3): # The probability is the mutation rate # TODO
+def mutate(x, prob=mutationRate, maxChangesAllowed=2): # The probability is the mutation rate # TODO
 
     # If probability met then mutate
     if myPRNG.random() < prob:  
@@ -300,11 +300,6 @@ def mutate(x, prob=mutationRate, maxChangesAllowed=3): # The probability is the 
                 x[mutatedElementIdx] = 1
     
     return x
-
-pop = initializePopulation()
-head(pop)
-
-chromo = pop[0][ITEMS_IDX]
 
 
 # =============================================================================
@@ -342,13 +337,34 @@ def breeding(matingPool):
 # =============================================================================
 # INSERTION
 # =============================================================================
-def insert(pop, kids): # TODO
+def insert(pop, kids, k=5): # TODO
+
+    newPop = [] # The new population list
+    
+    # Calculate the parents and children to insert, based on k
+    # will insert k prior population members and the n minus k top ranking kids
+    parentsToInsert  = k
+    childrenToInsert = len(pop)-k
+
+    # Insert the top ranking k parents
+    for chromosome in range(parentsToInsert):
+        newPop.append(pop[chromosome]) 
+    
+    # Insert the top ranking n minus k kids
+    for chromosome in range(childrenToInsert):
+        newPop.append(kids[chromosome]) 
+
 
     # this is not a good solution here... essentially this is replacing the previous generation with the offspring and not implementing any type of elitism
     # at the VERY LEAST evaluate the best solution from "pop" to make sure you are not losing a very good chromosome from last generation
     # maybe want to keep the top 5? 10? solutions from pop -- it's up to you.
 
-    return kids
+    return newPop
+
+pop = initializePopulation()
+head(pop)
+
+insert(pop, pop)
 
 
 # =============================================================================
