@@ -53,12 +53,12 @@ maxWeight = 2500
 # INPUT PARAMETERS
 # =============================================================================
 
-populationSize = 150  # size of GA population
+populationSize = n    # size of GA population
 Generations    = 100  # number of GA generations
 
 # currently not used in the implementation; neeeds to be used:
-crossOverRate  = 1/2
-mutationRate   = 5/150
+crossOverRate  = 1/2  # 50% chance that two parents bred at some crossover point
+mutationRate   = 0.10 # 10% chance an offspring is mutated between 1 and maxChangesAllowed
 eliteSolutions = 10   # neeed to use some type of elitism
 
 # monitor the number of solutions evaluated
@@ -154,8 +154,8 @@ def crossover(parent1, parent2, prob=crossOverRate):
 
     # if no breeding occurs, then offspring1 and offspring2 are copies of parent1 and parent2, respectively
     else:
-        offspring1 = parent1
-        offspring2 = parent2
+        offspring1 = parent1[:]
+        offspring2 = parent2[:]
 
     return offspring1, offspring2  # two offspring are returned
 
@@ -281,16 +281,30 @@ def rouletteWheel(pop, k=2): # default 2 parents
 # =============================================================================
 # MUTATE SOLUTIONS
 # =============================================================================
-def mutate(x, prob=mutationRate): # The probability is the mutation rate # TODO
+def mutate(x, prob=mutationRate, maxChangesAllowed=3): # The probability is the mutation rate # TODO
 
     # If probability met then mutate
     if myPRNG.random() < prob:  
-        print('mutate')    
+        
+        # Can change 1-max (random spread)
+        numIdxsToChange = myPRNG.randint(1, maxChangesAllowed) 
+        
+        # Change k number of elements based on numIdxsToChange
+        for change in range(numIdxsToChange):
+            mutatedElementIdx = myPRNG.randint(0, n-1)
+            
+            # Mutate the index by flipping from 0 to 1 or 1 to 0
+            if x[mutatedElementIdx] == 1:
+                x[mutatedElementIdx] = 0
+            else:
+                x[mutatedElementIdx] = 1
     
     return x
 
 pop = initializePopulation()
 head(pop)
+
+chromo = pop[0][ITEMS_IDX]
 
 
 # =============================================================================
