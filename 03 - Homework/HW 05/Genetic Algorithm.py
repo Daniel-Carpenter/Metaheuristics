@@ -176,9 +176,9 @@ def head(population, n=6): # note sorted by value desc
           'Chrom.\t Value\t\t Weight\t\t Num. Items')
     for chromosome in range(1, n+1):
         print(' [%g]\t' % chromosome,
-              '%.1f'  %            population[chromosome][1], '\t',
-              '%.1f' % calcWeight(population[chromosome][0]), '\t',
-              '%g' % itemsSelected(population[chromosome][0]))
+              '%.1f'  %            population[chromosome-1][1], '\t',
+              '%.1f'  % calcWeight(population[chromosome-1][0]), '\t',
+              '%g' % itemsSelected(population[chromosome-1][0]))
 
 head(initializePopulation())
 
