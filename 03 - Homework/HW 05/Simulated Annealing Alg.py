@@ -260,28 +260,28 @@ def simAnnealKnapsack(TOTAL_ITERS, INITIAL_TEMP, ACCEPTANCE_THRESHOLD, COOLING_M
 
 
 # Call the algorithm given inputs (for Caunchy Method)
-call1 = simAnnealKnapsack(TOTAL_ITERS          = 100, 
+simA1 = simAnnealKnapsack(TOTAL_ITERS          = 100, 
                           INITIAL_TEMP         = 1000, 
                           ACCEPTANCE_THRESHOLD = 10, 
                           COOLING_METHOD       = caunchyCoolSchedule
                           )
 
 # Call the algorithm given inputs (for Caunchy Method)
-call2 = simAnnealKnapsack(TOTAL_ITERS          = 200, 
+simA2 = simAnnealKnapsack(TOTAL_ITERS          = 200, 
                           INITIAL_TEMP         = 500, 
                           ACCEPTANCE_THRESHOLD = 5, 
                           COOLING_METHOD       = caunchyCoolSchedule
                           )
 
-# Call the algorithm given inputs (for Caunchy Method)
-call3 = simAnnealKnapsack(TOTAL_ITERS          = 100, 
+# Call the algorithm given inputs (for boltzmann Method)
+simA3 = simAnnealKnapsack(TOTAL_ITERS          = 100, 
                           INITIAL_TEMP         = 1000, 
                           ACCEPTANCE_THRESHOLD = 10, 
                           COOLING_METHOD       = boltzmannCoolSchedule
                           )
 
-# Call the algorithm given inputs (for Caunchy Method)
-call4 = simAnnealKnapsack(TOTAL_ITERS          = 150, 
+# Call the algorithm given inputs (for boltzmann Method)
+simA4 = simAnnealKnapsack(TOTAL_ITERS          = 150, 
                           INITIAL_TEMP         = 750, 
                           ACCEPTANCE_THRESHOLD = 20, 
                           COOLING_METHOD       = boltzmannCoolSchedule
