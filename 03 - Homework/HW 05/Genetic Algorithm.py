@@ -278,18 +278,19 @@ def rouletteWheel(pop, k=2): # default 2 parents
     return matingPool # return list of k parents chosen to be in mating pool
 
 
-pop = initializePopulation()
-head(pop)
-
-
 # =============================================================================
 # MUTATE SOLUTIONS
 # =============================================================================
-def mutate(x, q=mutationRate): # The probability is the mutation rate # TODO
+def mutate(x, prob=mutationRate): # The probability is the mutation rate # TODO
 
-    # create some mutation logic  -- make sure to incorporate "mutationRate" somewhere and dont' do TOO much mutation
-
+    # If probability met then mutate
+    if myPRNG.random() < prob:  
+        print('mutate')    
+    
     return x
+
+pop = initializePopulation()
+head(pop)
 
 
 # =============================================================================
