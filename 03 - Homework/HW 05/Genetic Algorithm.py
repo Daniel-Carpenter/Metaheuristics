@@ -158,9 +158,9 @@ def calcWeight(x):
     return totalWeight  # returns total weight
 
 # =============================================================================
-# Simple head function for populations
+# Simple head function - print top n chromosomes for a population
 # =============================================================================
-def printTopNChomosomes(population, n): # note sorted by value desc
+def head(population, n=6): # note sorted by value desc
     print('Top %g Chromosomes of given Population:' % n)
     for chromosome in range(1, n+1):
         print('[%g]\t' % chromosome,
