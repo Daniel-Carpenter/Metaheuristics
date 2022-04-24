@@ -57,8 +57,8 @@ populationSize = 150  # size of GA population
 Generations    = 100  # number of GA generations
 
 # currently not used in the implementation; neeeds to be used:
-crossOverRate  = 0.5
-mutationRate   = 0.05
+crossOverRate  = 1/2
+mutationRate   = 5/150
 eliteSolutions = 10   # neeed to use some type of elitism
 
 # monitor the number of solutions evaluated
@@ -87,25 +87,6 @@ def createChromosome(d, prob=0.08):
             x.append(ITEM)
         else:
             x.append(NO_ITEM)
-            
-        
-    # totalWeight = np.dot(np.array(x), np.array(weights)) # Sumproduct of weights and is included
-    
-    
-    # # While the bag is infeasible, randomly remove items from the bag.
-    # # Stop once a feasible solution is found.
-    # knapsackSatisfiesWeight = totalWeight <= maxWeight # True if the knapsack is a feasible solution, else false
-
-    # while not knapsackSatisfiesWeight:
-        
-    #     randIdx = myPRNG.randint(0,d-1) # Generate random index of item in knapsack and remove item
-    #     x[randIdx] = 0
-        
-    #     # If the knapsack is feasible, then stop the loop and go with the solution
-    #     totalWeight = np.dot(np.array(x), np.array(weights)) # Recalc. Sumproduct of weights and is included
-    #     if (totalWeight <= maxWeight):
-    #         knapsackSatisfiesWeight = True
-
     return x
 
 # =============================================================================
@@ -146,28 +127,35 @@ FITNESS_VALUE_IDX = 1
 # i.e. two parents (x1 and x2) should produce two offsrping (offspring1 and offspring2)
 # --- the first part of offspring1 comes from x1, and the second part of offspring1 comes from x2
 # --- the first part of offspring2 comes from x2, and the second part of offspring2 comes from x1
-# if no breeding occurs, then offspring1 and offspring2 can simply be copies of x1 and x2, respectively
 # =============================================================================
-def crossover(parent1, parent2, p=crossOverRate):
-    
-    # Get the crossover point
-    crossOverPoint = myPRNG.randint(0, n-1) # Random point in array
-    
-    def splitParentAtCrossOverPoint(parent):
-        
-        # Split parent at crossover point and return the pieces
-        return (
-            parent[:crossOverPoint ], # First piece
-            parent[ crossOverPoint:]  # Second piece
-        )
+def crossover(parent1, parent2, prob=crossOverRate):
 
-    # Get two pieces of each parent at cross over points
-    par1_piece1, par1_piece2 = splitParentAtCrossOverPoint(parent1) # Parent 1
-    par2_piece1, par2_piece2 = splitParentAtCrossOverPoint(parent2) # Parent 2
+    # Breeding occurs since probability met    
+    if myPRNG.random() < prob:  
+        
+        # Get the crossover point
+        crossOverPoint = myPRNG.randint(0, n-1) # Random point in array
+        
+        def splitParentAtCrossOverPoint(parent):
+            
+            # Split parent at crossover point and return the pieces
+            return (
+                parent[:crossOverPoint ], # First piece
+                parent[ crossOverPoint:]  # Second piece
+            )
     
-    # Swap pieces from the parents and put into the offspring
-    offspring1 = par1_piece1 + par2_piece2 # First piece of parent 1, second piece p2
-    offspring2 = par2_piece1 + par1_piece2 # First piece of parent 2, second piece p1
+        # Get two pieces of each parent at cross over points
+        par1_piece1, par1_piece2 = splitParentAtCrossOverPoint(parent1) # Parent 1
+        par2_piece1, par2_piece2 = splitParentAtCrossOverPoint(parent2) # Parent 2
+        
+        # Swap pieces from the parents and put into the offspring
+        offspring1 = par1_piece1 + par2_piece2 # First piece of parent 1, second piece p2
+        offspring2 = par2_piece1 + par1_piece2 # First piece of parent 2, second piece p1
+
+    # if no breeding occurs, then offspring1 and offspring2 are copies of parent1 and parent2, respectively
+    else:
+        offspring1 = parent1
+        offspring2 = parent2
 
     return offspring1, offspring2  # two offspring are returned
 
@@ -250,7 +238,7 @@ def tournamentSelection(pop, k=2):
 # =============================================================================
 # ROULETTE WHEEL
 # =============================================================================
-def rouletteWheel(pop, k=3): # default 2 parents
+def rouletteWheel(pop, k=2): # default 2 parents
 
     matingPool = []  # list of randomly selected parents to mate
     
@@ -293,18 +281,11 @@ def rouletteWheel(pop, k=3): # default 2 parents
 pop = initializePopulation()
 head(pop)
 
-parent1, parent2, parent3 = rouletteWheel(pop)
-
-print('\n\nNew Pool')
-print(parent1)
-print(parent2)
-print(parent3)
-
 
 # =============================================================================
 # MUTATE SOLUTIONS
 # =============================================================================
-def mutate(x): # TODO
+def mutate(x, q=mutationRate): # The probability is the mutation rate # TODO
 
     # create some mutation logic  -- make sure to incorporate "mutationRate" somewhere and dont' do TOO much mutation
 
