@@ -74,7 +74,29 @@ def createChromosome(d):
     # this code as-is expects chromosomes to be stored as a list, e.g., x = []
     # write code to generate chromosomes, most likely want this to be randomly generated
 
-    x = []  # i recommend creating the solution as a list
+    x = [] # empty list for x to hold binary values indicating if item i is in knapsack
+
+    # Create a initial solution for knapsack (Could be infeasible), by 
+    # randomly create a list of binary values from 0 to d. 1 if item is in the knapsack
+    for item in range(0, d):
+        x.append(myPRNG.randint(0,1))
+        
+    totalWeight = np.dot(np.array(x), np.array(weights)) # Sumproduct of weights and is included
+    
+    
+    # While the bag is infeasible, randomly remove items from the bag.
+    # Stop once a feasible solution is found.
+    knapsackSatisfiesWeight = totalWeight <= maxWeight # True if the knapsack is a feasible solution, else false
+
+    while not knapsackSatisfiesWeight:
+        
+        randIdx = myPRNG.randint(0,d-1) # Generate random index of item in knapsack and remove item
+        x[randIdx] = 0
+        
+        # If the knapsack is feasible, then stop the loop and go with the solution
+        totalWeight = np.dot(np.array(x), np.array(weights)) # Recalc. Sumproduct of weights and is included
+        if (totalWeight <= maxWeight):
+            knapsackSatisfiesWeight = True
 
     return x
 
@@ -86,7 +108,8 @@ def createChromosome(d):
 # Note Inputs: Technically none, but pulls `n` from the preset inputs
 # Returns:
 # the return object is a reversed sorted list of tuples:
-# the first element of the tuple is the chromosome; the second element is the fitness value
+# [1] the first element of the tuple is the chromosome; 
+# [2] the second element is the fitness value
 # for example:  popVals[0] is represents the best individual in the population
 # popVals[0] for a 2D problem might be  ([-70.2, 426.1], 483.3)  -- chromosome is the list [-70.2, 426.1] and the fitness is 483.3
 # =============================================================================
@@ -95,7 +118,7 @@ def initializePopulation():  # n is size of population; d is dimensions of chrom
     population = []
     populationFitness = []
 
-    for i in range(populationSize):
+    for i in range(populationSize): # (from inputs popSize)
         population.append(createChromosome(n))
         populationFitness.append(evaluate(population[i]))
 
@@ -116,6 +139,7 @@ def crossover(x1, x2):
     # --- the first part of offspring2 comes from x2, and the second part of offspring2 comes from x1
 
     # if no breeding occurs, then offspring1 and offspring2 can simply be copies of x1 and x2, respectively
+    offspring1, offspring2 = 'TODO' # TODO
 
     return offspring1, offspring2  # two offspring are returned
 
@@ -133,6 +157,18 @@ def calcWeight(x):
 
     return totalWeight  # returns total weight
 
+# =============================================================================
+# Simple head function for populations
+# =============================================================================
+def printTopNChomosomes(population, n): # note sorted by value desc
+    print('Top %g Chromosomes of given Population:' % n)
+    for chromosome in range(1, n+1):
+        print('[%g]\t' % chromosome,
+              'Value: %.1f'  %            population[chromosome][1], '\t',
+              'Weight: %.1f' % calcWeight(population[chromosome][0]))
+
+printTopNChomosomes(initializePopulation(), 6)
+
 
 # =============================================================================
 # CALC. ITEMS SELECTED
@@ -147,7 +183,7 @@ def itemsSelected(x):
 # =============================================================================
 # EVALUATE: function to evaluate a solution x
 # =============================================================================
-def evaluate(x):
+def evaluate(x): # TODO
 
     a = np.array(x)
     b = np.array(value)
@@ -189,14 +225,14 @@ def rouletteWheel(pop):
 
     # create sometype of rouletteWheel selection -- can be based on fitness function or fitness rank
     # (remember the population is always ordered from most fit to least fit, so pop[0] is the fittest chromosome in the population, and pop[populationSize-1] is the least fit!
-
+    matingPool = 'TODO' # TODO
     return matingPool
 
 
 # =============================================================================
 # MUTATE SOLUTIONS
 # =============================================================================
-def mutate(x):
+def mutate(x): # TODO
 
     # create some mutation logic  -- make sure to incorporate "mutationRate" somewhere and dont' do TOO much mutation
 
@@ -238,7 +274,7 @@ def breeding(matingPool):
 # =============================================================================
 # INSERTION
 # =============================================================================
-def insert(pop, kids):
+def insert(pop, kids): # TODO
 
     # this is not a good solution here... essentially this is replacing the previous generation with the offspring and not implementing any type of elitism
     # at the VERY LEAST evaluate the best solution from "pop" to make sure you are not losing a very good chromosome from last generation
@@ -273,34 +309,34 @@ def bestSolutionInPopulation(pop):
 # DRIVER
 # =============================================================================
 
-def main():
-    # GA main code
-    Population = initializePopulation()
+# def main():
+#     # GA main code
+#     Population = initializePopulation()
 
-    # optional: you can output results to a file -- i've commented out all of the file out put for now
-    # f = open('out.txt', 'w')  #---uncomment this line to create a file for saving output
+#     # optional: you can output results to a file -- i've commented out all of the file out put for now
+#     # f = open('out.txt', 'w')  #---uncomment this line to create a file for saving output
 
-    for j in range(Generations):
+#     for j in range(Generations):
 
-        # <--need to replace this with roulette wheel selection, e.g.:  mates=rouletteWheel(Population)
-        mates = tournamentSelection(Population, 10)
-        Offspring = breeding(mates)
-        Population = insert(Population, Offspring)
+#         # <--need to replace this with roulette wheel selection, e.g.:  mates=rouletteWheel(Population)
+#         mates = tournamentSelection(Population, 10)
+#         Offspring = breeding(mates)
+#         Population = insert(Population, Offspring)
 
-        # end of GA main code
+#         # end of GA main code
 
-        maxVal, meanVal, minVal, stdVal = summaryFitness(
-            Population)  # check out the population at each generation
-        # print to screen; turn this off for faster results
-        print("Iteration: ", j, summaryFitness(Population))
+#         maxVal, meanVal, minVal, stdVal = summaryFitness(
+#             Population)  # check out the population at each generation
+#         # print to screen; turn this off for faster results
+#         print("Iteration: ", j, summaryFitness(Population))
 
-        # f.write(str(minVal) + " " + str(meanVal) + " " + str(varVal) + "\n")  #---uncomment this line to write to  file
+#         # f.write(str(minVal) + " " + str(meanVal) + " " + str(varVal) + "\n")  #---uncomment this line to write to  file
 
-    # f.close()   #---uncomment this line to close the file for saving output
+#     # f.close()   #---uncomment this line to close the file for saving output
 
-    print(summaryFitness(Population))
-    bestSolutionInPopulation(Population)
+#     print(summaryFitness(Population))
+#     bestSolutionInPopulation(Population)
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
