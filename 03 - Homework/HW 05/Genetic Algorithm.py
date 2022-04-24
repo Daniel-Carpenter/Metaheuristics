@@ -157,18 +157,6 @@ def calcWeight(x):
 
     return totalWeight  # returns total weight
 
-# =============================================================================
-# Simple head function - print top n chromosomes for a population
-# =============================================================================
-def head(population, n=6): # note sorted by value desc
-    print('Top %g Chromosomes of given Population:' % n)
-    for chromosome in range(1, n+1):
-        print('[%g]\t' % chromosome,
-              'Value: %.1f'  %            population[chromosome][1], '\t',
-              'Weight: %.1f' % calcWeight(population[chromosome][0]))
-
-printTopNChomosomes(initializePopulation(), 6)
-
 
 # =============================================================================
 # CALC. ITEMS SELECTED
@@ -178,6 +166,20 @@ def itemsSelected(x):
 
     a = np.array(x)
     return np.sum(a)  # returns total number of items selected
+
+
+# =============================================================================
+# Simple head function - print top n chromosomes for a population
+# =============================================================================
+def head(population, n=6): # note sorted by value desc
+    print('Top %g Chromosomes of given Population:' % n)
+    for chromosome in range(1, n+1):
+        print('[%g]\t' % chromosome,
+              'Value: %.1f'  %            population[chromosome][1], '\t',
+              'Weight: %.1f' % calcWeight(population[chromosome][0]), '\t',
+              'Items: %g' % itemsSelected(population[chromosome][0]))
+
+head(initializePopulation())
 
 
 # =============================================================================
