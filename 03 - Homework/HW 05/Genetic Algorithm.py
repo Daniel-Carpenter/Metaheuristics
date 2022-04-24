@@ -135,6 +135,9 @@ def initializePopulation():  # n is size of population; d is dimensions of chrom
 
     return popVals
 
+# Indces of the above created chromosome
+ITEMS_IDX         = 0
+FITNESS_VALUE_IDX = 1
 
 # =============================================================================
 # CROSSOVER
@@ -167,15 +170,6 @@ def crossover(parent1, parent2, p=crossOverRate):
     offspring2 = par2_piece1 + par1_piece2 # First piece of parent 2, second piece p1
 
     return offspring1, offspring2  # two offspring are returned
-
-pop = initializePopulation()
-
-print('\np1:\n', pop[0][0])
-print('\np2:\n', pop[1][0])
-
-off1, off2 = crossover(pop[0][0], pop[1][0])
-print('\no1:\n', off1)
-print('\no2:\n', off2)
 
 
 # =============================================================================
@@ -228,10 +222,9 @@ def head(population, n=6): # note sorted by value desc
           'Chrom.\t Value\t\t Weight\t\t Num. Items')
     for chromosome in range(1, n+1):
         print(' [%g]\t' % chromosome,
-              '%.1f'  %            population[chromosome-1][1], '\t',  # Value (note neg. penalty)
-              '%.1f'  % calcWeight(population[chromosome-1][0]), '\t', # Weight
-              '%g' % itemsSelected(population[chromosome-1][0]))       # Num. Items Selected
-
+              '%.1f'  %            population[chromosome-1][FITNESS_VALUE_IDX], '\t',  # Value (note neg. penalty)
+              '%.1f'  % calcWeight(population[chromosome-1][ITEMS_IDX]), '\t', # Weight
+              '%g' % itemsSelected(population[chromosome-1][ITEMS_IDX]))       # Num. Items Selected
 
 
 # =============================================================================
@@ -239,7 +232,7 @@ def head(population, n=6): # note sorted by value desc
 # k chromosomes are selected (with repeats allowed) and the best advances to the mating pool
 # function returns the mating pool with size equal to the initial population
 # =============================================================================
-def tournamentSelection(pop, k):
+def tournamentSelection(pop, k=2):
 
     # randomly select k chromosomes; the best joins the mating pool
     matingPool = []
@@ -247,9 +240,9 @@ def tournamentSelection(pop, k):
     while len(matingPool) < populationSize:
 
         ids = [myPRNG.randint(0, populationSize-1) for i in range(k)]
-        competingIndividuals = [pop[i][1] for i in ids]
+        competingIndividuals = [pop[i][FITNESS_VALUE_IDX] for i in ids]
         bestID = ids[competingIndividuals.index(max(competingIndividuals))]
-        matingPool.append(pop[bestID][0])
+        matingPool.append(pop[bestID][ITEMS_IDX])
 
     return matingPool
 
@@ -257,12 +250,55 @@ def tournamentSelection(pop, k):
 # =============================================================================
 # ROULETTE WHEEL
 # =============================================================================
-def rouletteWheel(pop):
+def rouletteWheel(pop, k=3): # default 2 parents
 
-    # create sometype of rouletteWheel selection -- can be based on fitness function or fitness rank
-    # (remember the population is always ordered from most fit to least fit, so pop[0] is the fittest chromosome in the population, and pop[populationSize-1] is the least fit!
-    matingPool = 'TODO' # TODO
-    return matingPool
+    matingPool = []  # list of randomly selected parents to mate
+    
+    # Spin roulette wheel k times and add k number of random parents to pool
+    for parent in range(k):
+            
+        # Implentation from: https://www.tutorialspoint.com/genetic_algorithms/genetic_algorithms_parent_selection.htm
+        
+        ## Calculate sum of a all fitnesses in pop.
+        sumOfFitnessInPop = 0
+        for chromosome in range(len(pop)):
+            sumOfFitnessInPop += pop[chromosome][FITNESS_VALUE_IDX]
+                                               
+        ## Spin the wheel ---------------------------------------------------------
+        
+        ### Generate a random number between 0 and sumOfFitnessInPop
+        ### Landed random number will contain the chosen chromosome
+        endedSpinValue = myPRNG.uniform(0, sumOfFitnessInPop)
+    
+    
+        partialSumOfFitnessVal = 0 # to hold the current running sum of fitness for chromosomes
+        chromosome = -1 # chromosome index (will start at 0)
+        bestID = 0 # to hold the random selected chromosome idx
+        
+        # Get running sum of chromosome fitness values until reached the randomly chosen chromosome
+        while partialSumOfFitnessVal < endedSpinValue:
+            chromosome += 1 # Increment chromosome
+            partialSumOfFitnessVal += pop[chromosome][FITNESS_VALUE_IDX] 
+            
+            # Spin finished - Get the best chromosome ID
+            if partialSumOfFitnessVal > endedSpinValue:
+                bestID = chromosome
+        
+        ## Now add the chosen persone to the mating pool
+        matingPool.append(pop[bestID][ITEMS_IDX])
+    
+    return matingPool # return list of k parents chosen to be in mating pool
+
+
+pop = initializePopulation()
+head(pop)
+
+parent1, parent2, parent3 = rouletteWheel(pop)
+
+print('\n\nNew Pool')
+print(parent1)
+print(parent2)
+print(parent3)
 
 
 # =============================================================================
