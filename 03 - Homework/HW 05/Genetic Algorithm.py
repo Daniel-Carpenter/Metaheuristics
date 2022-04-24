@@ -70,33 +70,41 @@ solutionsChecked = 0
 # similar to initialSolution() logic for HC
 # Inputs: d is dimensions of chromosome
 # =============================================================================
-def createChromosome(d):
+def createChromosome(d, prob=0.08): 
+    # DEfault 8% Prob of appending item. 
+    # Note 8% produces around 5 to 15 infeasible bags
     # this code as-is expects chromosomes to be stored as a list, e.g., x = []
     # write code to generate chromosomes, most likely want this to be randomly generated
 
     x = [] # empty list for x to hold binary values indicating if item i is in knapsack
-
+    ITEM    = 1
+    NO_ITEM = 0
+    
     # Create a initial solution for knapsack (Could be infeasible), by 
     # randomly create a list of binary values from 0 to d. 1 if item is in the knapsack
     for item in range(0, d):
-        x.append(myPRNG.randint(0,1))
+        if myPRNG.random() < prob:  
+            x.append(ITEM)
+        else:
+            x.append(NO_ITEM)
+            
         
-    totalWeight = np.dot(np.array(x), np.array(weights)) # Sumproduct of weights and is included
+    # totalWeight = np.dot(np.array(x), np.array(weights)) # Sumproduct of weights and is included
     
     
-    # While the bag is infeasible, randomly remove items from the bag.
-    # Stop once a feasible solution is found.
-    knapsackSatisfiesWeight = totalWeight <= maxWeight # True if the knapsack is a feasible solution, else false
+    # # While the bag is infeasible, randomly remove items from the bag.
+    # # Stop once a feasible solution is found.
+    # knapsackSatisfiesWeight = totalWeight <= maxWeight # True if the knapsack is a feasible solution, else false
 
-    while not knapsackSatisfiesWeight:
+    # while not knapsackSatisfiesWeight:
         
-        randIdx = myPRNG.randint(0,d-1) # Generate random index of item in knapsack and remove item
-        x[randIdx] = 0
+    #     randIdx = myPRNG.randint(0,d-1) # Generate random index of item in knapsack and remove item
+    #     x[randIdx] = 0
         
-        # If the knapsack is feasible, then stop the loop and go with the solution
-        totalWeight = np.dot(np.array(x), np.array(weights)) # Recalc. Sumproduct of weights and is included
-        if (totalWeight <= maxWeight):
-            knapsackSatisfiesWeight = True
+    #     # If the knapsack is feasible, then stop the loop and go with the solution
+    #     totalWeight = np.dot(np.array(x), np.array(weights)) # Recalc. Sumproduct of weights and is included
+    #     if (totalWeight <= maxWeight):
+    #         knapsackSatisfiesWeight = True
 
     return x
 
@@ -167,6 +175,24 @@ def itemsSelected(x):
     a = np.array(x)
     return np.sum(a)  # returns total number of items selected
 
+# =============================================================================
+# EVALUATE: function to evaluate a solution x
+# =============================================================================
+def evaluate(x): 
+
+    a = np.array(x)
+    b = np.array(value)
+
+    totalValue = np.dot(a, b)  # compute the value of the knapsack selection
+    totalWeight = calcWeight(x)
+
+    # Penalize knapsacks that exceed the total weight (from HW 4 solution)
+    if totalWeight > maxWeight:
+        totalValue = 0.85*totalValue - 10*(totalWeight - maxWeight)**2
+    fitness = totalValue
+
+    return fitness  # returns the chromosome fitness
+
 
 # =============================================================================
 # Simple head function - print top n chromosomes for a population
@@ -176,30 +202,11 @@ def head(population, n=6): # note sorted by value desc
           'Chrom.\t Value\t\t Weight\t\t Num. Items')
     for chromosome in range(1, n+1):
         print(' [%g]\t' % chromosome,
-              '%.1f'  %            population[chromosome-1][1], '\t',
-              '%.1f'  % calcWeight(population[chromosome-1][0]), '\t',
-              '%g' % itemsSelected(population[chromosome-1][0]))
+              '%.1f'  %            population[chromosome-1][1], '\t',  # Value (note neg. penalty)
+              '%.1f'  % calcWeight(population[chromosome-1][0]), '\t', # Weight
+              '%g' % itemsSelected(population[chromosome-1][0]))       # Num. Items Selected
 
-head(initializePopulation())
-
-
-# =============================================================================
-# EVALUATE: function to evaluate a solution x
-# =============================================================================
-def evaluate(x): # TODO
-
-    a = np.array(x)
-    b = np.array(value)
-
-    totalValue = np.dot(a, b)  # compute the value of the knapsack selection
-
-    # you will VERY LIKELY need to add some penalties or sometype of modification of the totalvalue to compute the chromosome fitness
-    # for instance, you may include penalties if the knapsack weight exceeds the maximum allowed weight
-
-    fitness = totalValue
-
-    return fitness  # returns the chromosome fitness
-
+head(initializePopulation(), n=150)
 
 # =============================================================================
 # TOURNAMENT SELECTION 
