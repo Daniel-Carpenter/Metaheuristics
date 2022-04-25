@@ -909,7 +909,7 @@ GA_3 = geneticAlgorithmKnapsack(populationSize = n,    # size of GA population
 
 ## 3.1 Simulated Annealing Output
 
-t[0] |Cooling,t[k |M[k] | \# Temps | Iters. | No. Items | Weight |   Value |
+t[0] |Cooling,t[k] |M[k] | \# Temps | Iters. | No. Items | Weight |   Value |
 -|-|-|-|-|-|-|-
 1000 | Caunchy                                                                                  |                                                                                       10 |      100 |   4764 |        24 | 2461.9 | 26618.4 |
 |                                                                                      500 | Caunchy                                                                                  |                                                                                        5 |      200 |   5918 |        24 | 2415.5 | 25292.8 |
