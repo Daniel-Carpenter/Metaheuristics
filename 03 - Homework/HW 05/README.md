@@ -1,48 +1,43 @@
----
-title: "Homework 5"
-subtitle: 'Heuristic Search Methods'
-author: "Daniel Carpenter"
-date: "April 2022"
-output:
-  # pdf_document:
-  #   toc: yes
-  #   toc_depth: 2
-  #   number_sections: yes
-  #   highlight: tango
-  html_document:
-    theme: yeti
-    toc: yes
-    toc_float: yes
-    toc_depth: 2
-    number_sections: yes
-  # github_document:
-  #   toc: yes
-  #   number_sections: yes
-  #   toc_depth: 2
----
+Homework 5
+================
+Daniel Carpenter
+April 2022
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(
-	echo = TRUE,
-	include = TRUE,
-	message = FALSE,
-	warning = FALSE,
-	tidy.opts=list(width.cutoff=60), 
-	tidy  = TRUE, 
-	cache = FALSE
-)
-```
-
-\newpage
+-   [1 *Question 1:* Simulated
+    Annealing](#1-question-1-simulated-annealing)
+    -   [1.1 Evalutation Function](#11-evalutation-function)
+    -   [1.2 `Neighborhood` Function](#12-neighborhood-function)
+    -   [1.3 `Initial Solution` Function](#13-initial-solution-function)
+    -   [1.4 `Stopping Criterion`
+        Function](#14-stopping-criterion-function)
+    -   [1.5 Function that Holds the
+        `Caunchy Cooling Schedule`](#15-function-that-holds-the-caunchy-cooling-schedule)
+    -   [1.6 Function that Holds the
+        `Boltzmann Cooling Schedule`](#16-function-that-holds-the-boltzmann-cooling-schedule)
+    -   [1.7 Function that Retreives a
+        `Cooling Schedule`](#17-function-that-retreives-a-cooling-schedule)
+    -   [1.8 `Simulated Annealing` Alg.
+        Function](#18-simulated-annealing-alg-function)
+    -   [1.9 Call Function for Simulated
+        Annealing](#19-call-function-for-simulated-annealing)
+-   [2 *Question 2:* Genetic Algorithm](#2-question-2-genetic-algorithm)
+    -   [2.1 Function for Genetic
+        Algorithm](#21-function-for-genetic-algorithm)
+    -   [2.2 Call Function for Genetic
+        Algorithm](#22-call-function-for-genetic-algorithm)
+-   [3 Summary Output of each Model](#3-summary-output-of-each-model)
+    -   [3.1 Simulated Annealing Output](#31-simulated-annealing-output)
+    -   [3.2 Genetic Algorithm Output](#32-genetic-algorithm-output)
 
 > ***Please see the final page for the summary output.***
 
-**Global Variables**  
-  
-> Input variables like the *random seed*, *values and weights* data for knapsack, and the *maximum allowable weight*   
+**Global Variables**
+
+> Input variables like the *random seed*, *values and weights* data for
+> knapsack, and the *maximum allowable weight*  
 > Please assume these are referenced by following code chunks
 
-```{python globals, echo=TRUE}
+``` python
 # Import python libraries
 import copy
 import math
@@ -75,17 +70,16 @@ for i in range(0, n):
 maxWeight = 2500
 ```
 
-\newpage
+# 1 *Question 1:* Simulated Annealing
 
+-   In order to determine the initial temperature, the function user is
+    able to change the initial solution to whatever they would like.
+    Unlike the mentioned methods to calculate the initial temperature,
+    this algorithm differs.
 
-# *Question 1:* Simulated Annealing
-* In order to determine the initial temperature, the function user is able to change 
-the initial solution to whatever they would like. Unlike the mentioned methods to calculate 
-the initial temperature, this algorithm differs.
+## 1.1 Evalutation Function
 
-
-## Evalutation Function
-```{python evalFun, echo=TRUE}
+``` python
 # =============================================================================
 # EVALUATE FUNCTION - evaluate a solution x
 # =============================================================================
@@ -126,8 +120,9 @@ VALUE_IDX  = 0 # Value of the bag
 WEIGHT_IDX = 1 # Weight of the bag
 ```
 
-## `Neighborhood` Function
-```{python neighFun, echo=TRUE}
+## 1.2 `Neighborhood` Function
+
+``` python
 # =============================================================================
 # NEIGHBORHOOD FUNCTION - simple function to create a neighborhood
 # =============================================================================
@@ -150,8 +145,9 @@ def neighborhood(x):
     return nbrhood
 ```
 
-## `Initial Solution` Function
-```{python initFun, echo=TRUE}
+## 1.3 `Initial Solution` Function
+
+``` python
 # =============================================================================
 # INITIAL SOLUTION FUNCTION - create the initial solution
 # =============================================================================
@@ -186,20 +182,25 @@ def initial_solution():
     return x
 ```
 
-## `Stopping Criterion` Function
-* Stopping criterion method used is to stop at a given number of total iterations.  
+## 1.4 `Stopping Criterion` Function
 
-```{python stopFun, echo=TRUE}
+-   Stopping criterion method used is to stop at a given number of total
+    iterations.
+
+``` python
 # Stopping criterion
 def stopTheProcedure(k, TOTAL_ITERS):
     return k == TOTAL_ITERS # stop if the iteration are greater than the max iters to perform
 ```
 
-## Function that Holds the `Caunchy Cooling Schedule`
-* This function takes in the initial temperature and a value of k to implement the 
-Caunchy cooling schedule, which formally is defined as: $t_{k}=\frac{T_{0}}{1+k}$  
+## 1.5 Function that Holds the `Caunchy Cooling Schedule`
 
-```{python caunchFun, echo=TRUE}
+-   This function takes in the initial temperature and a value of k to
+    implement the Caunchy cooling schedule, which formally is defined
+    as:
+    ![t\_{k}=\\frac{T\_{0}}{1+k}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;t_%7Bk%7D%3D%5Cfrac%7BT_%7B0%7D%7D%7B1%2Bk%7D "t_{k}=\frac{T_{0}}{1+k}")
+
+``` python
 # The cooling Schedule for the Caunchy method
 def caunchyCoolSchedule(INITIAL_TEMP , k):
     # Calculuate and return the schedule output (t_k)
@@ -207,11 +208,14 @@ def caunchyCoolSchedule(INITIAL_TEMP , k):
     return(t_k) 
 ```
 
-## Function that Holds the `Boltzmann Cooling Schedule`
-* This function takes in the initial temperature and a value of k to implement the 
-Boltzmann cooling schedule, which formally is defined as: $t_{k}=\frac{T_{0}}{\log (1+k)}$  
+## 1.6 Function that Holds the `Boltzmann Cooling Schedule`
 
-```{python boltzFun, echo=TRUE}
+-   This function takes in the initial temperature and a value of k to
+    implement the Boltzmann cooling schedule, which formally is defined
+    as:
+    ![t\_{k}=\\frac{T\_{0}}{\\log (1+k)}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;t_%7Bk%7D%3D%5Cfrac%7BT_%7B0%7D%7D%7B%5Clog%20%281%2Bk%29%7D "t_{k}=\frac{T_{0}}{\log (1+k)}")
+
+``` python
 # The cooling Schedule for the Boltzmann method
 def boltzmannCoolSchedule(INITIAL_TEMP , k):
     # Calculuate and return the schedule output (t_k)
@@ -219,27 +223,34 @@ def boltzmannCoolSchedule(INITIAL_TEMP , k):
     return(t_k) 
 ```
 
-## Function that Retreives a `Cooling Schedule`
-* The `simAnnealKnapsack()` is passed a cooling schedule (either Caunchy or Boltzemann) and 
-then this function uses it for the simulated annealing cooling schedule.  
+## 1.7 Function that Retreives a `Cooling Schedule`
 
-```{python coolFun, echo=TRUE}
+-   The `simAnnealKnapsack()` is passed a cooling schedule (either
+    Caunchy or Boltzemann) and then this function uses it for the
+    simulated annealing cooling schedule.
+
+``` python
 # General function that takes in a cooling schedule and calculates t[k] 
 # meant for ease of changing the cooling schedule
 def coolingSchedule(scheduleFunction, INITIAL_TEMP , k):
     return(scheduleFunction(INITIAL_TEMP , k))
 ```
 
+## 1.8 `Simulated Annealing` Alg. Function
 
-## `Simulated Annealing` Alg. Function
-* Given a probability `p`, the algorithm can accept a non-improving move.  
-* The probability fomula is the following:  $p=e^{\frac{-\left(f\left(s_{1}\right)-f\left(s_{2}\right)\right)}{T}}$  
-  * Where $f\left(s_{1}\right)$ is the random solution, and $f\left(s_{2}\right)$ 
-  is the current solution since maximization.  
-  * The function uses a passed colling schedule *(either boltzmann or caunchy)*
+-   Given a probability `p`, the algorithm can accept a non-improving
+    move.  
+-   The probability fomula is the following:
+    ![p=e^{\\frac{-\\left(f\\left(s\_{1}\\right)-f\\left(s\_{2}\\right)\\right)}{T}}](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;p%3De%5E%7B%5Cfrac%7B-%5Cleft%28f%5Cleft%28s_%7B1%7D%5Cright%29-f%5Cleft%28s_%7B2%7D%5Cright%29%5Cright%29%7D%7BT%7D%7D "p=e^{\frac{-\left(f\left(s_{1}\right)-f\left(s_{2}\right)\right)}{T}}")
+    -   Where
+        ![f\\left(s\_{1}\\right)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;f%5Cleft%28s_%7B1%7D%5Cright%29 "f\left(s_{1}\right)")
+        is the random solution, and
+        ![f\\left(s\_{2}\\right)](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;f%5Cleft%28s_%7B2%7D%5Cright%29 "f\left(s_{2}\right)")
+        is the current solution since maximization.  
+    -   The function uses a passed colling schedule *(either boltzmann
+        or caunchy)*
 
-
-```{python simFun, echo=TRUE}
+``` python
 # =============================================================================
 # SIMULATED ANNEALING ALGORITHM
 # =============================================================================
@@ -330,10 +341,9 @@ def simAnnealKnapsack(TOTAL_ITERS, INITIAL_TEMP, ACCEPTANCE_THRESHOLD, COOLING_M
     return (solution)
 ```
 
-\newpage
+## 1.9 Call Function for Simulated Annealing
 
-## Call Function for Simulated Annealing
-```{python callSimFun, echo=TRUE}
+``` python
 # Call the algorithm given inputs (for Caunchy Method)
 simA1 = simAnnealKnapsack(TOTAL_ITERS          = 100, 
                           INITIAL_TEMP         = 1000, 
@@ -342,6 +352,24 @@ simA1 = simAnnealKnapsack(TOTAL_ITERS          = 100,
                           )
 
 # Call the algorithm given inputs (for Caunchy Method)
+```
+
+    ## 
+    ## 
+    ## --------- SOLUTION OVERVIEW ---------
+    ## 
+    ##  Initial Temp t[0]: 1000 
+    ##  Method t[k]: Caunchy 
+    ##  Acceptance Threshold M[k]:  10 
+    ##  # Temps. Checked: 100 
+    ##  # Iters: 4764 
+    ##  # Items: 24 
+    ##  Weight of Bag: 2461.9 
+    ##  Value of Bag: 26618.399999999998 
+    ##  
+    ## ------------------------------------
+
+``` python
 simA2 = simAnnealKnapsack(TOTAL_ITERS          = 200, 
                           INITIAL_TEMP         = 500, 
                           ACCEPTANCE_THRESHOLD = 5, 
@@ -349,6 +377,26 @@ simA2 = simAnnealKnapsack(TOTAL_ITERS          = 200,
                           )
 
 # Call the algorithm given inputs (for boltzmann Method)
+```
+
+    ## 
+    ## 
+    ## --------- SOLUTION OVERVIEW ---------
+    ## 
+    ##  Initial Temp t[0]: 500 
+    ##  Method t[k]: Caunchy 
+    ##  Acceptance Threshold M[k]:  5 
+    ##  # Temps. Checked: 200 
+    ##  # Iters: 5918 
+    ##  # Items: 24 
+    ##  Weight of Bag: 2415.5 
+    ##  Value of Bag: 25292.8 
+    ##  
+    ## ------------------------------------
+    ## 
+    ## <string>:50: RuntimeWarning: overflow encountered in double_scalars
+
+``` python
 simA3 = simAnnealKnapsack(TOTAL_ITERS          = 100, 
                           INITIAL_TEMP         = 1000, 
                           ACCEPTANCE_THRESHOLD = 10, 
@@ -356,25 +404,57 @@ simA3 = simAnnealKnapsack(TOTAL_ITERS          = 100,
                           )
 
 # Call the algorithm given inputs (for boltzmann Method)
+```
+
+    ## 
+    ## 
+    ## --------- SOLUTION OVERVIEW ---------
+    ## 
+    ##  Initial Temp t[0]: 1000 
+    ##  Method t[k]: Boltzmann 
+    ##  Acceptance Threshold M[k]:  10 
+    ##  # Temps. Checked: 100 
+    ##  # Iters: 4877 
+    ##  # Items: 21 
+    ##  Weight of Bag: 2482.1 
+    ##  Value of Bag: 24807.0 
+    ##  
+    ## ------------------------------------
+    ## 
+    ## <string>:3: RuntimeWarning: divide by zero encountered in double_scalars
+
+``` python
 simA4 = simAnnealKnapsack(TOTAL_ITERS          = 150, 
                           INITIAL_TEMP         = 750, 
                           ACCEPTANCE_THRESHOLD = 20, 
                           COOLING_METHOD       = boltzmannCoolSchedule
                           )
-
 ```
 
-\newpage
+    ## 
+    ## 
+    ## --------- SOLUTION OVERVIEW ---------
+    ## 
+    ##  Initial Temp t[0]: 750 
+    ##  Method t[k]: Boltzmann 
+    ##  Acceptance Threshold M[k]:  20 
+    ##  # Temps. Checked: 150 
+    ##  # Iters: 13115 
+    ##  # Items: 27 
+    ##  Weight of Bag: 2479.3999999999996 
+    ##  Value of Bag: 25363.5 
+    ##  
+    ## ------------------------------------
 
+# 2 *Question 2:* Genetic Algorithm
 
+## 2.1 Function for Genetic Algorithm
 
-# *Question 2:* Genetic Algorithm
+-   Since function wraps multiple sub-functions, ***please see
+    commentary and explanation of logic for written functions within
+    code***
 
-## Function for Genetic Algorithm
-* Since function wraps multiple sub-functions, ***please see commentary and explanation 
-of logic for written functions within code***
-
-```{python gaFun, echo=TRUE}
+``` python
 # Genetic Algorithm Fun    | Function defaults:
 # Genetic Algorithm Fun    | Function defaults:
 def geneticAlgorithmKnapsack(populationSize = n,    # size of GA population
@@ -774,10 +854,9 @@ def geneticAlgorithmKnapsack(populationSize = n,    # size of GA population
     return solutionOutput
 ```
 
-\newpage
+## 2.2 Call Function for Genetic Algorithm
 
-## Call Function for Genetic Algorithm
-```{python callGaFun, echo=TRUE}
+``` python
 # =============================================================================
 # CALL FUNCTION
 # =============================================================================
@@ -788,14 +867,30 @@ GA_1 = geneticAlgorithmKnapsack(populationSize = n,    # size of GA population
                                 mutationRate   = 0.10, # 10% chance an offspring is mutated between 1 and maxChangesAllowed
                                 eliteSolutions = 10    # Number prior pop to keep from gen to gen
                                 )
+```
 
+    ## (32958.299999999996, 25218.475, 15313.7, 3673.7107857303718)
+    ## Best solution:  [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+    ## Items selected:  18
+    ## Value:  17957.6
+    ## Weight:  2247.3
+
+``` python
 GA_2 = geneticAlgorithmKnapsack(populationSize = n,    # size of GA population
                                 Generations    = 500,  # number of GA generations
                                 crossOverRate  = 0.9,  # 90% chance that two parents bred at some crossover point
                                 mutationRate   = 0.05, # 5% chance an offspring is mutated between 1 and maxChangesAllowed
                                 eliteSolutions = 20    # Number prior pop to keep from gen to gen
                                 )
+```
 
+    ## (35212.100000000006, 30202.38046666667, 13064.1, 6366.004179538721)
+    ## Best solution:  [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0]
+    ## Items selected:  17
+    ## Value:  17354.3
+    ## Weight:  2485.7
+
+``` python
 GA_3 = geneticAlgorithmKnapsack(populationSize = n,    # size of GA population
                                 Generations    = 1000, # number of GA generations
                                 crossOverRate  = 0.9,  # 90% chance that two parents bred at some crossover point
@@ -804,54 +899,27 @@ GA_3 = geneticAlgorithmKnapsack(populationSize = n,    # size of GA population
                                 )
 ```
 
-\newpage
+    ## (35102.799999999996, 27953.876533333325, 11542.0, 10151.244358657312)
+    ## Best solution:  [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0]
+    ## Items selected:  16
+    ## Value:  18519.2
+    ## Weight:  2036.6999999999998
 
+# 3 Summary Output of each Model
 
+## 3.1 Simulated Annealing Output
 
-# Summary Output of each Model
+| \# Temps | Iters. | No. Items | Weight |   Value |
+-|-|-|-|-
+1000 | Caunchy                                                                                  |                                                                                       10 |      100 |   4764 |        24 | 2461.9 | 26618.4 |
+|                                                                                      500 | Caunchy                                                                                  |                                                                                        5 |      200 |   5918 |        24 | 2415.5 | 25292.8 |
+|                                                                                     1000 | Boltzmann                                                                                |                                                                                       10 |      100 |   4877 |        21 | 2482.1 | 24807.0 |
+|                                                                                      750 | Boltzmann                                                                                |                                                                                       20 |      150 |  13115 |        27 | 2479.4 | 25363.5 |
 
-```{python outputList, include=FALSE}
-import pandas as pd
-# Get the list of questions to send to R
-outputSA = [simA1, simA2, simA3, simA4]
-outputGA = [GA_1, GA_2, GA_3]
+## 3.2 Genetic Algorithm Output
 
-# Convert to data frames with column names
-df_SA = pd.DataFrame(outputSA,
-                  columns = ['t[0]', 'Cooling,t[k]', 'M[k]', '# Temps', 'Iters.',
-                             'No. Items', 'Weight', 'Value']
-                  )
-                  
-df_GA = pd.DataFrame(outputGA,
-                     columns = ['Generations', 'Pop Size', 'Crossover', 'Mutation', 'Elitism',
-                                'No. Items', 'Weight', 'Value']
-                     )
-```
-
-```{r makeSummaryOut, echo=FALSE}
-library(reticulate) # Package to convert Python to R / R to Python
-
-# >> Convert Python list to R list object <<
-df_SA <- py$df_SA
-df_GA <- py$df_GA
-
-```
-
-## Simulated Annealing Output 
-
-```{r df_SA, echo=FALSE}
-knitr::kable(df_SA)
-```
-
-## Genetic Algorithm Output 
-
-```{r df_GA, echo=FALSE}
-knitr::kable(df_GA)
-```
-
-
-
-
-
-
-
+| Generations | Pop Size | Crossover | Mutation | Elitism | No. Items | Weight |   Value |
+|------------:|---------:|----------:|---------:|--------:|----------:|-------:|--------:|
+|         250 |      150 |       0.9 |    0.100 |      10 |        18 | 2247.3 | 17957.6 |
+|         500 |      150 |       0.9 |    0.050 |      20 |        17 | 2485.7 | 17354.3 |
+|        1000 |      150 |       0.9 |    0.025 |      50 |        16 | 2036.7 | 18519.2 |
