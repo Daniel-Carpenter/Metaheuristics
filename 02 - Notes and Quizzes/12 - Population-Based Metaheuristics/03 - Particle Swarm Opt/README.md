@@ -6,7 +6,9 @@
 2. Defining `Movement`: Inertia, Cognitive and Social Influence
 3. Defining the `Swarm` vs. `Particles` 
 4. PSO `Algorithm` Steps (*overview*)
-4. PSO `Algorithm` Details
+5. PSO Neighborhoods (*`Global`* and *`Local`*)
+6. PSO Variations
+
 
 ---
 
@@ -80,3 +82,34 @@ Variable              | Description
 <img src = "Images/converge1.png" width = 550> <br>
 <img src = "Images/converge2.png" width = 550> <br>
 
+
+---
+
+<br>
+
+## 5. PSO Neighborhoods (*`Global`* and *`Local`*)
+> Not same concept as usual neighborhood  
+> Neighborhoods depend on external relationships that are not problem dependant  
+
+### 5.1 Neighborhood Overview
+<img src = "Images/neigh0.png" width = 550> <br>
+
+<br>
+
+### 5.2 Neighborhood Types
+> * `Global best` is a fully connected neighborhood (all info shared)
+> * `Local best` is *not* than a fully connected neighborhood (not all info shared)
+
+<img src = "Images/neigh1.png" width = 550> <br>
+<img src = "Images/neigh2.png" width = 550> <br>  
+*Note `von Neumann` performs well*   
+<img src = "Images/neigh3.png" width = 550> <br>
+*Note `Star` prevents premature convergence but could lack collaberation*   
+<img src = "Images/neigh4.png" width = 550> <br>
+
+---
+
+<br>
+
+## 6. PSO Variations
+<img src = "Images/variants.png" width = 550> <br>
