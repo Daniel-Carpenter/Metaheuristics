@@ -1,5 +1,5 @@
 # Partical Swarm Optimization (*PSO*)
-> Swarm intelligence that mimics groups of individual fish or birds swarming together towards an overall objective
+> Swarm intelligence that mimics groups of individual fish or birds swarming together without understanding of an overall objective
 
 ## Content Overview
 1. `PSO` vs `Genetic Algorithm`
@@ -34,7 +34,7 @@
 <br>
 
 ## 2. Defining `Movement`: Inertia, Cognitive and Social Influence
-> `Movement` is how the paricle goes about the space. 3 factors: 
+> `Movement` is how the particle goes about the space. 3 factors: 
 
 <img src = "Images/overview3.png" width = 550> <br> <br>
 
@@ -101,7 +101,7 @@ Variable              | Description
 > * `Local best` is *not* than a fully connected neighborhood (not all info shared)
 
 <img src = "Images/neigh1.png" width = 550> <br>
-<img src = "Images/neigh2.png" width = 550> <br>  
+<img src = "Images/neigh2.png" width = 550> <br>
 *Note `von Neumann` performs well*   
 <img src = "Images/neigh3.png" width = 550> <br>
 *Note `Star` prevents premature convergence but could lack collaberation*   
