@@ -97,8 +97,8 @@ Variable              | Description
 <br>
 
 ### 5.2 Neighborhood Types
-> * `Global best` is a fully connected neighborhood (all info shared)
-> * `Local best` is *not* than a fully connected neighborhood (not all info shared)
+> * `Global best` type is a fully connected neighborhood (like above models - note all info shared)
+> * `Local best`  type is *not* than a fully connected neighborhood (not all info shared)
 
 <img src = "Images/neigh1.png" width = 550> <br>
 <img src = "Images/neigh2.png" width = 550> <br>
