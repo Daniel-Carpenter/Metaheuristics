@@ -17,7 +17,7 @@
 ### Conceptual Overview
 <img src = "Images/overview1.png" width = 550> <br>
 
-### Visualizing `Swarms Intelligent` in Optimization
+### Visualizing `Swarm Intelligent` in Optimization
 <img src = "Images/PSO.gif" width = 400> <br>
 ---
 
