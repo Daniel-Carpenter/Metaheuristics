@@ -19,7 +19,7 @@
 ### *Visualizing* `Swarm Intelligence` in Optimization
 * [Source file (click for notes): ExampleAlgPSO.py](https://machinelearningmastery.com/a-gentle-introduction-to-particle-swarm-optimization/)
 
-<img src = "Images/PSO.gif" width = 300><img src = "Images/PSO_space.gif" width = 300> <br>
+<img src = "Images/PSO.gif" width = 325><img src = "Images/PSO_space.gif" width = 325> <br>
 
 ---
 
