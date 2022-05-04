@@ -9,7 +9,6 @@
 5. PSO Neighborhoods (*`Global`* and *`Local`*)
 6. PSO Variations
 
-
 ---
 
 <br>
@@ -17,13 +16,13 @@
 ### Conceptual Overview
 <img src = "Images/overview1.png" width = 550> <br>
 
-### Visualizing `Swarm Intelligent` in Optimization
+### *Visualizing* `Swarm Intelligence` in Optimization
 <img src = "Images/PSO.gif" width = 400> <br>
 ---
 
 <br>
 
-## 1. `PSO` vs `GA`
+## 1. `PSO` vs `Genetic Algorithm`
 <img src = "Images/overview2.png" width = 550> <br>
 
 ---
