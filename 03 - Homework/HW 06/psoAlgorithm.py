@@ -96,7 +96,7 @@ for particle in range(swarmSize):
         velocity[particle].append(randNumGenerator.uniform(-1, 1))
 
     # STEP 2 (initial): Evaluate fitness value
-    pCurrFitValue.append(evalFitnessVal(position[particle]))  # evaluate the current position's fitness value
+    pCurrFitValue.append(evalFitnessVal(position[:][particle]))  # evaluate the current position's fitness value
 
 # STEP 3 (initial): Log the individual and global bests
 pBestPosition = position[:]       # initialize pBestPosition to the starting position
@@ -132,16 +132,16 @@ gBestFitValue, gBestPosition = getMinValueAndIndex(pBestFitValue[:], pBestPositi
 r1, r2 = randNumGenerator.random(), randNumGenerator.random() 
 
 ## Calculations of updating velocity, separated by intertia + cognitive + social (for simplicity)
-vInertia   = np.multiply(intertiaWeight, velocity)                      # Interia   component of updated velocity
-vCognitive = np.multiply(phi1*r1, np.subtract(pBestPosition, position)) # Cognitive component of ""
-vSocial    = np.multiply(phi2*r2, np.subtract(gBestPosition, position)) # Social    component of ""
+vInertia   = np.multiply(intertiaWeight, velocity[:])                      # Interia   component of updated velocity
+vCognitive = np.multiply(phi1*r1, np.subtract(pBestPosition[:], position[:])) # Cognitive component of ""
+vSocial    = np.multiply(phi2*r2, np.subtract(gBestPosition[:], position[:])) # Social    component of ""
 
 ## Actually update the velocity
-velocity =  vInertia + vCognitive + vSocial
+velocity =  vInertia[:] + vCognitive[:] + vSocial[:]
 
 # Position --------------------------------------------------------------------
 
-position = position + velocity # Update new position based on the updated velocity
+position = position[:] + velocity[:] # Update new position based on the updated velocity
 
 # Convert back to list
 position = position.tolist()
@@ -152,12 +152,28 @@ velocity = velocity.tolist()
 # Compare current position fitness value to the current best (for each particle)
 # =============================================================================
 
-# # Calculate the fitness of the new positions
-# for particle in range(swarmSize):
-#     for theDimension in range(numDimensions):
-#         pCurrFitValue[particle] = evalFitnessVal(position[particle])
+# Calculate the fitness of the new positions
+for particle in range(swarmSize):
+    for theDimension in range(numDimensions):
+        
+        # Get the current fitness value of the new positions
+        pCurrFitValue[particle] = evalFitnessVal(position[:][particle])
+        
+        # Compare the current positions' value to their person best
+        if pCurrFitValue[particle] < pBestFitValue[particle]:
+        
+            # If better, then set the best VALUE to the current value (as a copy [:])
+            pBestFitValue[particle] = pCurrFitValue[:][particle]
+            
+            # If better, then set the best POSITION to the current position  (as a copy [:])
+            pBestPosition[particle] = position[:][particle]
+        
+        
+# Get the Global best fitness value and position
+gBestFitValue, gBestPosition = getMinValueAndIndex(pBestFitValue[:], pBestPosition[:]) 
 
-# pBestFitValue, pBestPosition = getMinValueAndIndex(pBestFitValue[:], pBestPosition[:]) 
+
+# Rerun velocity
 
 
 
