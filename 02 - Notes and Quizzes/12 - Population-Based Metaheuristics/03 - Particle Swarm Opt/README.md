@@ -17,11 +17,8 @@
 ### Conceptual Overview
 <img src = "Images/overview1.png" width = 550> <br>
 
-### Visualizing `Swarms Intelligent` in Optimization?
-<img src = "Images/swarm1.png" width = 250> <br>
-<img src = "Images/swarm2.png" width = 250> <br>
-<img src = "Images/swarm3.png" width = 250> <br>
-<img src = "Images/swarm4.png" width = 250> <br>
+### Visualizing `Swarms Intelligent` in Optimization
+<img src = "Images/PSO.gif" width = 400> <br>
 ---
 
 <br>
