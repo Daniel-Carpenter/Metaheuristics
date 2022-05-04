@@ -17,7 +17,10 @@
 <img src = "Images/overview1.png" width = 550> <br>
 
 ### *Visualizing* `Swarm Intelligence` in Optimization
-<img src = "Images/PSO.gif" width = 400> <br>
+* [Source file (click for notes): ExampleAlgPSO.py](https://machinelearningmastery.com/a-gentle-introduction-to-particle-swarm-optimization/)
+
+<img src = "Images/PSO.gif" width = 300>
+<img src = "Images/PSO_space.gif" width = 300> <br>
 ---
 
 <br>
