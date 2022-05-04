@@ -7,6 +7,7 @@ ISE/DSA 5113
 import copy
 import math
 from random import Random
+import numpy as np
 
 # Random seed
 # to get a random number between 0 and 1, write call this:             randNumGenerator.random()
@@ -37,6 +38,10 @@ swarmSize     = 5 # number of particles in swarm
 # Velocity acceleration constants
 phi1 = 2
 phi2 = 2 
+
+# Initial Inertia weight (placeholder) # TODO
+intertiaWeight = 0.2
+
 
 
 # =============================================================================
@@ -72,12 +77,12 @@ velocity = [[] for _ in range(swarmSize)] # V[particle]: velocity (2D: x, y) of 
 
 # Lists containing info related to each particle in swarm
 pCurrFitValue = []  # X[particle] The current position of particle i
-pBestPostion  = []  # P[particle] Particle i's historical best position
+pBestPosition = []  # P[particle] Particle i's historical best position
 pBestFitValue = []  # Associated evaluated fitness value for Particle i's historical best position
 
 
 # =============================================================================
-# SWARM INITIALIZATION 
+# STEP 1 - SWARM INITIALIZATION 
 # Randomly initialize a swarm instance
 # Set the partical's best to it's starting position
 # =============================================================================
@@ -90,15 +95,78 @@ for particle in range(swarmSize):
         # Velocity: give random value between -1 and 1   --- maybe these are good bounds?  maybe not...
         velocity[particle].append(randNumGenerator.uniform(-1, 1))
 
+    # STEP 2 (initial): Evaluate fitness value
     pCurrFitValue.append(evalFitnessVal(position[particle]))  # evaluate the current position's fitness value
 
+# STEP 3 (initial): Log the individual and global bests
 pBestPosition = position[:]       # initialize pBestPosition to the starting position
-pBestFitVal   = pCurrFitValue[:]  # initialize pBestPosition to the starting position's value
+pBestFitValue = pCurrFitValue[:]  # initialize pBestPosition to the starting position's value
+
+
+## Global best position and value ---------------------------------------------
+
+# Returns the 2 element list with [0] min value and [1] associate index of an element
+def getMinValueAndIndex(fitnessValues, positions):
+    minValue = np.min(fitnessValues)
+    minIndex = fitnessValues.index(minValue)
+    
+    minPosition = positions[minIndex][:]
+    
+    return [minValue, minPosition]
+
+# From above output for later indexing
+VALUE_IDX    = 0
+POSITION_IDX = 1
+
+# Get the Global best fitness value and position
+gBestFitValue, gBestPosition = getMinValueAndIndex(pBestFitValue[:], pBestPosition[:]) 
+
+
+# =============================================================================
+# UPDATE VELOCITY AND POSITION 
+# =============================================================================
+
+# Velocity --------------------------------------------------------------------
+
+## random weights of r for random velocity adjustment
+r1, r2 = randNumGenerator.random(), randNumGenerator.random() 
+
+## Calculations of updating velocity, separated by intertia + cognitive + social (for simplicity)
+vInertia   = np.multiply(intertiaWeight, velocity)                      # Interia   component of updated velocity
+vCognitive = np.multiply(phi1*r1, np.subtract(pBestPosition, position)) # Cognitive component of ""
+vSocial    = np.multiply(phi2*r2, np.subtract(gBestPosition, position)) # Social    component of ""
+
+## Actually update the velocity
+velocity =  vInertia + vCognitive + vSocial
+
+# Position --------------------------------------------------------------------
+
+position = position + velocity # Update new position based on the updated velocity
+
+# Convert back to list
+position = position.tolist()
+velocity = velocity.tolist()
+
+
+# =============================================================================
+# Compare current position fitness value to the current best (for each particle)
+# =============================================================================
+
+# # Calculate the fitness of the new positions
+# for particle in range(swarmSize):
+#     for theDimension in range(numDimensions):
+#         pCurrFitValue[particle] = evalFitnessVal(position[particle])
+
+# pBestFitValue, pBestPosition = getMinValueAndIndex(pBestFitValue[:], pBestPosition[:]) 
+
+
 
 
 ## TODO - Track particle best position and value
+
 ## TODO - Track global best position and value
-## TODO - Velocity and Position update functions
+    
+
 ## TODO - Limits on guidence of the feasible particle's position
 ## TODO - velocity max limitations
 ## TODO - stopping criterion, etc.
