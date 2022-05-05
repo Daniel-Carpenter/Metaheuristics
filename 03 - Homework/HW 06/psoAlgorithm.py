@@ -52,6 +52,7 @@ def getGlobalBest(fitnessValues, positions, swarmSize):
 
 # =============================================================================
 # LOCAL MIN VALUE AND POSITION SEARCH FUNCTION
+# Topology: Ring structure with n neighbors  (default 2)
 # Returns the 2 element list of lists with the each particle's local best within neighborhood
 # ---- [0] min value and 
 # ---- [1] associate position of 
@@ -214,20 +215,23 @@ def calculateParticleBests(position, swarmSize, numDimensions,
 # DISPLAY GLOBAL BEST AND DIMENSIONS FUNCTION
 # Function for displaying the global best and its dimensions
 # =============================================================================
-def displayGlobalBest(glBestFitValue, glBestPosition, numDimensions):
+def displayGlobalBest(glBestFitValue, glBestPosition, numDimensions, printDims):
     # Print the global optima
-    print('\nGlobal Best Value:\t % 0.4f' % glBestFitValue, '\n',
-          'For each [dimension], Global Best Position:', 
-          sep='')
+    print('\nGlobal Best Value:\t % 0.4f' % glBestFitValue)
     
-    # Print the position of each dimension in markdown table format
-    print('\n',
-          '| Dimension | Global Best |', sep ='')
-    print('|-----------|-------------|')
-    for theDimension in range(numDimensions):
-        print('|' + str(theDimension).rjust(10, ' '), 
-              '|' + '{:.4f}'.format(glBestPosition[theDimension]).rjust(12, ' ') + ' |'
-              )
+    
+    # Print each dimension (if toggled)
+    if printDims:
+        print('For each [dimension], Global Best Position:')
+        
+        # Print the position of each dimension in markdown table format
+        print('\n',
+              '| Dimension | Global Best |', sep ='')
+        print('|-----------|-------------|')
+        for theDimension in range(numDimensions):
+            print('|' + str(theDimension).rjust(10, ' '), 
+                  '|' + '{:.4f}'.format(glBestPosition[theDimension]).rjust(12, ' ') + ' |'
+                  )
 
 
 # =============================================================================
@@ -293,6 +297,7 @@ def writeIteratonsToCSV(numDimensions, # Number of dimensions in the swarm
 # ---- filename:        Name of CSV file to export to working directory.
 # ----                  If using 2D and 'global' best method, will export CSV.
 # ----                  Reason for exporting is to read in data to R for plotting iterations
+# ---- printDims:       Print the dimensions' value or not
 # =============================================================================
 
 def swarmOptimizationSchwefel( # -------------------- Defaults --------------------
@@ -303,7 +308,8 @@ def swarmOptimizationSchwefel( # -------------------- Defaults -----------------
     intertiaWeight  = 0.1,     # Constant Inertia weighting value
     totalIterations = 100,     # Stopping criteria = the total number of iterations
     method          = 'local', # 'local' or 'global' best function name
-    filename        = 'output' # Name of the ouput csv file to write first 5 iterations
+    filename        = 'output',# Name of the ouput csv file to write first 5 iterations,
+    printDims       = False     # Print the dimension's value or not
     ):
     
     # Initialize to global best function by default
@@ -356,9 +362,7 @@ def swarmOptimizationSchwefel( # -------------------- Defaults -----------------
                 
         # Step 4: Get the Global or local best (depends on chosen method) fitness value and position
         glBestFitValue, glBestPosition = functionToGetBest(pBestFitValue[:], pBestPosition[:], swarmSize) 
-    
-    
-    
+       
     
     # -----------------------------------------------------------------------------
     # Global Best
@@ -377,20 +381,196 @@ def swarmOptimizationSchwefel( # -------------------- Defaults -----------------
     # -----------------------------------------------------------------------------
     
     # Print the global (or local best) and each dimensions' position
-    displayGlobalBest(gBestFitValue, gBestPosition, numDimensions)
+    displayGlobalBest(gBestFitValue, gBestPosition, numDimensions, printDims)
     
     # If 2D, then write to a csv for plotting in R
     writeIteratonsToCSV(numDimensions, filename, method, velocityIterations,
                         positionIterations, gBestPositionIterations, swarmSize)
+    
+    return gBestFitValue # return the best fit
+
         
-# Call the function given the key parameters
+
+# =============================================================================
+# ANSWER THE PROBLEMS BY CALLING FUNCTION
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Part 1 (b) & (c)
+# -----------------------------------------------------------------------------
+
+# 1(b) Create a swarm of size 5 and solve the 2D Schwefel problem. ------------
 swarmOptimizationSchwefel(
     numDimensions   = 2,        # number of dimensions of problem
     swarmSize       = 5,        # number of particles in swar
     phi1            = 2,        # Cognitive weight
     phi2            = 2,        # Social weight
     intertiaWeight  = 0.1,      # Constant Inertia weighting value
-    totalIterations = 10000,    # Stopping criteria = the total number of iterations
+    totalIterations = 100000,   # Stopping criteria = the total number of iterations
     method          = 'global', # 'local' or 'global' best function name
-    filename        = 'output'  # Name of the ouput csv file to write first 5 iterations
-    )
+    filename        = 'output', # Name of the ouput csv file to write first 5 iterations
+    printDims       = True      # Print the dimension's value or not
+    )   
+
+
+# 1(c) create a swarm to best and solve the 200D Schwefel problem. ------------
+# Try different swarm sizes, inertial weights, and values for ϕ1 and ϕ2
+
+# 1(c, i) Base 200D
+s1 = swarmOptimizationSchwefel(
+      numDimensions   = 200,      # number of dimensions of problem
+      swarmSize       = 5,        # number of particles in swar
+      phi1            = 2,        # Cognitive weight
+      phi2            = 2,        # Social weight
+      intertiaWeight  = 0.1,      # Constant Inertia weighting value
+      totalIterations = 50,       # Stopping criteria = the total number of iterations
+      method          = 'global', # 'local' or 'global' best function name
+      printDims       = False     # Print the dimension's value or not
+      )   
+
+# 1(c, ii.) 200D, changes: Swarm from 5 to 10
+s2 = swarmOptimizationSchwefel(
+    numDimensions   = 200,      # number of dimensions of problem
+    swarmSize       = 10,       # number of particles in swar
+    phi1            = 2,        # Cognitive weight
+    phi2            = 2,        # Social weight
+    intertiaWeight  = 0.1,      # Constant Inertia weighting value
+    totalIterations = 50,       # Stopping criteria = the total number of iterations
+    method          = 'global', # 'local' or 'global' best function name
+    printDims       = False     # Print the dimension's value or not
+    )   
+
+# 1(c, iii.) 200D, changes: phi1: 1, phi2: 3 
+s3 = swarmOptimizationSchwefel(
+    numDimensions   = 200,      # number of dimensions of problem
+    swarmSize       = 10,       # number of particles in swar
+    phi1            = 1,        # Cognitive weight
+    phi2            = 3,        # Social weight
+    intertiaWeight  = 0.1,      # Constant Inertia weighting value
+    totalIterations = 50,       # Stopping criteria = the total number of iterations
+    method          = 'global', # 'local' or 'global' best function name
+    printDims       = False     # Print the dimension's value or not
+    )   
+
+# 1(c, iv.) 200D, changes: interia weight =  0.9
+s4 = swarmOptimizationSchwefel(
+    numDimensions   = 200,      # number of dimensions of problem
+    swarmSize       = 10,       # number of particles in swar
+    phi1            = 1,        # Cognitive weight
+    phi2            = 3,        # Social weight
+    intertiaWeight  = 0.9,      # Constant Inertia weighting value
+    totalIterations = 50,       # Stopping criteria = the total number of iterations
+    method          = 'global', # 'local' or 'global' best function name
+    printDims       = False     # Print the dimension's value or not
+    )   
+
+# 1(c, v.) 200D, changes: phi1: 3, phi2: 1 
+s5 = swarmOptimizationSchwefel(
+    numDimensions   = 200,      # number of dimensions of problem
+    swarmSize       = 10,       # number of particles in swar
+    phi1            = 3,        # Cognitive weight
+    phi2            = 1,        # Social weight
+    intertiaWeight  = 0.9,      # Constant Inertia weighting value
+    totalIterations = 50,       # Stopping criteria = the total number of iterations
+    method          = 'global', # 'local' or 'global' best function name
+    printDims       = False     # Print the dimension's value or not
+    )   
+
+swarmResults = [s1, s2, s3, s4, s5]
+
+print('\n------- Question 1(c) Results of Swarm Runs -------')
+for result in range(0, len(swarmResults)):
+    print('Result', result, ':\t', swarmResults[result])
+
+        
+# -----------------------------------------------------------------------------
+# Part 1 (d) & (e)
+# -----------------------------------------------------------------------------
+
+# 1(d) Create a swarm of size 5 and solve the 2D Schwefel problem. ------------
+# Implement a PSO algorithm that uses the “local best” in place of the 
+# global best and explain which topology you are using.
+
+# Topology: Ring structure with 2 neighbors  
+swarmOptimizationSchwefel(
+    numDimensions   = 2,        # number of dimensions of problem
+    swarmSize       = 5,        # number of particles in swar
+    phi1            = 2,        # Cognitive weight
+    phi2            = 2,        # Social weight
+    intertiaWeight  = 0.1,      # Constant Inertia weighting value
+    totalIterations = 100000,   # Stopping criteria = the total number of iterations
+    method          = 'local',  # 'local' or 'global' best function name
+    filename        = 'output', # Name of the ouput csv file to write first 5 iterations
+    printDims       = True      # Print the dimension's value or not
+    )   
+
+
+# 1(e) create a swarm to best and solve the 200D Schwefel problem. ------------
+# Same as 1(c) parameters, just using 'local' now
+# Topology: Ring structure with 2 neighbors  
+
+# 1(e, i) Base 200D
+s1e = swarmOptimizationSchwefel(
+      numDimensions   = 200,      # number of dimensions of problem
+      swarmSize       = 5,        # number of particles in swar
+      phi1            = 2,        # Cognitive weight
+      phi2            = 2,        # Social weight
+      intertiaWeight  = 0.1,      # Constant Inertia weighting value
+      totalIterations = 50,       # Stopping criteria = the total number of iterations
+      method          = 'local',  # 'local' or 'global' best function name
+      printDims       = False     # Print the dimension's value or not
+      )   
+
+# 1(e, ii.) 200D, changes: Swarm from 5 to 10
+s2e = swarmOptimizationSchwefel(
+    numDimensions   = 200,      # number of dimensions of problem
+    swarmSize       = 10,       # number of particles in swar
+    phi1            = 2,        # Cognitive weight
+    phi2            = 2,        # Social weight
+    intertiaWeight  = 0.1,      # Constant Inertia weighting value
+    totalIterations = 50,       # Stopping criteria = the total number of iterations
+    method          = 'local',  # 'local' or 'global' best function name
+    printDims       = False     # Print the dimension's value or not
+    )   
+
+# 1(e, iii.) 200D, changes: phi1: 1, phi2: 3 
+s3e = swarmOptimizationSchwefel(
+    numDimensions   = 200,      # number of dimensions of problem
+    swarmSize       = 10,       # number of particles in swar
+    phi1            = 1,        # Cognitive weight
+    phi2            = 3,        # Social weight
+    intertiaWeight  = 0.1,      # Constant Inertia weighting value
+    totalIterations = 50,       # Stopping criteria = the total number of iterations
+    method          = 'local',  # 'local' or 'global' best function name
+    printDims       = False     # Print the dimension's value or not
+    )   
+
+# 1(e, iv.) 200D, changes: interia weight =  0.9
+s4e = swarmOptimizationSchwefel(
+    numDimensions   = 200,      # number of dimensions of problem
+    swarmSize       = 10,       # number of particles in swar
+    phi1            = 1,        # Cognitive weight
+    phi2            = 3,        # Social weight
+    intertiaWeight  = 0.9,      # Constant Inertia weighting value
+    totalIterations = 50,       # Stopping criteria = the total number of iterations
+    method          = 'local',  # 'local' or 'global' best function name
+    printDims       = False     # Print the dimension's value or not
+    )   
+
+# 1(e, v.) 200D, changes: phi1: 3, phi2: 1 
+s5e = swarmOptimizationSchwefel(
+    numDimensions   = 200,      # number of dimensions of problem
+    swarmSize       = 10,       # number of particles in swar
+    phi1            = 3,        # Cognitive weight
+    phi2            = 1,        # Social weight
+    intertiaWeight  = 0.9,      # Constant Inertia weighting value
+    totalIterations = 50,       # Stopping criteria = the total number of iterations
+    method          = 'local',  # 'local' or 'global' best function name
+    printDims       = False     # Print the dimension's value or not
+    )   
+
+swarmResultsE = [s1e, s2e, s3e, s4e, s5e]
+
+print('\n------- Question 1(e) Results of Swarm Runs -------')
+for result in range(0, len(swarmResultsE)):
+    print('Result', result, ':\t', swarmResultsE[result])
