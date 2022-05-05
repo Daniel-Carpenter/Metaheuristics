@@ -61,8 +61,8 @@ iterPlot <- swarmData %>%
   labs(title = 'Particle Swarm Optimization',
        subtitle = paste0('Shows the first ', max(swarmData$iteration), 
                          ' iterations of the PSO | Daniel Carpenter'),
-       x = 'Position 1',
-       y = 'Position 2') + 
+       x = 'Position (Dimension) 1',
+       y = 'Position (Dimension) 2') + 
   
   theme_bw() # a theme
 
