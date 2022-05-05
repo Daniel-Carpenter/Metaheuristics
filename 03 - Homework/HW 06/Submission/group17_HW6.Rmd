@@ -4,17 +4,17 @@ subtitle: 'Particle Swarm Optimization using Schwefel Benchmark Function'
 author: "Daniel Carpenter"
 date: "April 2022"
 output:
-  # pdf_document:
-  #   toc: yes
-  #   toc_depth: 2
-  #   number_sections: yes
-  #   highlight: tango
-  html_document:
-    theme: yeti
+  pdf_document:
     toc: yes
-    toc_float: yes
     toc_depth: 2
     number_sections: yes
+    highlight: tango
+  # html_document:
+  #   theme: yeti
+  #   toc: yes
+  #   toc_float: yes
+  #   toc_depth: 2
+  #   number_sections: yes
   # github_document:
   #   toc: yes
   #   number_sections: yes
@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 	warning = FALSE,
 	tidy.opts=list(width.cutoff=60), 
 	tidy  = TRUE, 
-	cache = FALSE
+	cache = TRUE
 )
 ```
 
@@ -38,10 +38,10 @@ knitr::opts_chunk$set(
 
 **Global Variables**  
   
-> Input variables like the *random seed*, *values and weights* data for knapsack, and the *maximum allowable weight*   
+> Input variables like the *random seed*, and the *lower and upper bound of solution space*   
 > Please assume these are referenced by following code chunks
 
-```{python globals, echo=TRUE}
+```{python globals}
 import math
 from random import Random
 import numpy as np
@@ -58,4 +58,9 @@ upperBound = 500
 \newpage
 
 
-# *Question 1:* 
+# *Question 1:* Particle Swarm Optimization
+> Find the global optimium of the `Schwefel` function below
+
+![2D Schwefel Function](Images/schwefel.png){ height=30% }
+
+
