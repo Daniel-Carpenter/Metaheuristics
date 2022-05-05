@@ -414,7 +414,7 @@ swarmOptimizationSchwefel(
 
 
 # 1(c) create a swarm to best and solve the 200D Schwefel problem. ------------
-# Try different swarm sizes, inertial weights, and values for ϕ1 and ϕ2
+# Try different swarm sizes, inertial weights, and values for phi1 and ϕ2
 
 # 1(c, i) Base 200D
 s1 = swarmOptimizationSchwefel(
