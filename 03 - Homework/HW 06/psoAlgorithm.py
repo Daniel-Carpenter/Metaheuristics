@@ -62,7 +62,9 @@ def evalFitnessVal(x):
 
 # =============================================================================
 # MIN VALUE AND POSITION SEARCH FUNCTION
-# Returns the 2 element list with [0] min value and [1] associate index of an element
+# Returns the 2 element list with the global best particle's:
+# ---- [0] min value and 
+# ---- [1] associate position of 
 # =============================================================================
 def getGlobalBest(fitnessValues, positions):
     minValue = np.min(fitnessValues)         # Find the Minimum fitness value of all particles
