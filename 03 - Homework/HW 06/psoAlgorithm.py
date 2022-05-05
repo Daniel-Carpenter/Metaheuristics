@@ -29,21 +29,6 @@ upperBound = 500  # bounds for Schwefel Function search space
 
 
 # =============================================================================
-# INPUTS 
-# =============================================================================
-
-numDimensions = 2   # number of dimensions of problem
-swarmSize     = 5 # number of particles in swarm
-
-# Velocity acceleration constants
-phi1 = 2 # Cognitive weight
-phi2 = 2 # Social weight 
-
-# Constant Inertia weighting value
-intertiaWeight = 0.1
-
-
-# =============================================================================
 # SCHWEFEL FUNCTION
 # Schwefel function to evaluate a real-valued solution x
 # note: the feasible space is an n-dimensional hypercube centered at the origin with side length = 2 * 500
@@ -81,31 +66,22 @@ POSITION_IDX = 1
 
 
 # =============================================================================
-# INITIALIZE POSITION AND VELOCITY
-# the swarm will be represented as a list of positions, velocities, values, pBestPosition, and pBestPosition values
-# note: position[0] and velocity[0] provides the position and velocity of particle 0; 
-# position[1] and velocity[1] provides the position and velocity of particle 1; and so on.
-# =============================================================================
-
-# In the current time period, position[particle] and velocity[particle] of each particle i, 
-# Each particle contains n-dimensional list of the coordinate position & velocity 
-position = [[] for _ in range(swarmSize)] # X[particle]: position (2D: x, y) of particle i
-velocity = [[] for _ in range(swarmSize)] # V[particle]: velocity (2D: x, y) of particle i
-
-
-# Lists containing info related to each particle in swarm
-pCurrFitValue = []  # X[particle] The current position of particle i
-pBestPosition = []  # P[particle] Particle i's historical best position
-pBestFitValue = []  # Associated evaluated fitness value for Particle i's historical best position
-
-
-# =============================================================================
 # STEP 1 - SWARM INITIALIZATION / EVALUATION
 # Randomly initialize a swarm instance
 # Set the partical's best to it's starting position
 # =============================================================================
 def initializeSwarm():
     
+    # In the current time period, position[particle] and velocity[particle] of each particle i, 
+    # Each particle contains n-dimensional list of the coordinate position & velocity 
+    position = [[] for _ in range(swarmSize)] # X[particle]: position (2D: x, y) of particle i
+    velocity = [[] for _ in range(swarmSize)] # V[particle]: velocity (2D: x, y) of particle i
+
+    # Lists containing info related to each particle in swarm
+    pCurrFitValue = []  # X[particle] The current position of particle i
+
+    
+    # For each particle and dimension, randomly initialize the...
     for particle in range(swarmSize):
         for theDimension in range(numDimensions):
             
@@ -126,7 +102,9 @@ def initializeSwarm():
     # 1.3 - Log the Global best fitness value and position
     gBestFitValue, gBestPosition = getGlobalBest(pBestFitValue[:], pBestPosition[:]) 
     
-    return [pBestPosition, pBestFitValue, gBestFitValue, gBestPosition]
+    return [position, velocity, pCurrFitValue, 
+            pBestPosition, pBestFitValue, 
+            gBestFitValue, gBestPosition]
 
 
 # =============================================================================
@@ -164,7 +142,7 @@ def updateVelocityAndPosition(intertiaWeight, velocity, position, phi1, phi2, pB
     ## Update new position based on the updated velocity
     newPosition = position[:] + newVelocity[:] 
     
-    ## Make sure that the position is within the bounds ------------------------
+    ## Make sure that the position is within the bounds -----------------------
     for particle in range(swarmSize):
         for theDimension in range(numDimensions):
             
@@ -174,7 +152,7 @@ def updateVelocityAndPosition(intertiaWeight, velocity, position, phi1, phi2, pB
                 # Stocastically put the position in bounds
                 newPosition[particle][theDimension] = randNumGenerator.uniform(lowerBound, upperBound)
     
-    # Convert position and velocity back to list
+    # Convert position and velocity back to list ------------------------------
     newPosition = newPosition.tolist()
     newVelocity = newVelocity.tolist()
     
@@ -269,21 +247,46 @@ def writeIteratonsToCSV(numDimensions = 2, # Number of dimensions in the swarm
 # MAIN
 # =============================================================================
 
+# -----------------------------------------------------------------------------
+# INPUTS 
+# -----------------------------------------------------------------------------
+
+numDimensions = 2   # number of dimensions of problem
+swarmSize     = 5 # number of particles in swarm
+
+# Velocity acceleration constants
+phi1 = 2 # Cognitive weight
+phi2 = 2 # Social weight 
+
+# Constant Inertia weighting value
+intertiaWeight = 0.1
+
 # Stopping criteria = the total number of iterations
 totalIterations = 10000
 
-# Step 1: Initialize swarm and get the particles' and global best
-pBestPosition, pBestFitValue, gBestFitValue, gBestPosition = initializeSwarm()
+
+# -----------------------------------------------------------------------------
+# INITIALIZE POSITION AND VELOCITY
+# the swarm will be represented as a list of positions, velocities, values, pBestPosition, and pBestPosition values
+# note: position[0] and velocity[0] provides the position and velocity of particle 0; 
+# position[1] and velocity[1] provides the position and velocity of particle 1; and so on.
+# -----------------------------------------------------------------------------
+
+# Step 1: Initialize swarm and get the particles' and global best (and current position)
+position, velocity, pCurrFitValue, pBestPosition, pBestFitValue, gBestFitValue, gBestPosition = initializeSwarm()
 
 # Create empty lists for holding the swarm iterations
 positionIterations      = [] # Each particle's velocity
 velocityIterations      = [] # Each particle's position
 gBestPositionIterations = [] # The current Global Best Position
 
+
+# -----------------------------------------------------------------------------
 # Main Loop 
+# -----------------------------------------------------------------------------
 for iteration in range(totalIterations):
     
-    # Keep track of each iterations/dimension for velocity, position, and current global best
+    # Step 0: Keep track of each iterations/dimension for velocity, position, and current global best
     velocityIterations.append(velocity)           
     positionIterations.append(position)           
     gBestPositionIterations.append(gBestPosition) 
