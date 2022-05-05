@@ -46,8 +46,8 @@ def evalFitnessVal(x):
     return fitnessValue
 
 # =============================================================================
-# MIN VALUE AND POSITION SEARCH FUNCTION
-# Returns the 2 element list with the global best particle's:
+# GLOBAL MIN VALUE AND POSITION SEARCH FUNCTION
+# Returns the 2 element list (each containing a single value) with the global best particle's:
 # ---- [0] min value and 
 # ---- [1] associate position of 
 # =============================================================================
@@ -60,7 +60,48 @@ def getGlobalBest(fitnessValues, positions):
     # Returns: the global best particle's minimum fitness value and its position
     return [minValue, minPosition] 
 
-# If you needed to index the list just returned
+
+# =============================================================================
+# LOCAL MIN VALUE AND POSITION SEARCH FUNCTION
+# Returns the 2 element list of lists with the each particle's local best within neighborhood
+# ---- [0] min value and 
+# ---- [1] associate position of 
+# Can change numParticlesInNbrhood to consider more or less in particle's neighborhood
+# =============================================================================
+def getLocalBest(fitnessValues, positions, 
+                  numParticlesInNbrhood = 2):  # Number of particles to compare to for local best
+
+    lBestFitValue = [] # will hold the best VALUE    of the n surrounding particles, for each particle
+    lBestPosition = [] # will hold the best POSITION of the n surrounding particles, for each particle
+    
+    
+    # For every particle in the swarm, (starting at n less than index 0)
+    for particle in range(-numParticlesInNbrhood, swarmSize - numParticlesInNbrhood):
+        
+        # Identify the two neighbors fitness value of this particle, 
+        # which are the two precedng particles
+        personalBestNeighbor1 = fitnessValues[particle]
+        personalBestNeighbor2 = fitnessValues[particle + 1]
+        
+        # Identify the lowest fitness value of this particle's the two preciding neighbors
+        minNeighValue = min(personalBestNeighbor1, personalBestNeighbor2)
+        
+        # Store the index of the particle
+        minNeighIndex = fitnessValues.index(minNeighValue)
+        
+        # Store the particle's best neighbors fitness value and position
+        lBestFitValue.append(fitnessValues[minNeighIndex])
+        lBestPosition.append(positions[minNeighIndex])
+        
+    # Returns a list of particles and the min of their n best fit. valued neighbors
+    return[lBestFitValue, lBestPosition]
+
+    
+# lBestFitValue, lBestPosition = getLocalBest(pBestFitValue, pBestPosition)
+# print(pBestFitValue, '\n')
+# print(lBestFitValue, '\n\n', lBestPosition)
+
+# If you needed to index the list just returned for global or local best
 VALUE_IDX    = 0
 POSITION_IDX = 1
 
@@ -266,11 +307,13 @@ totalIterations = 10000
 
 
 # -----------------------------------------------------------------------------
-# INITIALIZE POSITION AND VELOCITY
-# the swarm will be represented as a list of positions, velocities, values, pBestPosition, and pBestPosition values
-# note: position[0] and velocity[0] provides the position and velocity of particle 0; 
+# INITIALIZE POSITION AND VELOCITY, and INITIAL BESTS
+# the swarm will be represented as a list of positions, velocities, values, 
+# pBestPosition, and pBestPosition values
+# Note: position[0] and velocity[0] provides the position and velocity of particle 0; 
 # position[1] and velocity[1] provides the position and velocity of particle 1; and so on.
 # -----------------------------------------------------------------------------
+
 
 # Step 1: Initialize swarm and get the particles' and global best (and current position)
 position, velocity, pCurrFitValue, pBestPosition, pBestFitValue, gBestFitValue, gBestPosition = initializeSwarm()
