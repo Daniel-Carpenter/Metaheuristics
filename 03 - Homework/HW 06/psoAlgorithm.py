@@ -20,7 +20,7 @@ randNumGenerator = Random(seed)
 lowerBound = -500  # bounds for Schwefel Function search space
 upperBound = 500  # bounds for Schwefel Function search space
 
-# you may change anything below this line that you wish too -----------------------------------------------------
+# you may change anything below this line that you wish too -------------------
 
 # note: for the more experienced Python programmers, 
 # you might want to consider taking a more object-oriented approach to the PSO implementation, 
@@ -96,10 +96,6 @@ def getLocalBest(fitnessValues, positions,
     # Returns a list of particles and the min of their n best fit. valued neighbors
     return[lBestFitValue, lBestPosition]
 
-    
-# lBestFitValue, lBestPosition = getLocalBest(pBestFitValue, pBestPosition)
-# print(pBestFitValue, '\n')
-# print(lBestFitValue, '\n\n', lBestPosition)
 
 # If you needed to index the list just returned for global or local best
 VALUE_IDX    = 0
@@ -140,18 +136,18 @@ def initializeSwarm():
     pBestFitValue = pCurrFitValue[:]  # initialize pBestPosition to the starting position's value
 
 
-    # 1.3 - Log the Global best fitness value and position
-    gBestFitValue, gBestPosition = getGlobalBest(pBestFitValue[:], pBestPosition[:]) 
+    # 1.3 - Log the Global or local best (depends on chosen method) fitness value and position
+    glBestFitValue, glBestPosition = functionToGetBest(pBestFitValue[:], pBestPosition[:]) 
     
     return [position, velocity, pCurrFitValue, 
             pBestPosition, pBestFitValue, 
-            gBestFitValue, gBestPosition]
+            glBestFitValue, glBestPosition]
 
 
 # =============================================================================
 # UPDATE VELOCITY AND POSITION 
 # =============================================================================
-def updateVelocityAndPosition(intertiaWeight, velocity, position, phi1, phi2, pBestPosition, gBestPosition):
+def updateVelocityAndPosition(intertiaWeight, velocity, position, phi1, phi2, pBestPosition, glBestPosition):
 # Velocity --------------------------------------------------------------------
     
     ## random weights of r for random velocity adjustment
@@ -159,9 +155,9 @@ def updateVelocityAndPosition(intertiaWeight, velocity, position, phi1, phi2, pB
     
     ## Calculations of updating velocity, separated by 
     ## intertia + cognitive + social (for simplicity)
-    vInertia   = np.multiply(intertiaWeight, velocity[:])                      # Interia   component of updated velocity
-    vCognitive = np.multiply(phi1*r1, np.subtract(pBestPosition[:], position[:])) # Cognitive component of ""
-    vSocial    = np.multiply(phi2*r2, np.subtract(gBestPosition[:], position[:])) # Social    component of ""
+    vInertia   = np.multiply(intertiaWeight, velocity[:])                          # Interia   component of updated velocity
+    vCognitive = np.multiply(phi1*r1, np.subtract( pBestPosition[:], position[:])) # Cognitive component of ""
+    vSocial    = np.multiply(phi2*r2, np.subtract(glBestPosition[:], position[:])) # Social    component of ""
     
     ## Update the new velocity to the summation of intertia, cognitive, and social
     newVelocity =  vInertia[:] + vCognitive[:] + vSocial[:]
@@ -227,9 +223,9 @@ def calculateParticleBests(position):
 # DISPLAY GLOBAL BEST AND DIMENSIONS FUNCTION
 # Function for displaying the global best and its dimensions
 # =============================================================================
-def displayGlobalBest(gBestFitValue, gBestPosition):
+def displayGlobalBest(glBestFitValue, glBestPosition):
     # Print the global optima
-    print('\nGlobal Best Value:\t % 0.4f' % gBestFitValue, '\n',
+    print('\nGlobal Best Value:\t % 0.4f' % glBestFitValue, '\n',
           'For each [dimension], Global Best Position:', 
           sep='')
     
@@ -239,7 +235,7 @@ def displayGlobalBest(gBestFitValue, gBestPosition):
     print('|-----------|-------------|')
     for theDimension in range(numDimensions):
         print('|' + str(theDimension).rjust(10, ' '), 
-              '|' + '{:.4f}'.format(gBestPosition[theDimension]).rjust(12, ' ') + ' |'
+              '|' + '{:.4f}'.format(glBestPosition[theDimension]).rjust(12, ' ') + ' |'
               )
 
 
@@ -252,7 +248,9 @@ def writeIteratonsToCSV(numDimensions = 2, # Number of dimensions in the swarm
                         maxIterToView = 5, # Top iteration to display
                         filename = 'output'):
     
-    if numDimensions == 2: # Write to file if the dimensions are 2D
+    # Write to file if the dimensions are 2D and using Global best. 
+    # (only global since list structure for each particle, not single value)
+    if numDimensions == 2 and method == 'global': 
         
         # Print the first 5 best positions of the swarm, while highlighting global best
         f = open(filename + '.csv', 'w')  # Open CSV for writing
@@ -303,7 +301,17 @@ phi2 = 2 # Social weight
 intertiaWeight = 0.1
 
 # Stopping criteria = the total number of iterations
-totalIterations = 10000
+totalIterations = 100
+
+# 'local' or 'global' best function name
+method = 'local'
+
+# Initialize to global best function by default
+functionToGetBest = getGlobalBest
+
+# If not using the global best, then switch to the local best method
+if method != 'global':
+    functionToGetBest = getLocalBest    
 
 
 # -----------------------------------------------------------------------------
@@ -316,7 +324,7 @@ totalIterations = 10000
 
 
 # Step 1: Initialize swarm and get the particles' and global best (and current position)
-position, velocity, pCurrFitValue, pBestPosition, pBestFitValue, gBestFitValue, gBestPosition = initializeSwarm()
+position, velocity, pCurrFitValue, pBestPosition, pBestFitValue, glBestFitValue, glBestPosition = initializeSwarm()
 
 # Create empty lists for holding the swarm iterations
 positionIterations      = [] # Each particle's velocity
@@ -332,55 +340,32 @@ for iteration in range(totalIterations):
     # Step 0: Keep track of each iterations/dimension for velocity, position, and current global best
     velocityIterations.append(velocity)           
     positionIterations.append(position)           
-    gBestPositionIterations.append(gBestPosition) 
+    gBestPositionIterations.append(glBestPosition) 
     
     # Step 2: Update the velocity and position
     velocity, position = updateVelocityAndPosition(intertiaWeight, velocity, position, 
-                                                   phi1, phi2, pBestPosition, gBestPosition)
+                                                   phi1, phi2, pBestPosition, glBestPosition)
     
     # Step 3: Recalculate the particle and global bests
     pCurrFitValue, pBestPosition, pBestFitValue = calculateParticleBests(position)
             
-    # Step 4: Get the Global best fitness value and position
-    gBestFitValue, gBestPosition = getGlobalBest(pBestFitValue[:], pBestPosition[:]) 
+    # Step 4: Get the Global or local best (depends on chosen method) fitness value and position
+    glBestFitValue, glBestPosition = functionToGetBest(pBestFitValue[:], pBestPosition[:]) 
 
 
-# Print the global best and each dimensions' position
+# Finally, if using the local best method, get the absolute best from the local bests
+if method == 'local':
+    gBestFitValue, gBestPosition = getGlobalBest(glBestFitValue, glBestPosition)
+
+else: # if not local best, then change the gl best is the global best
+    gBestFitValue, gBestPosition = glBestFitValue, glBestPosition
+    
+    
+# Print the global (or local best) and each dimensions' position
+print(gBestFitValue, gBestPosition)
 displayGlobalBest(gBestFitValue, gBestPosition)
 
 # If 2D, then write to a csv for plotting in R
 writeIteratonsToCSV(numDimensions=numDimensions, filename='output')
-
-
-# TODO: Do the local best implementation, form into a class, then run everything
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
