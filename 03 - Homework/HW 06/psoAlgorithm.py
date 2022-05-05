@@ -4,28 +4,17 @@ Daniel Carpenter
 ISE/DSA 5113
 """
 
-import copy
 import math
 from random import Random
 import numpy as np
 
 # Random seed
-# to get a random number between 0 and 1, write call this:             randNumGenerator.random()
-# to get a random number between lwrBnd and upprBnd, write call this:  randNumGenerator.uniform(lwrBnd,upprBnd)
-# to get a random integer between lwrBnd and upprBnd, write call this: randNumGenerator.randint(lwrBnd,upprBnd)
 seed = 12345
 randNumGenerator = Random(seed)
 
-
-lowerBound = -500  # bounds for Schwefel Function search space
-upperBound = 500  # bounds for Schwefel Function search space
-
-# you may change anything below this line that you wish too -------------------
-
-# note: for the more experienced Python programmers, 
-# you might want to consider taking a more object-oriented approach to the PSO implementation, 
-# i.e.: a particle class with methods to initialize itself, and update its own velocity and position; 
-# a swarm class with a method to iterates through all particles to call update functions, etc.
+# bounds for Schwefel Function search space
+lowerBound = -500  
+upperBound = 500   
 
 
 # =============================================================================
