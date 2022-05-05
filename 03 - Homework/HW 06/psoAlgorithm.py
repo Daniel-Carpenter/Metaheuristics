@@ -65,14 +65,15 @@ def evalFitnessVal(x):
 # Returns the 2 element list with [0] min value and [1] associate index of an element
 # =============================================================================
 def getGlobalBest(fitnessValues, positions):
-    minValue = np.min(fitnessValues)
-    minIndex = fitnessValues.index(minValue)
+    minValue = np.min(fitnessValues)         # Find the Minimum fitness value of all particles
+    minIndex = fitnessValues.index(minValue) # Find the index of the position for the min. fit. value
     
-    minPosition = positions[minIndex][:]
+    minPosition = positions[minIndex][:] # Now get a copy of the particle's position with min index
     
-    return [minValue, minPosition]
+    # Returns: the global best particle's minimum fitness value and its position
+    return [minValue, minPosition] 
 
-# From above output for later indexing
+# If you needed to index the list just returned
 VALUE_IDX    = 0
 POSITION_IDX = 1
 
@@ -178,11 +179,9 @@ def updateVelocityAndPosition(intertiaWeight, velocity, position, phi1, phi2, pB
     return [newPosition, newVelocity]
 
 
-
 # =============================================================================
 # Compare current position fitness value to the current best (for each particle)
 # =============================================================================
-
 def calculateParticleBests(position):
     # Calculate the fitness of the new positions
     for particle in range(swarmSize):
@@ -201,6 +200,7 @@ def calculateParticleBests(position):
                 pBestPosition[particle] = position[:][particle]
     
     return [pCurrFitValue, pBestPosition, pBestFitValue]
+
 
 # =============================================================================
 # DISPLAY GLOBAL BEST AND DIMENSIONS FUNCTION
