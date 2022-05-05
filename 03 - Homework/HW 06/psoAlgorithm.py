@@ -51,7 +51,7 @@ def evalFitnessVal(x):
 # ---- [0] min value and 
 # ---- [1] associate position of 
 # =============================================================================
-def getGlobalBest(fitnessValues, positions):
+def getGlobalBest(fitnessValues, positions, swarmSize):
     minValue = np.min(fitnessValues)         # Find the Minimum fitness value of all particles
     minIndex = fitnessValues.index(minValue) # Find the index of the position for the min. fit. value
     
@@ -68,7 +68,7 @@ def getGlobalBest(fitnessValues, positions):
 # ---- [1] associate position of 
 # Can change numParticlesInNbrhood to consider more or less in particle's neighborhood
 # =============================================================================
-def getLocalBest(fitnessValues, positions, 
+def getLocalBest(fitnessValues, positions, swarmSize,
                   numParticlesInNbrhood = 2):  # Number of particles to compare to for local best
 
     lBestFitValue = [] # will hold the best VALUE    of the n surrounding particles, for each particle
@@ -107,7 +107,7 @@ POSITION_IDX = 1
 # Randomly initialize a swarm instance
 # Set the partical's best to it's starting position
 # =============================================================================
-def initializeSwarm():
+def initializeSwarm(swarmSize, numDimensions, functionToGetBest):
     
     # In the current time period, position[particle] and velocity[particle] of each particle i, 
     # Each particle contains n-dimensional list of the coordinate position & velocity 
@@ -137,7 +137,7 @@ def initializeSwarm():
 
 
     # 1.3 - Log the Global or local best (depends on chosen method) fitness value and position
-    glBestFitValue, glBestPosition = functionToGetBest(pBestFitValue[:], pBestPosition[:]) 
+    glBestFitValue, glBestPosition = functionToGetBest(pBestFitValue[:], pBestPosition[:], swarmSize) 
     
     return [position, velocity, pCurrFitValue, 
             pBestPosition, pBestFitValue, 
@@ -147,7 +147,8 @@ def initializeSwarm():
 # =============================================================================
 # UPDATE VELOCITY AND POSITION 
 # =============================================================================
-def updateVelocityAndPosition(intertiaWeight, velocity, position, phi1, phi2, pBestPosition, glBestPosition):
+def updateVelocityAndPosition(intertiaWeight, velocity, position, phi1, phi2, pBestPosition, glBestPosition,
+                              swarmSize, numDimensions):
 # Velocity --------------------------------------------------------------------
     
     ## random weights of r for random velocity adjustment
@@ -199,7 +200,8 @@ def updateVelocityAndPosition(intertiaWeight, velocity, position, phi1, phi2, pB
 # =============================================================================
 # Compare current position fitness value to the current best (for each particle)
 # =============================================================================
-def calculateParticleBests(position):
+def calculateParticleBests(position, swarmSize, numDimensions,
+                           pCurrFitValue, pBestPosition, pBestFitValue):
     # Calculate the fitness of the new positions
     for particle in range(swarmSize):
         for theDimension in range(numDimensions):
@@ -223,7 +225,7 @@ def calculateParticleBests(position):
 # DISPLAY GLOBAL BEST AND DIMENSIONS FUNCTION
 # Function for displaying the global best and its dimensions
 # =============================================================================
-def displayGlobalBest(glBestFitValue, glBestPosition):
+def displayGlobalBest(glBestFitValue, glBestPosition, numDimensions):
     # Print the global optima
     print('\nGlobal Best Value:\t % 0.4f' % glBestFitValue, '\n',
           'For each [dimension], Global Best Position:', 
@@ -243,10 +245,16 @@ def displayGlobalBest(glBestFitValue, glBestPosition):
 # WRITE TOP n SWARM ITERATIONS TO A CSV FUNCTION
 # Basic function for writing to file
 # =============================================================================
-def writeIteratonsToCSV(numDimensions = 2, # Number of dimensions in the swarm 
-                        iterBreak     = 1, # Display every n iterations
-                        maxIterToView = 5, # Top iteration to display
-                        filename = 'output'):
+def writeIteratonsToCSV(numDimensions, # Number of dimensions in the swarm 
+                        filename,
+                        method,
+                        velocityIterations, 
+                        positionIterations, 
+                        gBestPositionIterations, 
+                        swarmSize):
+
+    iterBreak     = 1 # Display every n iterations
+    maxIterToView = 5 # Top iteration to display
     
     # Write to file if the dimensions are 2D and using Global best. 
     # (only global since list structure for each particle, not single value)
@@ -283,89 +291,117 @@ def writeIteratonsToCSV(numDimensions = 2, # Number of dimensions in the swarm
 
 
 # =============================================================================
-# MAIN
+# SWARM OPTIMIZATION FUNCTION
+# Parameters:
+# ---- numDimensions:   The number of dimension in the schwefel function
+# ---- swarmSize:       The number of particles within the swarm
+# ---- intertiaWeight:  The weight assigned to the intertia component of the velocity eq.
+# ---- phi1:            Cognitive weight of the velocity equation. Note phi1 + phi2 <= 4
+# ---- phi2:            Social    weight of the velocity equation. Note phi1 + phi2 <= 4
+# ---- totalIterations: The total number of iterations before stopping (Stopping criterion)
+# ---- method:          Can use 'local' or 'global' best methods. 
+# ----                  'local' uses Ring Structure with 2 neighbors by default 
+# ---- filename:        Name of CSV file to export to working directory.
+# ----                  If using 2D and 'global' best method, will export CSV.
+# ----                  Reason for exporting is to read in data to R for plotting iterations
 # =============================================================================
 
-# -----------------------------------------------------------------------------
-# INPUTS 
-# -----------------------------------------------------------------------------
-
-numDimensions = 2   # number of dimensions of problem
-swarmSize     = 5 # number of particles in swarm
-
-# Velocity acceleration constants
-phi1 = 2 # Cognitive weight
-phi2 = 2 # Social weight 
-
-# Constant Inertia weighting value
-intertiaWeight = 0.1
-
-# Stopping criteria = the total number of iterations
-totalIterations = 100
-
-# 'local' or 'global' best function name
-method = 'local'
-
-# Initialize to global best function by default
-functionToGetBest = getGlobalBest
-
-# If not using the global best, then switch to the local best method
-if method != 'global':
-    functionToGetBest = getLocalBest    
-
-
-# -----------------------------------------------------------------------------
-# INITIALIZE POSITION AND VELOCITY, and INITIAL BESTS
-# the swarm will be represented as a list of positions, velocities, values, 
-# pBestPosition, and pBestPosition values
-# Note: position[0] and velocity[0] provides the position and velocity of particle 0; 
-# position[1] and velocity[1] provides the position and velocity of particle 1; and so on.
-# -----------------------------------------------------------------------------
-
-
-# Step 1: Initialize swarm and get the particles' and global best (and current position)
-position, velocity, pCurrFitValue, pBestPosition, pBestFitValue, glBestFitValue, glBestPosition = initializeSwarm()
-
-# Create empty lists for holding the swarm iterations
-positionIterations      = [] # Each particle's velocity
-velocityIterations      = [] # Each particle's position
-gBestPositionIterations = [] # The current Global Best Position
-
-
-# -----------------------------------------------------------------------------
-# Main Loop 
-# -----------------------------------------------------------------------------
-for iteration in range(totalIterations):
+def swarmOptimizationSchwefel( # -------------------- Defaults --------------------
+    numDimensions   = 2,       # number of dimensions of problem
+    swarmSize       = 5,       # number of particles in swar
+    phi1            = 2,       # Cognitive weight
+    phi2            = 2,       # Social weight
+    intertiaWeight  = 0.1,     # Constant Inertia weighting value
+    totalIterations = 100,     # Stopping criteria = the total number of iterations
+    method          = 'local', # 'local' or 'global' best function name
+    filename        = 'output' # Name of the ouput csv file to write first 5 iterations
+    ):
     
-    # Step 0: Keep track of each iterations/dimension for velocity, position, and current global best
-    velocityIterations.append(velocity)           
-    positionIterations.append(position)           
-    gBestPositionIterations.append(glBestPosition) 
+    # Initialize to global best function by default
+    functionToGetBest = getGlobalBest
     
-    # Step 2: Update the velocity and position
-    velocity, position = updateVelocityAndPosition(intertiaWeight, velocity, position, 
-                                                   phi1, phi2, pBestPosition, glBestPosition)
-    
-    # Step 3: Recalculate the particle and global bests
-    pCurrFitValue, pBestPosition, pBestFitValue = calculateParticleBests(position)
-            
-    # Step 4: Get the Global or local best (depends on chosen method) fitness value and position
-    glBestFitValue, glBestPosition = functionToGetBest(pBestFitValue[:], pBestPosition[:]) 
-
-
-# Finally, if using the local best method, get the absolute best from the local bests
-if method == 'local':
-    gBestFitValue, gBestPosition = getGlobalBest(glBestFitValue, glBestPosition)
-
-else: # if not local best, then change the gl best is the global best
-    gBestFitValue, gBestPosition = glBestFitValue, glBestPosition
+    # If not using the global best, then switch to the local best method
+    if method != 'global':
+        functionToGetBest = getLocalBest    
     
     
-# Print the global (or local best) and each dimensions' position
-print(gBestFitValue, gBestPosition)
-displayGlobalBest(gBestFitValue, gBestPosition)
-
-# If 2D, then write to a csv for plotting in R
-writeIteratonsToCSV(numDimensions=numDimensions, filename='output')
+    # -----------------------------------------------------------------------------
+    # INITIALIZE POSITION AND VELOCITY, and INITIAL BESTS
+    # the swarm will be represented as a list of positions, velocities, values, 
+    # pBestPosition, and pBestPosition values
+    # Note: position[0] and velocity[0] provides the position and velocity of particle 0; 
+    # position[1] and velocity[1] provides the position and velocity of particle 1; and so on.
+    # -----------------------------------------------------------------------------
     
     
+    # Step 1: Initialize swarm and get the particles' and global best (and current position)
+    position, velocity, pCurrFitValue, pBestPosition, pBestFitValue, glBestFitValue, glBestPosition = initializeSwarm(swarmSize, numDimensions, functionToGetBest)
+    
+    # Create empty lists for holding the swarm iterations
+    positionIterations      = [] # Each particle's velocity
+    velocityIterations      = [] # Each particle's position
+    gBestPositionIterations = [] # The current Global Best Position
+    
+    
+    # -----------------------------------------------------------------------------
+    # Main Loop 
+    # -----------------------------------------------------------------------------
+    for iteration in range(totalIterations):
+        
+        # Step 0: Keep track of each iterations/dimension for velocity, position, and current global best
+        velocityIterations.append(velocity)           
+        positionIterations.append(position)           
+        gBestPositionIterations.append(glBestPosition) 
+        
+        # Step 2: Update the velocity and position
+        velocity, position = updateVelocityAndPosition(intertiaWeight, velocity, position, 
+                                                       phi1, phi2, pBestPosition, glBestPosition,
+                                                       swarmSize, numDimensions)
+        
+        # Step 3: Recalculate the particle and global bests
+        pCurrFitValue, pBestPosition, pBestFitValue = calculateParticleBests(position, 
+                                                                             swarmSize, numDimensions,
+                                                                             pCurrFitValue, 
+                                                                             pBestPosition, 
+                                                                             pBestFitValue)
+                
+        # Step 4: Get the Global or local best (depends on chosen method) fitness value and position
+        glBestFitValue, glBestPosition = functionToGetBest(pBestFitValue[:], pBestPosition[:], swarmSize) 
+    
+    
+    
+    
+    # -----------------------------------------------------------------------------
+    # Global Best
+    # -----------------------------------------------------------------------------
+    
+    # Finally, if using the local best method, get the absolute best from the local bests
+    if method == 'local':
+        gBestFitValue, gBestPosition = getGlobalBest(glBestFitValue, glBestPosition, swarmSize)
+    
+    else: # if not local best, then change the gl best is the global best
+        gBestFitValue, gBestPosition = glBestFitValue, glBestPosition
+        
+        
+    # -----------------------------------------------------------------------------
+    # Print and Export
+    # -----------------------------------------------------------------------------
+    
+    # Print the global (or local best) and each dimensions' position
+    displayGlobalBest(gBestFitValue, gBestPosition, numDimensions)
+    
+    # If 2D, then write to a csv for plotting in R
+    writeIteratonsToCSV(numDimensions, filename, method, velocityIterations,
+                        positionIterations, gBestPositionIterations, swarmSize)
+        
+# Call the function given the key parameters
+swarmOptimizationSchwefel(
+    numDimensions   = 2,        # number of dimensions of problem
+    swarmSize       = 5,        # number of particles in swar
+    phi1            = 2,        # Cognitive weight
+    phi2            = 2,        # Social weight
+    intertiaWeight  = 0.1,      # Constant Inertia weighting value
+    totalIterations = 10000,    # Stopping criteria = the total number of iterations
+    method          = 'global', # 'local' or 'global' best function name
+    filename        = 'output'  # Name of the ouput csv file to write first 5 iterations
+    )
