@@ -202,6 +202,67 @@ def calculateParticleBests(position):
     
     return [pCurrFitValue, pBestPosition, pBestFitValue]
 
+# =============================================================================
+# DISPLAY GLOBAL BEST AND DIMENSIONS FUNCTION
+# Function for displaying the global best and its dimensions
+# =============================================================================
+def displayGlobalBest(gBestFitValue, gBestPosition):
+    # Print the global optima
+    print('\nGlobal Best Value:\t % 0.4f' % gBestFitValue, '\n',
+          'For each [dimension], Global Best Position:', 
+          sep='')
+    
+    # Print the position of each dimension
+    for theDimension in range(numDimensions):
+        print('[', theDimension, ']\t % 0.4f' % gBestPosition[theDimension], sep='')
+
+
+# =============================================================================
+# WRITE TOP n SWARM ITERATIONS TO A CSV FUNCTION
+# Basic function for writing to file
+# =============================================================================
+def writeIteratonsToCSV(numDimensions = 2, # Number of dimensions in the swarm 
+                        iterBreak     = 1, # Display every n iterations
+                        maxIterToView = 5, # Top iteration to display
+                        filename = 'output'):
+    if numDimensions != 2:
+        print('Only 2 dimensions allowed')
+    
+    else: # Write to file if the dimensions are 2D
+        
+        # Print the first 5 best positions of the swarm, while highlighting global best
+        f = open(filename + '.csv', 'w')  # Open CSV for writing
+        
+        # Column names
+        f.write('iteration,particle,position1,position2,globalBest1,globalBest2,velocity1,velocity2\n')  #write to file
+        
+        # Write the data to a CSV for plotting and summary table
+        for iteration in range(maxIterToView):
+            thisIter = ''
+            for particle in range(swarmSize):
+                
+                if iteration % iterBreak == 0:
+                    
+                    # Get the Iteration, Particle, position1/2 and velocity 1/2
+                    theVelocities = velocityIterations[iteration][particle]
+                    thePositions  = positionIterations[iteration][particle]
+                    globalBest    = gBestPositionIterations[iteration]
+                    
+                    # Convert the positions to flat text
+                    velDims    = ','.join(['{:.4f}'.format(positionVal) for positionVal in theVelocities])
+                    posDims    = ','.join(['{:.4f}'.format(positionVal) for positionVal in thePositions])
+                    globalDims = ','.join(['{:.4f}'.format(positionVal) for positionVal in globalBest])
+                    
+                    # Write tp the file
+                    f.write(str(iteration+1) + ',' + str(particle) + ',' + str(posDims) + ',' + 
+                            str(globalDims) + ',' + str(velDims) + '\n')  
+                    
+        f.close()  # close the file for saving output
+
+
+# =============================================================================
+# MAIN
+# =============================================================================
 
 # Stopping criteria = the total number of iterations
 totalIterations = 10000
@@ -209,105 +270,66 @@ totalIterations = 10000
 # Step 1: Initialize swarm and get the particles' and global best
 pBestPosition, pBestFitValue, gBestFitValue, gBestPosition = initializeSwarm()
 
-positionIterations = []
-velocityIterations = []
-gBestPositionIterations = []
+# Create empty lists for holding the swarm iterations
+positionIterations      = [] # Each particle's velocity
+velocityIterations      = [] # Each particle's position
+gBestPositionIterations = [] # The current Global Best Position
 
 # Main Loop 
 for iteration in range(totalIterations):
     
-    # Keep track of the position iterations
-    velocityIterations.append(velocity) # Swarm velocity
-    positionIterations.append(position) # Swarm position
-    gBestPositionIterations.append(gBestPosition) # Best Position
+    # Keep track of each iterations/dimension for velocity, position, and current global best
+    velocityIterations.append(velocity)           
+    positionIterations.append(position)           
+    gBestPositionIterations.append(gBestPosition) 
     
     # Step 2: Update the velocity and position
     velocity, position = updateVelocityAndPosition(intertiaWeight, velocity, position, 
                                                    phi1, phi2, pBestPosition, gBestPosition)
     
-    # Step 3: Recalculate the current and global bests
+    # Step 3: Recalculate the particle and global bests
     pCurrFitValue, pBestPosition, pBestFitValue = calculateParticleBests(position)
             
     # Step 4: Get the Global best fitness value and position
     gBestFitValue, gBestPosition = getGlobalBest(pBestFitValue[:], pBestPosition[:]) 
 
-# Print the global optima
-print('\nGlobal Best Value:\t % 0.4f' % gBestFitValue, '\n',
-      'For each [dimension], Global Best Position:', 
-      sep='')
 
-# Print the position of each dimension
-for theDimension in range(numDimensions):
-    print('[', theDimension, ']\t % 0.4f' % gBestPosition[theDimension], sep='')
+# Print the global best and each dimensions' position
+displayGlobalBest(gBestFitValue, gBestPosition)
+
+# If 2D, then write to a csv for plotting in R
+writeIteratonsToCSV(numDimensions=numDimensions, filename='output')
 
 
-
-# Write to file if the dimensions are 2D
-if numDimensions == 2:
-    
-    iterBreak     = 1             # Show every n iterations  
-    maxIterToView = iterBreak * 5 # Max iterations to write
-
-    
-    # Print the first 5 best positions of the swarm, while highlighting global best
-    f = open('output.csv', 'w')  #---uncomment this line to create a file for saving output
-    
-    # Column names
-    f.write('iteration,particle,position1,position2,globalBest1,globalBest2,velocity1,velocity2\n')  #write to file
-    
-    # Write the data to a CSV for plotting and summary table
-    for iteration in range(maxIterToView):
-        thisIter = ''
-        for particle in range(swarmSize):
-            
-            if iteration % iterBreak == 0:
-                
-                # Get the Iteration, Particle, position1/2 and velocity 1/2
-                theVelocities = velocityIterations[iteration][particle]
-                thePositions  = positionIterations[iteration][particle]
-                globalBest    = gBestPositionIterations[iteration]
-                
-                # Convert the positions to flat text
-                velDims    = ','.join(['{:.4f}'.format(positionVal) for positionVal in theVelocities])
-                posDims    = ','.join(['{:.4f}'.format(positionVal) for positionVal in thePositions])
-                globalDims = ','.join(['{:.4f}'.format(positionVal) for positionVal in globalBest])
-                
-                # Write tp the file
-                f.write(str(iteration+1) + ',' + str(particle) + ',' + str(posDims) + ',' + 
-                        str(globalDims) + ',' + str(velDims) + '\n')  
-                
-    f.close()  # close the file for saving output
-
-            
 # TODO: Do the local best implementation, form into a class, then run everything
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        

@@ -25,11 +25,11 @@ swarmDataTable <- swarmData %>%
          isGlobalBest)
 
 # Print the table
-kable(swarmDataTable)
+print(kable(swarmDataTable))
 
 
 # Plot the first 5 iterations with each particle's position
-swarmData %>% 
+iterPlot <- swarmData %>% 
   ggplot(aes(x = position1,
              y = position2)) +
   
@@ -66,3 +66,4 @@ swarmData %>%
   
   theme_bw() # a theme
 
+print(iterPlot)
