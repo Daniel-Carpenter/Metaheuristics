@@ -6,10 +6,15 @@ date:     "March 2022"
 fontsize: 12pt
 geometry: margin=1in
 output:
-  pdf_document: 
+  # pdf_document: 
+  #   toc: yes
+  #   number_sections: yes
+  #   highlight: kate
+  github_document:
     toc: yes
     number_sections: yes
-    highlight: kate
+    toc_depth: 2
+    
 ---
 
 ```{r setup, include=FALSE}
