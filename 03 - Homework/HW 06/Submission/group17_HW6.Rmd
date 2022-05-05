@@ -1,0 +1,61 @@
+---
+title: "Homework 6"
+subtitle: 'Particle Swarm Optimization using Schwefel Benchmark Function'
+author: "Daniel Carpenter"
+date: "April 2022"
+output:
+  # pdf_document:
+  #   toc: yes
+  #   toc_depth: 2
+  #   number_sections: yes
+  #   highlight: tango
+  html_document:
+    theme: yeti
+    toc: yes
+    toc_float: yes
+    toc_depth: 2
+    number_sections: yes
+  # github_document:
+  #   toc: yes
+  #   number_sections: yes
+  #   toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	include = TRUE,
+	message = FALSE,
+	warning = FALSE,
+	tidy.opts=list(width.cutoff=60), 
+	tidy  = TRUE, 
+	cache = FALSE
+)
+```
+
+\newpage
+
+
+**Global Variables**  
+  
+> Input variables like the *random seed*, *values and weights* data for knapsack, and the *maximum allowable weight*   
+> Please assume these are referenced by following code chunks
+
+```{python globals, echo=TRUE}
+import math
+from random import Random
+import numpy as np
+
+# Random seed
+seed = 12345
+randNumGenerator = Random(seed)
+
+# bounds for Schwefel Function search space
+lowerBound = -500  
+upperBound = 500   
+```
+
+\newpage
+
+
+# *Question 1:* 
