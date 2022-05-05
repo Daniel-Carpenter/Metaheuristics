@@ -212,9 +212,14 @@ def displayGlobalBest(gBestFitValue, gBestPosition):
           'For each [dimension], Global Best Position:', 
           sep='')
     
-    # Print the position of each dimension
+    # Print the position of each dimension in markdown table format
+    print('\n',
+          '| Dimension | Global Best |', sep ='')
+    print('|-----------|-------------|')
     for theDimension in range(numDimensions):
-        print('[', theDimension, ']\t % 0.4f' % gBestPosition[theDimension], sep='')
+        print('|' + str(theDimension).rjust(10, ' '), 
+              '|' + '{:.4f}'.format(gBestPosition[theDimension]).rjust(12, ' ') + ' |'
+              )
 
 
 # =============================================================================
@@ -225,10 +230,8 @@ def writeIteratonsToCSV(numDimensions = 2, # Number of dimensions in the swarm
                         iterBreak     = 1, # Display every n iterations
                         maxIterToView = 5, # Top iteration to display
                         filename = 'output'):
-    if numDimensions != 2:
-        print('Only 2 dimensions allowed')
     
-    else: # Write to file if the dimensions are 2D
+    if numDimensions == 2: # Write to file if the dimensions are 2D
         
         # Print the first 5 best positions of the swarm, while highlighting global best
         f = open(filename + '.csv', 'w')  # Open CSV for writing
