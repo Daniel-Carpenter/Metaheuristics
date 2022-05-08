@@ -1,0 +1,30 @@
+
+# Final Exam Prep
+
+## HW 1: 1-1
+
+### Parameters
+Var|Description
+-|-
+$budget$ | budget of 1 million dollars  
+$tvTime$ | Must since up for at least 10 minutes of TV time  
+
+### Decision Variables
+$tvMinsUsed$: the amount of tv minutes used  
+$magsUsed$: Number of magazine pages used
+
+### Objective
+$$
+maximize \ reach: (tvMinsUsed \times 1,800,000) + (magsUsed \times 1,000,000 )
+$$
+
+### Constraints
+Budget constraint
+$$
+theBudget: (tvMinsUsed \times 20,000) + (magsUsed \times 10,000) \leq budget
+$$
+
+TV time constraint
+$$
+minTimeOfTV : tvMinsUsed \geq tvTime
+$$

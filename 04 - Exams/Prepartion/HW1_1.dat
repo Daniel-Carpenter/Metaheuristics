@@ -1,0 +1,4 @@
+data;
+
+param budget := 1000000;  # budget of $1MM
+param tvTime := 10;       # Min TV time to use
