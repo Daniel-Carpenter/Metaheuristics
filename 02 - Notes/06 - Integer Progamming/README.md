@@ -47,7 +47,7 @@ Sum of the decision variables (the three above) must be 1
 * Select at most some options (k of n)
 * Select exactly one options (k of n)
 
-Examples of how to model the constraints:
+Examples of how to model the constraints:  
 <img src = "Images/cons.png" width = 550> <br>
 
 <br>
