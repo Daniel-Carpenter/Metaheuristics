@@ -101,14 +101,14 @@ amtToProduce \geq 0, \in \mathbb{Z}
 
 ### 1.2.1 Code
 
-<img src="%22Images/prob1CodeAndData.png%22" style="width:90.0%" />
+<img src="PDF Submission/Images/prob1CodeAndData.png" style="width:90.0%" />
 
 ### 1.2.2 Output
 
 -   Not High to Semi is a 3:2 ratio and all demand and supply
     constraints are satisfied.
 
-![](%22Images/prob1Output.png%22)
+![](PDF Submission/Images/prob1Output.png)
 
 # 2 - Problem `2`
 
@@ -145,14 +145,14 @@ amtToProduce \geq 0, \in \mathbb{Z}
 
 ### 2.2.1 Code
 
-<img src="%22Images/prob2CodeAndData.png%22" style="width:85.0%" />
+<img src="PDF Submission/Images/prob2CodeAndData.png" style="width:85.0%" />
 
 ### 2.2.2 Output
 
 -   Optimal solution included more than 400, so zappers are 70% of
     production
 
-![](%22Images/prob2Output.png%22)
+![](PDF Submission/Images/prob2Output.png)
 
 # 3 - Problem `3`
 
@@ -184,7 +184,7 @@ amtToProduce \geq 0, \in \mathbb{Z}
 
 ### 3.1.2 Network Flow Diagram
 
-<img src="%22Images/network.png%22" style="width:100.0%" />
+<img src="PDF Submission/Images/network.png" style="width:100.0%" />
 
 ## 3.2 Mathematical Formulation
 
@@ -200,11 +200,11 @@ amtToProduce \geq 0, \in \mathbb{Z}
 | Meet the demand                                                                                      | ![d1, d2, d3, d4](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;d1%2C%20d2%2C%20d3%2C%20d4 "d1, d2, d3, d4")                          |
 | Flow balance zero out node                                                                           | ![z4](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;z4 "z4")                                                                          |
 
-<img src="%22Images/glm1.png%22" style="width:70.0%" />
+<img src="PDF Submission/Images/glm1.png" style="width:70.0%" />
 
 ### 3.2.2 Objective, and Constraints
 
-<img src="%22Images/glm2.png%22" style="width:70.0%" />
+<img src="PDF Submission/Images/glm2.png" style="width:70.0%" />
 
 -   Upper and lower bounds use to direct the flow of the product
 
@@ -217,7 +217,7 @@ amtToProduce \geq 0, \in \mathbb{Z}
 
 ### 3.3.2 Data: `Problem3.dat`
 
-<img src="%22Images/prob3CodeAndData.png%22" style="width:80.0%" />
+<img src="PDF Submission/Images/prob3CodeAndData.png" style="width:80.0%" />
 
 ### 3.3.3 Output
 
@@ -228,4 +228,4 @@ amtToProduce \geq 0, \in \mathbb{Z}
 -   Note that values sent to virtual node means that nothing those
     values were not produced.
 
-![](%22Images/prob3Output.png%22)
+<img src="PDF Submission/Images/prob3Output.png">

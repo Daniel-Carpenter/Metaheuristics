@@ -84,15 +84,15 @@ January 2022
 
 # 1 Problem `1`
 
-![](%22Output_Images/problem1.1.jpg%22)
+![](PDF Submission/Output_Images/problem1.1.jpg)
 
-![](%22Output_Images/problem1.2.jpg%22)
+![](PDF Submission/Output_Images/problem1.2.jpg)
 
 <br>
 
 # 2 Problem `2`
 
-![](%22Output_Images/problem2.jpg%22)
+![](PDF Submission/Output_Images/problem2.jpg)
 
 <br>
 
@@ -171,11 +171,11 @@ avgMaturity: (4 \times bondA) + (10 \times bondB) - (1 \times bondC)
 
 ### 3.1.4 Code
 
-![](%22Output_Images/codeProblem3.png%22)
+![](PDF Submission/Output_Images/codeProblem3.png)
 
 ### 3.1.5 Output
 
-![](%22Output_Images/outputProblem3.png%22)
+![](PDF Submission/Output_Images/outputProblem3.png)
 
 <br>
 
@@ -224,17 +224,17 @@ minTimeTV: tv \geq 10
 
 ### 4.1.4 Code
 
-![](%22Output_Images/codeProblem4a.png%22)
+![](PDF Submission/Output_Images/codeProblem4a.png)
 
 ### 4.1.5 Output
 
-![](%22Output_Images/group10_HW1_p4a.txt%20OUTPUT.png%22)
+![](PDF Submission/Output_Images/group10_HW1_p4a.txt%20OUTPUT.png)
 
 <br>
 
 ### 4.1.6 Solving Problem `4(a)` Graphically by Hand
 
-![](%22Output_Images/problem4a.1.jpg%22)
+![](PDF Submission/Output_Images/problem4a.1.jpg)
 
 <br>
 
@@ -256,11 +256,11 @@ personWeeks: (1 \times tv) + (3 \times magazine) \leq 100
 
 ### 4.2.2 Code
 
-![](%22Output_Images/codeProblem4b.png%22)
+![](PDF Submission/Output_Images/codeProblem4b.png)
 
 ### 4.2.3 Output
 
-![](%22Output_Images/group10_HW1_p4b.txt%20OUTPUT.png%22)
+![](PDF Submission/Output_Images/group10_HW1_p4b.txt%20OUTPUT.png)
 
 <br>
 
@@ -321,11 +321,11 @@ personWeeks: (3 \times tv) + (1 \times magazine) + (\frac{1}{7} \times radio) \l
 
 ### 4.3.5 Code
 
-![](%22Output_Images/codeProblem4c.png%22)
+![](PDF Submission/Output_Images/codeProblem4c.png)
 
 ### 4.3.6 Output
 
-![](%22Output_Images/group10_HW1_p4c.txt%20OUTPUT.png%22)
+![](PDF Submission/Output_Images/group10_HW1_p4c.txt%20OUTPUT.png)
 
 <br>
 
@@ -354,11 +354,11 @@ maxRadio: radio \leq 120
 
 ### 4.4.2 Code
 
-<img src="%22Output_Images/codeProblem4d.png%22" style="width:90.0%" />
+<img src="PDF Submission/Output_Images/codeProblem4d.png" style="width:90.0%" />
 
 ### 4.4.3 Output
 
-![](%22Output_Images/group10_HW1_p4d.txt%20OUTPUT.png%22)
+![](PDF Submission/Output_Images/group10_HW1_p4d.txt%20OUTPUT.png)
 
 <br>
 
@@ -371,11 +371,11 @@ maxRadio: radio \leq 120
 
 ### 5.1.1 Mathematical Formulation
 
-![](%22Output_Images/mathProblem5.png%22)
+![](PDF Submission/Output_Images/mathProblem5.png)
 
 ### 5.1.2 Code for Model `.mod` and Input Data `.dat`
 
-![](%22Output_Images/codeProblem5base.png%22)
+![](PDF Submission/Output_Images/codeProblem5base.png)
 
 ## 5.2 Task `a`
 
@@ -388,14 +388,14 @@ maxRadio: radio \leq 120
 
 ### 5.2.2 Code
 
-![](%22Output_Images/codeProblem5a.png%22)
+![](PDF Submission/Output_Images/codeProblem5a.png)
 
 ### 5.2.3 Output
 
 > There is no difference in the optimal solution because the range of
 > Time before there is a change in optimal remains the same, and the
 > hours available have not changed.  
-> ![](%22Output_Images/outputProblem5a.png%22)
+> ![](PDF Submission/Output_Images/outputProblem5a.png)
 
 <br>
 
@@ -416,12 +416,12 @@ totalWeight: \sum_{p \ \in \ PROD} Make_{p} \leq max\_weight
 
 ### 5.3.2 Code
 
-![](%22Output_Images/codeProblem5b.png%22)
+![](PDF Submission/Output_Images/codeProblem5b.png)
 
 ### 5.3.3 Output
 
 > The total number of tons has reduced from 7,000 to 6,500 per week
-> ![](%22Output_Images/outputProblem5b.png%22)
+> ![](PDF Submission/Output_Images/outputProblem5b.png)
 
 <br>
 
@@ -441,7 +441,7 @@ maximize \ Total\_Tons = \sum_{p \ \in \ PROD} Make_{p}
 
 ### 5.4.2 Code
 
-![](%22Output_Images/codeProblem5c.png%22)
+![](PDF Submission/Output_Images/codeProblem5c.png)
 
 ### 5.4.3 Output
 
@@ -449,7 +449,7 @@ maximize \ Total\_Tons = \sum_{p \ \in \ PROD} Make_{p}
 > is what the question is asking). Please note that the total number of
 > tons produced are the same as in the `base` model; however, the
 > allocation of tons have shifted among each of the products.
-> ![](%22Output_Images/outputProblem5c.png%22)
+> ![](PDF Submission/Output_Images/outputProblem5c.png)
 
 <br>
 
@@ -470,22 +470,22 @@ Share\_of\_Products: Make_{j} \geq share_{j} \times
 <!-- <br> -->
 ### 5.5.2 Code (Part I)
 
-![](%22Output_Images/codeProblem5d.png%22)
+![](PDF Submission/Output_Images/codeProblem5d.png)
 
 ### 5.5.3 Output (Part I)
 
 > Note that bands represent \~49.99%, coils: 40%, and plates: 10%
-> ![](%22Output_Images/outputProblem5d.png%22)
+> ![](PDF Submission/Output_Images/outputProblem5d.png)
 
 <!-- <br> -->
 ### 5.5.4 Code (Part II)
 
-![](%22Output_Images/codeProblem5d1.png%22)
+![](PDF Submission/Output_Images/codeProblem5d1.png)
 
 ### 5.5.5 Output (Part II)
 
 > Profit is zero because it is impossible for bands to reach 50% of the
-> share. ![](%22Output_Images/outputProblem5d1.png%22)
+> share. ![](PDF Submission/Output_Images/outputProblem5d1.png)
 
 <br>
 
@@ -495,11 +495,11 @@ Share\_of\_Products: Make_{j} \geq share_{j} \times
 
 > Simply add the new item within the set called `finishing`, then add
 > the its the associate values to the `rate` and `avail` parameters.
-> ![](%22Output_Images/codeProblem5e.png%22)
+> ![](PDF Submission/Output_Images/codeProblem5e.png)
 
 ### 5.6.2 Output
 
-![](%22Output_Images/outputProblem5e.png%22)
+![](PDF Submission/Output_Images/outputProblem5e.png)
 
 <br>
 
@@ -594,11 +594,11 @@ municipal: bondA \leq 3;
 
 ### 6.1.4 Code
 
-<img src="%22Output_Images/codeProblem6.png%22" style="width:90.0%" />
+<img src="PDF Submission/Output_Images/codeProblem6.png" style="width:90.0%" />
 
 ### 6.1.5 Output
 
-![](%22Output_Images/outputProblem6.png%22)
+![](PDF Submission/Output_Images/outputProblem6.png)
 
 ## 6.2 Task `d`:
 

@@ -69,7 +69,7 @@ February 2022
 ## 1.1 Problems `a` and `b`
 
 -   Below shows how we get to the answer of Problems `a` and `b`  
-    ![](%22Images/prob1aAndB.png%22)
+    ![](PDF Submission/Images/prob1aAndB.png)
 
 ## 1.2 Model Assumptions and Overview
 
@@ -176,23 +176,23 @@ produce_{\ f,p} \geq 0, \ \forall \ f\in FRUIT, \ \forall \ p\in PRODUCTS \\
 
 ### 1.4.1 Code
 
-<img src="%22Images/prob1CodeAndData.png%22" style="width:90.0%" />
+<img src="PDF Submission/Images/prob1CodeAndData.png" style="width:90.0%" />
 
 ### 1.4.2 Output
 
-![](%22Images/prob1Output.png%22)
+![](PDF Submission/Images/prob1Output.png)
 
 Optimal profit is `$107,600`. `74,996` `Raisins` produced using
 `Grade A`, `24,988` of `Grade B`, and so on for each product. See
 validation of the weighted-average point constraint below.
 
-![](%22Images/prob1OutputValidation.png%22)
+![](PDF Submission/Images/prob1OutputValidation.png)
 
 ## 1.5 Problems 1 `c (ii-vii)`
 
 `i.`
 
-![](%22Images/probl1ci.jpg%22)
+![](PDF Submission/Images/probl1ci.jpg)
 
 Product total = (Amount of Grade A product + Amount of Grade B product)
 Raisins - 74996 + 24988 = 99984 Raisins  
@@ -227,7 +227,7 @@ Juice - (31609 \* 9 + 94827 \* 5) / (126436) = 6
 Jelly - (0 \* 9 + 210000 \* 5) / (210000) = 5
 
 `v.`  
-![](%22Images/probl1cv.jpg%22)
+![](PDF Submission/Images/probl1cv.jpg)
 
 (option display_precision 8): puts the answer in decimal using 8 digits
 
@@ -265,11 +265,11 @@ pay for an additional pound of A-grade grapes is .16.
 
 `ii.`
 
-<img src="%22Images/prob1dCode.png%22" style="width:90.0%" />
+<img src="PDF Submission/Images/prob1dCode.png" style="width:90.0%" />
 
 ### 1.6.1 Output
 
-<img src="%22Images/prob1dOutput.png%22" style="width:80.0%" />
+<img src="PDF Submission/Images/prob1dOutput.png" style="width:80.0%" />
 
 -   The maximum to pay per pound would be equal to the dual variable of
     the active constraint, which does not show any values.
@@ -288,18 +288,18 @@ pay for an additional pound of A-grade grapes is .16.
 
 ## 2.1 Model Overview
 
-<img src="%22Images/prob2.Network.png%22" style="width:100.0%" />
+<img src="PDF Submission/Images/prob2.Network.png" style="width:100.0%" />
 
 ## 2.2 Mathematical Formulation
 
 ![NODES](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;NODES "NODES"):
 Set of all nodes in above network flow diagram resembling a time period.
 
-<img src="%22Images/prob4Math1.png%22" style="width:50.0%" />
+<img src="PDF Submission/Images/prob4Math1.png" style="width:50.0%" />
 
 ### 2.2.1 Objective, and Constraints
 
-<img src="%22Images/prob4Math2.png%22" style="width:50.0%" />
+<img src="PDF Submission/Images/prob4Math2.png" style="width:50.0%" />
 
 ## 2.3 Code and Output
 
@@ -311,14 +311,14 @@ Set of all nodes in above network flow diagram resembling a time period.
 
 ### 2.3.2 Data `group12_HW2_p2.dat`
 
-![](%22Images/prob2.2.jpg%22)
+![](PDF Submission/Images/prob2.2.jpg)
 
 ### 2.3.3 Output
 
 -   The lowest total cost over the `5 years` will be `$14,500` by
     traveling from nodes `(1,2)`, `(2,4)`, `(4,6)`.
 
-<img src="%22Images/prob2.Answer.jpg%22" style="width:35.0%" />
+<img src="PDF Submission/Images/prob2.Answer.jpg" style="width:35.0%" />
 
 <br>
 
@@ -335,11 +335,11 @@ Set of all nodes in above network flow diagram resembling a time period.
 -   Excess supply allowed on certain days is captured by dummy nodes so
     that the business does not actually produce the tires.
 
-<img src="%22Images/prob3Overview2.png%22" style="width:90.0%" />
+<img src="PDF Submission/Images/prob3Overview2.png" style="width:90.0%" />
 
 ### 3.1.2 Network Flow Diagram
 
-<img src="%22Images/prob3Overview.png%22" style="width:100.0%" />
+<img src="PDF Submission/Images/prob3Overview.png" style="width:100.0%" />
 
 ## 3.2 Mathematical Formulation
 
@@ -354,11 +354,11 @@ Set of all nodes in above network flow diagram resembling a time period.
 | `d1` `d2` `d3` `d4`                                                                                  | Demand of tires on each day ![\\in](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cin "\in")(1-4)                                                                         |
 | `dum2` `dum3` `dum4`                                                                                 | Dummy nodes to balance excess supply for days 2 3 and 4 ![\\in](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cin "\in")(2-4). Do not need one for day 1 since purchasing |
 
-<img src="%22Images/prob4Math1.png%22" style="width:70.0%" />
+<img src="PDF Submission/Images/prob4Math1.png" style="width:70.0%" />
 
 ### 3.2.2 Objective, and Constraints
 
-<img src="%22Images/prob4Math2.png%22" style="width:70.0%" />
+<img src="PDF Submission/Images/prob4Math2.png" style="width:70.0%" />
 
 -   Upper and lower bounds use to direct the flow of tires from
     *purchasing* to *quick* or *normal* service
@@ -373,10 +373,10 @@ Set of all nodes in above network flow diagram resembling a time period.
 
 ### 3.3.2 Data: `group12_HW2_p3.dat`
 
-<img src="%22Images/prob3Data1.png%22" style="width:70.0%" />
+<img src="PDF Submission/Images/prob3Data1.png" style="width:70.0%" />
 
 *Data Continued:*  
-<img src="%22Images/prob3Data2.png%22" style="width:70.0%" />
+<img src="PDF Submission/Images/prob3Data2.png" style="width:70.0%" />
 
 ### 3.3.3 Output
 
@@ -389,7 +389,7 @@ Set of all nodes in above network flow diagram resembling a time period.
     4.  `280` Reshaped with quick service from previous day. `240` tires
         used from reshaping via Normal service from day 2.
 
-<img src="%22Images/prob3Output.png%22" style="width:70.0%" />
+<img src="PDF Submission/Images/prob3Output.png" style="width:70.0%" />
 
 # 4 - Problem `4`
 
@@ -403,11 +403,11 @@ Set of all nodes in above network flow diagram resembling a time period.
     cost
 -   *Color of tables* correspond to the network nodes on the next page
 
-<img src="%22Images/prob4Overview2.png%22" style="width:100.0%" />
+<img src="PDF Submission/Images/prob4Overview2.png" style="width:100.0%" />
 
 ### 4.1.2 Network Flow Diagram
 
-<img src="%22Images/prob4Overview.png%22" style="width:100.0%" />
+<img src="PDF Submission/Images/prob4Overview.png" style="width:100.0%" />
 
 ## 4.2 Mathematical Formulation
 
@@ -422,11 +422,11 @@ Set of all nodes in above network flow diagram resembling a time period.
 | `Scranton`, `Utica`, `Stamford`                                                                      | Transshipment nodes which are the plants                                           |
 | `dumPlant`, `dumBus`                                                                                 | Dummy nodes that account for excess supply from unbalanced supply from labor nodes |
 
-<img src="%22Images/prob4Math1.png%22" style="width:70.0%" />
+<img src="PDF Submission/Images/prob4Math1.png" style="width:70.0%" />
 
 ### 4.2.2 Objective, and Constraints
 
-<img src="%22Images/prob4Math2.png%22" style="width:70.0%" />
+<img src="PDF Submission/Images/prob4Math2.png" style="width:70.0%" />
 
 -   Upper and lower bounds use to direct the flow of the product
 
@@ -440,10 +440,10 @@ Set of all nodes in above network flow diagram resembling a time period.
 
 ### 4.3.2 Data: `group12_HW2_p4.dat`
 
-<img src="%22Images/prob4Data1.png%22" style="width:85.0%" />
+<img src="PDF Submission/Images/prob4Data1.png" style="width:85.0%" />
 
 *Data Continued:*  
-<img src="%22Images/prob4Data2.png%22" style="width:100.0%" />
+<img src="PDF Submission/Images/prob4Data2.png" style="width:100.0%" />
 
 ### 4.3.3 Output
 
@@ -456,4 +456,4 @@ Set of all nodes in above network flow diagram resembling a time period.
     regular and overtime hours). `200` products produced by Specialists
     using OT, and `100` from generalists using OT.
 
-<img src="%22Images/prob4Output.png%22" style="width:100.0%" />
+<img src="PDF Submission/Images/prob4Output.png" style="width:100.0%" />

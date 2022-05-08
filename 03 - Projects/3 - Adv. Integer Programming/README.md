@@ -152,11 +152,11 @@ x_{i,p}, \ y_i \in (0,1)
 
 ### 1.2.1 Code
 
-<img src="%22Images/prob1CodeAndData.png%22" style="width:100.0%" />
+<img src="PDF Submission/Images/prob1CodeAndData.png" style="width:100.0%" />
 
 ### 1.2.2 Output
 
-<img src="%22Images/prob1Output.png%22" style="width:80.0%" />
+<img src="PDF Submission/Images/prob1Output.png" style="width:80.0%" />
 
 #### 1.2.2.1 Analysis of the Output
 
@@ -299,11 +299,11 @@ isStored_{p,s} \in (0, 1)
 
 ### 2.2.1 Code
 
-<img src="%22Images/prob2CodeAndData.png%22" style="width:100.0%" />
+<img src="PDF Submission/Images/prob2CodeAndData.png" style="width:100.0%" />
 
 ### 2.2.2 Output (Part `a`)
 
-<img src="%22Images/prob2Output.png%22" style="width:70.0%" />
+<img src="PDF Submission/Images/prob2Output.png" style="width:70.0%" />
 
 #### 2.2.2.1 Analysis of the Output
 
@@ -372,11 +372,11 @@ minimize \ capacityActualVariance: capacity_s - \sum_{p \in PRODUCTS} tonsOfProd
 
 ### 2.4.1 Code
 
-<img src="%22Images/prob2.2CodeAndData.png%22" style="width:100.0%" />
+<img src="PDF Submission/Images/prob2.2CodeAndData.png" style="width:100.0%" />
 
 ### 2.4.2 Output (Part `b`)
 
-<img src="%22Images/prob2.2Output.png%22" style="width:70.0%" />
+<img src="PDF Submission/Images/prob2.2Output.png" style="width:70.0%" />
 
 #### 2.4.2.1 Analysis of the Output
 
@@ -521,11 +521,11 @@ meetTheDemand: WII + WRS + WE + WU + WOW \geq theDemand
 
 ### 3.2.1 Code
 
-<img src="%22Images/prob3CodeAndData1.png%22" style="width:70.0%" />
+<img src="PDF Submission/Images/prob3CodeAndData1.png" style="width:70.0%" />
 
-<img src="%22Images/prob3CodeAndData2.png%22" style="width:100.0%" />
+<img src="PDF Submission/Images/prob3CodeAndData2.png" style="width:100.0%" />
 
-<img src="%22Images/prob3CodeAndData3.png%22" style="width:100.0%" />
+<img src="PDF Submission/Images/prob3CodeAndData3.png" style="width:100.0%" />
 
 ### 3.2.2 Output
 
@@ -548,16 +548,16 @@ meetTheDemand: WII + WRS + WE + WU + WOW \geq theDemand
 
 <br>
 
-![](%22Images/prob3Output1.png%22)
+![](PDF Submission/Images/prob3Output1.png)
 
-![](%22Images/prob3Output2.png%22)
+![](PDF Submission/Images/prob3Output2.png)
 
-![](%22Images/prob3Output3.png%22)
+![](PDF Submission/Images/prob3Output3.png)
 
-![](%22Images/prob3Output4.png%22)
+![](PDF Submission/Images/prob3Output4.png)
 
-![](%22Images/prob3Output5.png%22)
+![](PDF Submission/Images/prob3Output5.png)
 
-![](%22Images/prob3Output6.png%22)
+![](PDF Submission/Images/prob3Output6.png)
 
-![](%22Images/prob3Output7.png%22)
+![](PDF Submission/Images/prob3Output7.png)
