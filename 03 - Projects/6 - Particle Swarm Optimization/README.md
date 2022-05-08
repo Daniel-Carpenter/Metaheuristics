@@ -58,11 +58,8 @@ upperBound = 500
 
 > Find the global optimium of the `Schwefel` function below
 
-<figure>
-<img src="Images/schwefel.png" style="height:30.0%"
-alt="2D Schwefel Function" />
-<figcaption aria-hidden="true">2D Schwefel Function</figcaption>
-</figure>
+### Below shows the Schwefel Function in a 2D space
+<img src="Images/schwefel.png" width = 400"
 
 **The Following Functions Satisfy Problem `1(a)`**
 
