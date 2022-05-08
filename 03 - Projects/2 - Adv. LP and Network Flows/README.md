@@ -69,7 +69,7 @@ February 2022
 ## 1.1 Problems `a` and `b`
 
 -   Below shows how we get to the answer of Problems `a` and `b`  
-    ![](PDF Submission/Images/prob1aAndB.png)
+    <img src="PDF Submission/Images/prob1aAndB.png">
 
 ## 1.2 Model Assumptions and Overview
 
@@ -180,19 +180,19 @@ produce_{\ f,p} \geq 0, \ \forall \ f\in FRUIT, \ \forall \ p\in PRODUCTS \\
 
 ### 1.4.2 Output
 
-![](PDF Submission/Images/prob1Output.png)
+<img src="PDF Submission/Images/prob1Output.png">
 
 Optimal profit is `$107,600`. `74,996` `Raisins` produced using
 `Grade A`, `24,988` of `Grade B`, and so on for each product. See
 validation of the weighted-average point constraint below.
 
-![](PDF Submission/Images/prob1OutputValidation.png)
+<img src="PDF Submission/Images/prob1OutputValidation.png">
 
 ## 1.5 Problems 1 `c (ii-vii)`
 
 `i.`
 
-![](PDF Submission/Images/probl1ci.jpg)
+<img src="PDF Submission/Images/probl1ci.jpg)
 
 Product total = (Amount of Grade A product + Amount of Grade B product)
 Raisins - 74996 + 24988 = 99984 Raisins  
@@ -227,7 +227,7 @@ Juice - (31609 \* 9 + 94827 \* 5) / (126436) = 6
 Jelly - (0 \* 9 + 210000 \* 5) / (210000) = 5
 
 `v.`  
-![](PDF Submission/Images/probl1cv.jpg)
+<img src="PDF Submission/Images/probl1cv.jpg)
 
 (option display_precision 8): puts the answer in decimal using 8 digits
 
@@ -311,7 +311,7 @@ Set of all nodes in above network flow diagram resembling a time period.
 
 ### 2.3.2 Data `group12_HW2_p2.dat`
 
-![](PDF Submission/Images/prob2.2.jpg)
+<img src="PDF Submission/Images/prob2.2.jpg)
 
 ### 2.3.3 Output
 

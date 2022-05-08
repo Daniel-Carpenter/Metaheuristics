@@ -548,16 +548,16 @@ meetTheDemand: WII + WRS + WE + WU + WOW \geq theDemand
 
 <br>
 
-![](PDF Submission/Images/prob3Output1.png)
+<img src="PDF Submission/Images/prob3Output1.png">
 
-![](PDF Submission/Images/prob3Output2.png)
+<img src="PDF Submission/Images/prob3Output2.png">
 
-![](PDF Submission/Images/prob3Output3.png)
+<img src="PDF Submission/Images/prob3Output3.png">
 
-![](PDF Submission/Images/prob3Output4.png)
+<img src="PDF Submission/Images/prob3Output4.png">
 
-![](PDF Submission/Images/prob3Output5.png)
+<img src="PDF Submission/Images/prob3Output5.png">
 
-![](PDF Submission/Images/prob3Output6.png)
+<img src="PDF Submission/Images/prob3Output6.png">
 
-![](PDF Submission/Images/prob3Output7.png)
+<img src="PDF Submission/Images/prob3Output7.png">
