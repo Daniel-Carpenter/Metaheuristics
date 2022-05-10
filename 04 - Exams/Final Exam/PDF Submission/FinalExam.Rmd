@@ -9,7 +9,7 @@ output:
   pdf_document:
     toc: yes
     number_sections: yes
-    highlight: kate
+    # highlight: kate
   # github_document:
   #   toc: yes
   #   number_sections: yes
@@ -229,6 +229,46 @@ s.t. share {b in NewBuildTypes}:
 
 \newpage
 # - *Question `2`* (Version 6)
+
+## Code to get Root Node 
+*Root Node is Node 1 in the diagram*  
+
+### Root Node AMPL Model $problem2.mod$
+```{python, eval=FALSE, include=TRUE}
+reset;
+option solver cplex; # Solver
+
+var x >= 0; # Not integer because this is used to check the optimal when fixing a var
+var y >= 0; # ""
+
+# Original problem:
+maximize theSolution: 2.5*x + 6*y;
+	s.t. first:  3*x + 5*y <= 26;
+	s.t. second:   x       >= 4;
+
+# Used to check the BnB nodes
+# Fixing x = 4 to solve for initial values of y
+s.t. checkNode: x = 4;
+
+# Solve and display
+solve;
+display theSolution, x,y;
+```
+
+### Output of Root Node AMPL Model (fixing x=4 & solving for y)
+![](Images/problem2Output.png){ width=50% }
+
+\newpage
+## Branch and Bound Diagram  
+
+### Summary of Diagram
+* Optimal solution reached at node 4 with integer feasible values of $x = 5$, and $y = 2$
+* Checked 7 total nodes
+* Fathomed 3 nodes (see description of "why" in diagram)
+* Each "Round" label shows which variable is being checked and for what integer value (lower or upper bound of the parent node)
+  
+### Branch and Bound Diagram  
+![](Images/problem2Diagram.png){ width=100% }
 
 \newpage
 # - *Question `3`* (Version 2)
