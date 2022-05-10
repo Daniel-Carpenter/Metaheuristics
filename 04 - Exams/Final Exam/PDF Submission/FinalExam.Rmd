@@ -1,0 +1,26 @@
+---
+title:    "Final Exam"
+subtitle: "Adv. Analytics and Metaheuristics"
+author:   "Daniel Carpenter"
+date:     "March 2022"
+fontsize: 12pt
+geometry: margin=1in
+output:
+  pdf_document:
+    toc: yes
+    number_sections: yes
+    highlight: kate
+  # github_document:
+  #   toc: yes
+  #   number_sections: yes
+  #   toc_depth: 2
+    
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\newpage
+
+# - Problem `1`
