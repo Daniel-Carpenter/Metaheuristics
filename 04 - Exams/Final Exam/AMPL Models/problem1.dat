@@ -6,7 +6,7 @@ data;
 
 # SETS =============================================================
 
-# : Set of new build types
+# Set of new build types
 set NewBuildTypes := Homes Duplex MiniPark;
 
 # PARAMETERS ========================================================
@@ -16,7 +16,7 @@ param maxBuildingDemod := 300;      # max buildings can be demo'd
 param demoCost         := 4000;     # Cost of each demolition
 param freedUpSpace     := 0.25;     # Freed up space from demolition
 
-# Amount of acreage that a new building (b ∈ NewBuildTypes)
+# Amount of acreage that a new building (b ∈ NewBuildTypes) consumes
 param: newBuildSpace :=  
        Homes    0.2
        Duplex   0.4

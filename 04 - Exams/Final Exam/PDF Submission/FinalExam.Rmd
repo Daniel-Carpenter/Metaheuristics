@@ -48,7 +48,7 @@ $newBuildPercShare_b$ | Minimum required percentage share of new buildings ($b \
 ### Decision Variables
 Variable               | Description 
 ----------------------:|-------------
-$numOldBuildsDemods_b$ | Number of old buildings ($b \in NewBuildTypes$) to demolish
+$numOldBuildsDemod$   | Number of old buildings to demolish
 $numNewBuilds_b$       | Number of new buildings ($b \in NewBuildTypes$) to produce
 
 
@@ -64,27 +64,27 @@ $$ maximize \ taxRevenue: \sum_{b\in NewBuildTypes} (numNewBuilds_b \times newBu
 $meetTheBudget:$  
 $$
 \sum_{b\in NewBuildTypes} \begin{bmatrix}
-(numNewBuilds_b \times newBuildCost_b) + (numOldBuildsDemods_b \times demoCost)
+(numNewBuilds_b \times newBuildCost_b) + (numOldBuildsDemod \times demoCost)
 \end{bmatrix}
 \leq budget
 $$
 
 **C2** Can only produce new builds using the demolished buildings land
 $$ 
-useAvailLand: \sum_{b\in NewBuildTypes} numNewBuilds_b \times newBuildSpace_b 
+useAvailLand: \sum_{b\in NewBuildTypes} (numNewBuilds_b \times newBuildSpace_b) 
 $$
 $$
-\leq \sum_{b\in NewBuildTypes} (numOldBuildsDemods_b) \times freedUpSpace
+\leq numOldBuildsDemod \times freedUpSpace
 $$
 
 **C3** Can only clear a certain amount of old buildings
 $$
-maxBuildingsCleared: \sum_{b\in NewBuildTypes} numOldBuildsDemods_b \leq maxBuildingDemod
+maxBuildingsCleared: numOldBuildsDemod \leq maxBuildingDemod
 $$
 
 **C4** For each new build type ($b\in NewBuildTypes$), the percentage share of the new build type must meet the minimum required
 $$
-numNewBuilds_b \geq newBuildPercShare_b \times \sum_{b \in Businesses} (numNewBuilds_b), 
+share: numNewBuilds_b \geq newBuildPercShare_b \times \sum_{b \in NewBuildTypes} (numNewBuilds_b), 
 $$
 $$
 \forall \ b \in Businesses
@@ -92,7 +92,10 @@ $$
 
 **C5** Non-negativity constraints  
 $$
-numOldBuildsDemods_b, \ numNewBuilds_b \geq 0, 
+numOldBuildsDemod \geq 0
+$$
+$$
+\ numNewBuilds_b \geq 0, 
 \ \forall \ b \in NewBuildTypes
 $$
 
@@ -100,7 +103,7 @@ $$
 ## Code
 
 ### AMPL Code
-```{mod eval=FALSE, include=TRUE}
+```{python eval=FALSE, include=TRUE}
 Code here
 ```
 
