@@ -20,19 +20,26 @@ param newBuildCost     {NewBuildTypes} >= 0; # n.b. cost
 param newBuildPercShare{NewBuildTypes} >= 0; # n.b. min % share
 
 # DECISION VARIABLES ===============================================
-var numOldBuildsDemod                >= 0; # Num old builds to demo
-var numNewBuilds      {NewBuildTypes} >= 0; # Num new builds to create
+var numOldBuildsDemod                 >= 0 integer; # Num old builds to demo
+var numNewBuilds      {NewBuildTypes} >= 0 integer; # Num new builds to create
+
+# Variables to hold total cost of new builds over all types
+var newBuildTotalCost = sum{b in NewBuildTypes} ( (numNewBuilds[b] * newBuildCost[b]) ) ;
+
+# Variables to hold total cost of old demolitions
+var oldDemoTotalCost = (numOldBuildsDemod * demoCost) ;
+
+# Variable to hold the sum of all new build types over all New build types
+var sumOfNewBuilds =  sum{b in NewBuildTypes}( numNewBuilds[b] );
 
 # OBJECTIVE FUNCTION ===============================================
-maximize taxRevenue: sum{b in NewBuildTypes}( numNewBuilds[b] * newBuildTax[b] )
+maximize taxRevenue: sum{b in NewBuildTypes}( numNewBuilds[b] * newBuildTax[b] );
 
 # CONSTRAINTS ======================================================
 
 # C1  Spend less than or equal to the federal budget
 s.t. meetTheBudget: 
-    sum{b in NewBuildTypes} ( 
-        (numNewBuilds[b] * newBuildCost[b]) + (numOldBuildsDemod * demoCost) 
-    ) <= budget ;
+    newBuildTotalCost + oldDemoTotalCost <= budget ;
 
 # C2 Can only produce new builds using the demolished buildings land
 s.t. useAvailLand: 
@@ -44,13 +51,24 @@ s.t. maxBuildingsCleared: numOldBuildsDemod <= maxBuildingDemod ;
 
 # C4 For each new build type (b ∈ NewBuildTypes), 
 #    the percentage share of the new build type must meet the minimum required
-s.t. share {b in Businesses}: 
-    numNewBuilds[b] >= newBuildPercShare[b] * sum{b in NewBuildTypes}( numNewBuilds[b] ) ;
+s.t. share {b in NewBuildTypes}: 
+    numNewBuilds[b] >= newBuildPercShare[b] * sumOfNewBuilds ;
 
 # CONTROLS ==========================================================
     data problem1.dat; # retreive data file with sets/param. values
     solve;
 
     print;
-    print "Tax Revenue generated, num. new builds, num. old builds demolished:";
-    display taxRevenue, numOldBuildsDemod, numNewBuilds;
+
+    print "Number of old buildings to demolish and cost (dollars):";
+    display numOldBuildsDemod, oldDemoTotalCost ;
+    
+    print "Number of new buildings produced and cost (dollars):";
+    display numNewBuilds , newBuildTotalCost ;
+    
+    print "Total Budget Used (dollars):";
+    display newBuildTotalCost + oldDemoTotalCost ;
+    
+    print "Part 3: Max Tax Revenue generated (dollars):";
+    display taxRevenue ;
+    

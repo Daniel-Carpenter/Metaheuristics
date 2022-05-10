@@ -25,15 +25,15 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # - *Question `1`* (Version 1)
 
-## Mathematical Formulation
+## *Part 1:* Mathematical Formulation
 
 ### Sets
 $NewBuildTypes$: Set of new build types $b\in (Homes, \ Duplex, \ MiniPark)$
 
 
 ### Parameters
-Parameter | Description | Default Value
----------:|-------------|---------------
+Parameter | Description     | Default Value
+---------:|-----------------|---------------
 $budget$    | Federal grant allocation to revitalize neighborhoods | $15MM total budget 
 $maxBuildingDemod$ | Max amount of buildings that can be demolished | 300 total buildings
 $demoCost$  | Cost of demolishing a building | $4,000 per building
@@ -46,27 +46,26 @@ $newBuildPercShare_b$ | Minimum required percentage share of new buildings ($b \
 
 \newpage
 ### Decision Variables
-Variable               | Description 
-----------------------:|-------------
-$numOldBuildsDemod$   | Number of old buildings to demolish
+Variable | Description 
+----:|-------------
+$numOldBuildsDemod$    | Number of old buildings to demolish
 $numNewBuilds_b$       | Number of new buildings ($b \in NewBuildTypes$) to produce
+$newBuildTotalCost$    | Variables to hold total cost of new builds ($b \in NewBuildTypes$). Calculation:  $\sum_{b\in NewBuildTypes} (numNewBuilds_b \times newBuildCost_b)$
+$oldDemoTotalCost$     | Variables to hold total cost of old demolitions. Calculation: $numOldBuildsDemod \times demoCost$
+$sumOfNewBuilds$       | # Variable to hold the sum of all new build types over all New build types ($b \in NewBuildTypes$). Calculation: $\sum_{b \in NewBuildTypes} (numNewBuilds_b)$
+
 
 
 ### Objective
 Maximize the tax revenue from the projects
-
 $$ maximize \ taxRevenue: \sum_{b\in NewBuildTypes} (numNewBuilds_b \times newBuildTax_b)$$
 
 
 ### Constraints
 
-**C1** Spend less than or equal to the federal budget  
-$meetTheBudget:$  
+**C1** Spend less than or equal to the federal budget (see variable definitions)  
 $$
-\sum_{b\in NewBuildTypes} \begin{bmatrix}
-(numNewBuilds_b \times newBuildCost_b) + (numOldBuildsDemod \times demoCost)
-\end{bmatrix}
-\leq budget
+meetTheBudget: newBuildTotalCost + oldDemoTotalCost \leq budget
 $$
 
 **C2** Can only produce new builds using the demolished buildings land
@@ -82,34 +81,150 @@ $$
 maxBuildingsCleared: numOldBuildsDemod \leq maxBuildingDemod
 $$
 
-**C4** For each new build type ($b\in NewBuildTypes$), the percentage share of the new build type must meet the minimum required
+**C4** For each new build type ($b\in NewBuildTypes$), the percentage share of the new build type must meet the minimum required (see variables)
 $$
-share: numNewBuilds_b \geq newBuildPercShare_b \times \sum_{b \in NewBuildTypes} (numNewBuilds_b), 
+share: numNewBuilds_b \geq newBuildPercShare_b \times sumOfNewBuilds, 
 $$
 $$
 \forall \ b \in Businesses
 $$
 
-**C5** Non-negativity constraints  
+**C5** Non-negativity and integer constraints  
 $$
-numOldBuildsDemod \geq 0
+numOldBuildsDemod \in \mathbb{Z}, \geq 0
 $$
 $$
-\ numNewBuilds_b \geq 0, 
+\ numNewBuilds_b \in \mathbb{Z}, \geq 0, 
 \ \forall \ b \in NewBuildTypes
 $$
 
 \newpage
-## Code
+## *Part 2*: AMPL Code & Output
 
 ### AMPL Code
+
+**Data $problem1.dat$**  
+
 ```{python eval=FALSE, include=TRUE}
-Code here
+data;
+
+# SETS =============================================================
+
+# Set of new build types
+set NewBuildTypes := Homes Duplex MiniPark;
+
+# PARAMETERS ========================================================
+
+param budget           := 15000000; # federal budget 
+param maxBuildingDemod := 300;      # max buildings can be demo'd
+param demoCost         := 4000;     # Cost of each demolition
+param freedUpSpace     := 0.25;     # Freed up space from demolition
+
+# Amount of acreage that a new building (b in NewBuildTypes) consumes
+param: newBuildSpace :=  
+       Homes    0.2
+       Duplex   0.4
+       MiniPark 1.0
+       ;
+# Amount of tax dollars generated from a new building (b in NewBuildTypes)
+param: newBuildTax :=  
+       Homes    1500
+       Duplex   2750
+       MiniPark 500
+       ;
+
+# Amount of dollars used to create a new building (b in NewBuildTypes)
+param: newBuildCost :=  
+       Homes    150000
+       Duplex   190000
+       MiniPark 20000
+       ;
+
+# Minimum required percentage share of new buildings (b in NewBuildTypes) created
+param: newBuildPercShare :=  
+       Homes    0.20
+       Duplex   0.10
+       MiniPark 0.05
+       ;
+```
+
+**Model $problem1.mod$**  
+
+```{python eval=FALSE, include=TRUE}
+reset;                  # Reset globals
+options solver cplex;   # Using cplex for simplex alg
+
+# SETS ============================================================
+set NewBuildTypes; # Set of new build types
+
+# PARAMETERS =======================================================
+param budget           >= 0; # federal budget 
+param maxBuildingDemod >= 0; # max buildings can be demo'd
+param demoCost         >= 0; # Cost of each demolition
+param freedUpSpace     >= 0; # Freed up space from demolition
+
+param newBuildSpace    {NewBuildTypes} >= 0; # new build acreage
+param newBuildTax      {NewBuildTypes} >= 0; # n.b. tax generation
+param newBuildCost     {NewBuildTypes} >= 0; # n.b. cost
+param newBuildPercShare{NewBuildTypes} >= 0; # n.b. min % share
+
+# DECISION VARIABLES ===============================================
+var numOldBuildsDemod                 >= 0 integer; # Num old builds to demo
+var numNewBuilds      {NewBuildTypes} >= 0 integer; # Num new builds to create
+
+# Variables to hold total cost of new builds over all types
+var newBuildTotalCost = sum{b in NewBuildTypes} ( (numNewBuilds[b] * newBuildCost[b]));
+
+# Variables to hold total cost of old demolitions
+var oldDemoTotalCost = (numOldBuildsDemod * demoCost) ;
+
+# Variable to hold the sum of all new build types over all New build types
+var sumOfNewBuilds =  sum{b in NewBuildTypes}( numNewBuilds[b] );
+
+# OBJECTIVE FUNCTION ===============================================
+maximize taxRevenue: sum{b in NewBuildTypes}( numNewBuilds[b] * newBuildTax[b] );
+
+# CONSTRAINTS ======================================================
+
+# C1  Spend less than or equal to the federal budget
+s.t. meetTheBudget: 
+    newBuildTotalCost + oldDemoTotalCost <= budget ;
+
+# C2 Can only produce new builds using the demolished buildings land
+s.t. useAvailLand: 
+    sum{b in NewBuildTypes}( numNewBuilds[b] * newBuildSpace[b] )
+    <= numOldBuildsDemod * freedUpSpace ;
+
+# C3 Can only clear a certain amount of old buildings
+s.t. maxBuildingsCleared: numOldBuildsDemod <= maxBuildingDemod ;
+
+# C4 For each new build type (b in NewBuildTypes), 
+#    the percentage share of the new build type must meet the minimum required
+s.t. share {b in NewBuildTypes}: 
+    numNewBuilds[b] >= newBuildPercShare[b] * sumOfNewBuilds ;
+
+# CONTROLS ==========================================================
+    data problem1.dat; # retreive data file with sets/param. values
+    solve;
+
+    print;
+
+    print "Number of old buildings to demolish and cost (dollars):";
+    display numOldBuildsDemod, oldDemoTotalCost ;
+    
+    print "Number of new buildings produced and cost (dollars):";
+    display numNewBuilds , newBuildTotalCost ;
+    
+    print "Total Budget Used (dollars):";
+    display newBuildTotalCost + oldDemoTotalCost ;
+    
+    print "Part 3: Max Tax Revenue generated (dollars):";
+    display taxRevenue ;
 ```
 
 
-### AMPL Solution
-![Problem 1 AMPL Output of Optimal Solution and Variables](Images/problem1.png){ width=80% }
+### *Part 2/3:* Solve AMPL Model and Display Solution
+![](Images/problem1.png){ width=55% }
 
 
 \newpage
