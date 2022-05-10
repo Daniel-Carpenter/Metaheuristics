@@ -1,0 +1,44 @@
+# Daniel Carpenter
+# Final Exam
+# Problem 1
+
+data;
+
+# SETS =============================================================
+
+# : Set of new build types
+set NewBuildTypes := Homes Duplex MiniPark;
+
+# PARAMETERS ========================================================
+
+param budget           := 15000000; # federal budget 
+param maxBuildingDemod := 300;      # max buildings can be demo'd
+param demoCost         := 4000;     # Cost of each demolition
+param freedUpSpace     := 0.25;     # Freed up space from demolition
+
+# Amount of acreage that a new building (b ∈ NewBuildTypes)
+param: newBuildSpace :=  
+       Homes    0.2
+       Duplex   0.4
+       MiniPark 1.0
+       ;
+# Amount of tax dollars generated from a new building (b ∈ NewBuildTypes)
+param: newBuildTax :=  
+       Homes    1500
+       Duplex   2750
+       MiniPark 500
+       ;
+
+# Amount of dollars used to create a new building (b ∈ NewBuildTypes)
+param: newBuildCost :=  
+       Homes    150000
+       Duplex   190000
+       MiniPark 20000
+       ;
+
+# Minimum required percentage share of new buildings (b ∈ NewBuildTypes) created
+param: newBuildPercShare :=  
+       Homes    0.20
+       Duplex   0.10
+       MiniPark 0.05
+       ;
