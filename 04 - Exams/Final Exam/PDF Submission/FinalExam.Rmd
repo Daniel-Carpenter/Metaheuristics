@@ -273,6 +273,22 @@ display theSolution, x,y;
 \newpage
 # - *Question `3`* (Version 2)
 
+## *Part i*: Hill Climbing
+* Please see the below snippet on rightmost comments about the algorithm
+* Ended at iteration 3 with minimum value of -1.9991 due to no change in best neighbor
+![](Images/problem2i.png){ height=80% }
+
+\newpage
+## *Part ii*: Path Relinking
+* Below shows the path relinking overview.
+* Similar calculations as aboce, just choosing the best neighbor with minimal positional distance
+between then current and guided solution
+
+![](Images/problem2ii.png)
+
+\newpage
+## *Part iii*: Path Relinking
+
 \newpage
 # - *Question `4`* (Version 3)
 
