@@ -280,14 +280,63 @@ display theSolution, x,y;
 
 \newpage
 ## *Part ii*: Path Relinking
-* Below shows the path relinking overview.
-* Similar calculations as aboce, just choosing the best neighbor with minimal positional distance
-between then current and guided solution
+* Below shows the path re-linking overview.
+* Shows each  iterations that occurred in order to find the guided neighbor
+* Green arrow highlights the, best solutions found along the path
+* **Logic overview:** Evaluates neighbors  from initiation solution, then makes the best move. Updates the difference between current and guided solution. Repeats until finding the guided solution
+* *`Iteration 3` duplicated for ease of viewing*
 
-![](Images/problem2ii.png)
+![](Images/problem2ii_1.png)
+
+![](Images/problem2ii_2.png)
 
 \newpage
-## *Part iii*: Path Relinking
+## *Part iii*: Simulated Annealing
+* Current temperature = 3
+
+Using the evaluation function for this questions
+```{r}
+# Evaluation function
+evaluateFitness <- function(x1, x2) {
+  x1*cos(x1)*sin(x2) + 0.5*x2
+}
+```
+
+
+* The probability fomula is the following:  $p=e^{\frac{-\left(f\left(s_{1}\right)-f\left(s_{2}\right)\right)}{T}}$    
+
+* Where $f\left(s_{1}\right)$ is the current solution, and $f\left(s_{2}\right)$ 
+is the candidate solution since minimization.  
+
+```{r}
+# Uses the evaluation function to return the probability (see above formula)
+calculateProb <- function(temperature, currentPosition, newPosition) {
+  f_s1 = evaluateFitness(currentPosition[1], currentPosition[2]) # f(s[1]) current
+  f_s2 = evaluateFitness(newPosition[1],     newPosition[2]    ) # f(s[2]) candidate
+  
+  # Probability using minimization
+  p = exp(1)^( -(f_s1-f_s2) / temperature ) 
+  
+  return(round(p, 3))
+}
+```
+
+Now calculate the probability from the current to the candidate solutions  
+```{r}
+# What is the probability of accepting a move from 
+# (4, 0) to candidate neighbor solution (4, 1)? 
+paste('At temp. 3, the probability from (4, 0) to (4, 1) is', 
+      calculateProb(temperature     = 3, 
+                    currentPosition = c(4, 0), 
+                    newPosition     = c(4, 1)) )
+
+# What is the probability of accepting a move from 
+# (4, 0) to candidate neighbor solution (4,-1)?
+paste('At temp. 3, the probability from (4, 0) to (4, -1) is',
+      calculateProb(temperature     = 3, 
+                    currentPosition = c(4, 0), 
+                    newPosition     = c(4, -1)) )
+```
 
 \newpage
 # - *Question `4`* (Version 3)
