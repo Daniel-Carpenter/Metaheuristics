@@ -276,7 +276,7 @@ display theSolution, x,y;
 ## *Part i*: Hill Climbing
 * Please see the below snippet on rightmost comments about the algorithm
 * Ended at iteration 3 with minimum value of -1.9991 due to no change in best neighbor
-![](Images/problem2i.png){ height=80% }
+![](Images/problem3i.png){ height=80% }
 
 \newpage
 ## *Part ii*: Path Relinking
@@ -286,15 +286,15 @@ display theSolution, x,y;
 * **Logic overview:** Evaluates neighbors  from initiation solution, then makes the best move. Updates the difference between current and guided solution. Repeats until finding the guided solution
 * *`Iteration 3` duplicated for ease of viewing*
 
-![](Images/problem2ii_1.png)
+![](Images/problem3ii_1.png)
 
-![](Images/problem2ii_2.png)
+![](Images/problem3ii_2.png)
 
 \newpage
 ## *Part iii*: Simulated Annealing
 * Current temperature = 3
 
-Using the evaluation function for this questions
+Using the evaluation function for this questions (note language below is `R`)
 ```{r}
 # Evaluation function
 evaluateFitness <- function(x1, x2) {
@@ -340,6 +340,23 @@ paste('At temp. 3, the probability from (4, 0) to (4, -1) is',
 
 \newpage
 # - *Question `4`* (Version 3)
+
+## Part (i)
+* Evaluates the fitness for each chromosome $c \in Chromosomes$ using 
+$f(x) = x_1 + 2x_2 + 3x_3 + 4x_4 + 5x_5$ as evaluation function.   
+* Then computes the probability based on the following equation:  $\frac{f_{c}}{\sum_{c\in Chromosomes} f_c}$  
+* See yellow highlighted cells for final roulette wheel probabilities for each chromosome
+
+![](Images/problem4i.png){ width=60% }
+
+## Part (ii/iii)
+* Select the highest and lowest fitness valued chromosomes and produce offspring
+* Offspring split between the second and third bit (highlighted for ease)
+* Highest fitness valued offspring: `Offspring 2` with fitness value of `12`
+
+![](Images/problem4ii.png){ width=60% }
+
+<!-- ## Part (iii) -->
 
 \newpage
 # - *Question `5`* (Version 2)
