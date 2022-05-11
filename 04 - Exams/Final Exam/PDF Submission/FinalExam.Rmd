@@ -231,9 +231,11 @@ s.t. share {b in NewBuildTypes}:
 # - *Question `2`* (Version 6)
 
 ## Code to get Root Node 
-*Root Node is Node 1 in the diagram*  
+*Root Node is Node 1 in the diagram*   
 
 ### Root Node AMPL Model $problem2.mod$
+* Note code below also used/altered to test upper and lower bounds of child nodes.
+
 ```{python, eval=FALSE, include=TRUE}
 reset;
 option solver cplex; # Solver
@@ -262,10 +264,11 @@ display theSolution, x,y;
 ## Branch and Bound Diagram  
 
 ### Summary of Diagram
-* Optimal solution reached at node 4 with integer feasible values of $x = 5$, and $y = 2$
+* Optimal solution reached at node 4 with integer feasible values of $x = 5$, and $y = 2$, `optimal of 24.5`
 * Checked 7 total nodes
 * Fathomed 3 nodes (see description of "why" in diagram)
 * Each "Round" label shows which variable is being checked and for what integer value (lower or upper bound of the parent node)
+* Please note that the AMPL model above was used as a calculator to test upper and lower bounds.
   
 ### Branch and Bound Diagram  
 ![](Images/problem2Diagram.png){ width=100% }
