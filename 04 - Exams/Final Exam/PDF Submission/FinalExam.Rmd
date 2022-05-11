@@ -1,8 +1,8 @@
 ---
-title:    "Final Exam"
+title:    "Comprehensive Final Exam"
 subtitle: "Adv. Analytics and Metaheuristics"
 author:   "Daniel Carpenter"
-date:     "March 2022"
+date:     "May 2022"
 fontsize: 12pt
 geometry: margin=1in
 output:
@@ -341,7 +341,7 @@ paste('At temp. 3, the probability from (4, 0) to (4, -1) is',
 \newpage
 # - *Question `4`* (Version 3)
 
-## Part (i)
+## *Part (i)* - Roulette Probability
 * Evaluates the fitness for each chromosome $c \in Chromosomes$ using 
 $f(x) = x_1 + 2x_2 + 3x_3 + 4x_4 + 5x_5$ as evaluation function.   
 * Then computes the probability based on the following equation:  $\frac{f_{c}}{\sum_{c\in Chromosomes} f_c}$  
@@ -349,7 +349,7 @@ $f(x) = x_1 + 2x_2 + 3x_3 + 4x_4 + 5x_5$ as evaluation function.
 
 ![](Images/problem4i.png){ width=60% }
 
-## Part (ii/iii)
+## *Part (ii/iii)* - Breed Offspring
 * Select the highest and lowest fitness valued chromosomes and produce offspring
 * Offspring split between the second and third bit (highlighted for ease)
 * Highest fitness valued offspring: `Offspring 2` with fitness value of `12`
@@ -360,3 +360,31 @@ $f(x) = x_1 + 2x_2 + 3x_3 + 4x_4 + 5x_5$ as evaluation function.
 
 \newpage
 # - *Question `5`* (Version 2)
+
+## *Part (i)* - Global Best
+
+### Assumptions
+* Uses all calculations and parameter values from the problem question. See header in picture as well for the calculation
+* Parameters of interest highlighted in orange
+* See `global` best logic in picture below
+
+### Solution
+* Particle 1's Next `Velocity: (-1.90, 3.55, 3.70)`
+* Particle 1's Next `Position: (12.10, 8.55, 5.70)`
+
+### Relevant Work
+![](Images/problem5i.png){ width=100% }
+
+\newpage
+## *Part (ii)* - Local Best w/Ring
+
+### Assumptions
+* Local best paramaters highlighted in yellow 
+* See `local` best logic with `ring` structure in picture below
+
+### Solution
+* Particle 1's Next `Velocity: (-0.40, 4.30, 4.45)`
+* Particle 1's Next `Position: (13.60, 9.30, 6.45)`
+
+### Relevant Work
+![](Images/problem5ii.png){ width=100% }
