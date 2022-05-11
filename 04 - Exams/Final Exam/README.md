@@ -339,9 +339,9 @@ display theSolution, x,y;
     solution. Repeats until finding the guided solution
 -   *`Iteration 3` duplicated for ease of viewing*
 
-![](PDF Submission/Images/problem3ii_1.png)
+<img src="PDF Submission/Images/problem3ii_1.png">
 
-![](PDF Submission/Images/problem3ii_2.png)
+<img src="PDF Submission/Images/problem3ii_2.png">
 
 ## 3.3 *Part (iii)*: Simulated Annealing
 
