@@ -291,32 +291,32 @@ display theSolution, x,y;
 
 \newpage
 ## *Part iii*: Simulated Annealing
-* Current `temperature = 3`
 
-Using the evaluation function for this questions (note language below is `R`)
+Using the evaluation function for this question (note language below is `R`)
 ```{r}
-# Evaluation function
-evaluateFitness <- function(x1, x2) {
-  x1*cos(x1)*sin(x2) + 0.5*x2
-}
+# Create an Evaluation function to evaluate fitness
+evaluateFitness <- function(x1, x2) { x1*cos(x1)*sin(x2) + 0.5*x2 }
 ```
 
+The probability `p` of accepting a move uses the following formula: $p=e^{\frac{-\left(f\left(s_{1}\right)-f\left(s_{2}\right)\right)}{T}}$. 
 
-* The probability `p` of accepting a move uses the following formula: $p=e^{\frac{-\left(f\left(s_{1}\right)-f\left(s_{2}\right)\right)}{T}}$    
-
-* Where $f\left(s_{1}\right)$ is the `current` solution, and $f\left(s_{2}\right)$ 
-is the `candidate` solution since minimization. See calculation below (using evaluate function)
+Where $f\left(s_{1}\right)$ is the `current` solution, and $f\left(s_{2}\right)$ 
+is the `candidate` solution since minimization. See calculation below (using `evaluateFitness()` function)
 
 ```{r}
 # Uses the evaluation function to return the probability (see above formula)
 calculateProb <- function(temperature, currentPosition, newPosition) {
-  f_s1 = evaluateFitness(currentPosition[1], currentPosition[2]) # f(s[1]) current
-  f_s2 = evaluateFitness(newPosition[1],     newPosition[2]    ) # f(s[2]) candidate
+  # Assuming minimization, evaluation of the Current and Candidate solutions:
+  f_s1 = evaluateFitness(currentPosition[1], currentPosition[2]) # f(s[1]) current sol.
+  f_s2 = evaluateFitness(newPosition[1],     newPosition[2]    ) # f(s[2]) candidate sol.
   
-  # Probability using minimization
-  p = exp(1)^( -(f_s1-f_s2) / temperature ) 
+  # If Candidate evaluation is WORSE than the current, accept with prob. p 
+  if (f_s2 < f_s1) { # '<' since minimization
+    p = exp( ( -(f_s1-f_s2) / temperature ) )
+
+  } else { p = 1 } # Else accept move since better
   
-  return(round(p, 3))
+  return( round(p, 3) ) # Round to 3 decimal places
 }
 ```
 
