@@ -6,14 +6,14 @@ date:     "May 2022"
 fontsize: 12pt
 geometry: margin=1in
 output:
-  pdf_document:
-    toc: yes
-    number_sections: yes
-    # highlight: kate
-  # github_document:
+  # pdf_document:
   #   toc: yes
   #   number_sections: yes
-  #   toc_depth: 2
+  #   # highlight: kate
+  github_document:
+    toc: yes
+    number_sections: yes
+    toc_depth: 2
     
 ---
 
@@ -25,7 +25,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # - *Question `1`* (Version 1)
 
-## *Part 1:* Mathematical Formulation
+## *Part (1):* Mathematical Formulation
 
 ### Sets
 $NewBuildTypes$: Set of new build types $b\in (Homes, \ Duplex, \ MiniPark)$
@@ -38,37 +38,37 @@ $budget$    | Federal grant allocation to revitalize neighborhoods | $15MM total
 $maxBuildingDemod$ | Max amount of buildings that can be demolished | 300 total buildings
 $demoCost$  | Cost of demolishing a building | $4,000 per building
 $freedUpSpace$ | Acreage generated from demolishing a building | 0.25 per building
-$newBuildSpace_b$ | Amount of acreage that a new building ($b \in NewBuildTypes$) consumes | $Homes$: 0.2, $Duplex$: 0.4,  $MiniPark$: 1.0
-$newBuildTax_b$ | Amount of tax dollars generated from a new building ($b \in NewBuildTypes$) | $Homes$: 1,500, $Duplex$: 2,750,  $MiniPark$: 500
-$newBuildCost_b$ | Amount of dollars used to create a new building ($b \in NewBuildTypes$) | $Homes$: 150,000, $Duplex$: 190,000,  $MiniPark$: 20,000
-$newBuildPercShare_b$ | Minimum required percentage share of new buildings ($b \in NewBuildTypes$) created | $Homes$: 20%, $Duplex$: 10%,  $MiniPark$: 5%
+$newBuildSpace_b$ | Amount of acreage that a new build ($b \in NewBuildTypes$) consumes | $Homes$: 0.2, $Duplex$: 0.4,  $MiniPark$: 1.0
+$newBuildTax_b$ | Amount of tax dollars generated from a new build ($b \in NewBuildTypes$) | $Homes$: 1,500, $Duplex$: 2,750,  $MiniPark$: 500
+$newBuildCost_b$ | Amount of dollars used to create a new build ($b \in NewBuildTypes$) | $Homes$: 150,000, $Duplex$: 190,000,  $MiniPark$: 20,000
+$newBuildPercShare_b$ | Minimum required percentage share of new builds ($b \in NewBuildTypes$) created | $Homes$: 20%, $Duplex$: 10%,  $MiniPark$: 5%
 
 
 \newpage
 ### Decision Variables
 Variable | Description 
 ----:|-------------
-$numOldBuildsDemod$    | Number of old buildings to demolish
-$numNewBuilds_b$       | Number of new buildings ($b \in NewBuildTypes$) to produce
+$numOldBuildsDemod$    | Number $\in \mathbb{Z}$ of old buildings to demolish
+$numNewBuilds_b$       | Number $\in \mathbb{Z}$ of new buildings ($b \in NewBuildTypes$) to produce
 $newBuildTotalCost$    | Variables to hold total cost of new builds ($b \in NewBuildTypes$). Calculation:  $\sum_{b\in NewBuildTypes} (numNewBuilds_b \times newBuildCost_b)$
 $oldDemoTotalCost$     | Variables to hold total cost of old demolitions. Calculation: $numOldBuildsDemod \times demoCost$
-$sumOfNewBuilds$       | # Variable to hold the sum of all new build types over all New build types ($b \in NewBuildTypes$). Calculation: $\sum_{b \in NewBuildTypes} (numNewBuilds_b)$
+$sumOfNewBuilds$       | Variable to hold the number of all new build types over all New build types ($b \in NewBuildTypes$). Calculation: $\sum_{b \in NewBuildTypes} (numNewBuilds_b)$
 
 
 
 ### Objective
-Maximize the tax revenue from the projects
+Maximize the total tax revenue from the new builds ($b \in NewBuildTypes$)
 $$ maximize \ taxRevenue: \sum_{b\in NewBuildTypes} (numNewBuilds_b \times newBuildTax_b)$$
 
 
 ### Constraints
 
-**C1** Spend less than or equal to the federal budget (see variable definitions)  
+**C1** Spend less than or equal to the federal budget (variable definitions above define below)  
 $$
 meetTheBudget: newBuildTotalCost + oldDemoTotalCost \leq budget
 $$
 
-**C2** Can only produce new builds using the demolished buildings land
+**C2** Can only produce new builds using the demolished buildings' generated land
 $$ 
 useAvailLand: \sum_{b\in NewBuildTypes} (numNewBuilds_b \times newBuildSpace_b) 
 $$
@@ -86,20 +86,20 @@ $$
 share: numNewBuilds_b \geq newBuildPercShare_b \times sumOfNewBuilds, 
 $$
 $$
-\forall \ b \in Businesses
+\forall \ b \in NewBuildTypes
 $$
 
 **C5** Non-negativity and integer constraints  
 $$
-numOldBuildsDemod \in \mathbb{Z}, \geq 0
+numOldBuildsDemod \in \mathbb{Z}^{+}
 $$
 $$
-\ numNewBuilds_b \in \mathbb{Z}, \geq 0, 
+\ numNewBuilds_b \in \mathbb{Z}^{+}, 
 \ \forall \ b \in NewBuildTypes
 $$
 
 \newpage
-## *Part 2*: AMPL Code & Output
+## *Part (2)*: AMPL Code & Output
 
 ### AMPL Code
 
@@ -223,7 +223,7 @@ s.t. share {b in NewBuildTypes}:
 ```
 
 
-### *Part 2/3:* Solve AMPL Model and Display Solution
+### *Part 2/3:* Solve AMPL Model and Display Solution w/Commentary
 ![](Images/problem1.png){ width=55% }
 
 
@@ -276,13 +276,13 @@ display theSolution, x,y;
 \newpage
 # - *Question `3`* (Version 2)
 
-## *Part i*: Hill Climbing
+## *Part (i)*: Hill Climbing
 * Please see the below snippet on rightmost comments about the algorithm
 * Ended at iteration 3 with minimum value of -1.9991 due to no change in best neighbor
 ![](Images/problem3i.png){ height=80% }
 
 \newpage
-## *Part ii*: Path Relinking
+## *Part (ii)*: Path Relinking
 * Below shows two images with the path re-linking process iterations (from initiation to guided solution).
 * Green arrow highlights the path to the guided solution
 * **Logic overview:** Evaluates neighbors of initiation solution, then moves along path of each neighbor. Makes best move for each neighbor, then checks difference between current and guided solution. Repeats until finding the guided solution
@@ -293,7 +293,7 @@ display theSolution, x,y;
 ![](Images/problem3ii_2.png)
 
 \newpage
-## *Part iii*: Simulated Annealing
+## *Part (iii)*: Simulated Annealing
 
 Using the evaluation function for this question (note language below is `R`)
 ```{r}
