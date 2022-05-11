@@ -349,7 +349,7 @@ $f(x) = x_1 + 2x_2 + 3x_3 + 4x_4 + 5x_5$ as evaluation function.
 ![](Images/problem4i.png){ width=60% }
 
 ## *Part (ii/iii)* - Breed Offspring
-* Select the highest and lowest fitness valued chromosomes and produce offspring
+* Select the highest `(Chrom. 3)` and lowest `(Chrom. 4)` fitness valued chromosomes, then split at crossover point to produce offspring
 * Offspring split between the second and third bit (highlighted for ease)
 * Highest fitness valued offspring: `Offspring 2` with fitness value of `12`
 
