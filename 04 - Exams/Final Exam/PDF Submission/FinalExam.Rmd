@@ -280,10 +280,9 @@ display theSolution, x,y;
 
 \newpage
 ## *Part ii*: Path Relinking
-* Below shows the path re-linking overview.
-* Shows each  iterations that occurred in order to find the guided neighbor
-* Green arrow highlights the, best solutions found along the path
-* **Logic overview:** Evaluates neighbors  from initiation solution, then makes the best move. Updates the difference between current and guided solution. Repeats until finding the guided solution
+* Below shows two images with the path re-linking process iterations (from initiation to guided solution).
+* Green arrow highlights the path to the guided solution
+* **Logic overview:** Evaluates neighbors of initiation solution, then moves along path of each neighbor. Makes best move for each neighbor, then checks difference between current and guided solution. Repeats until finding the guided solution
 * *`Iteration 3` duplicated for ease of viewing*
 
 ![](Images/problem3ii_1.png)
@@ -292,7 +291,7 @@ display theSolution, x,y;
 
 \newpage
 ## *Part iii*: Simulated Annealing
-* Current temperature = 3
+* Current `temperature = 3`
 
 Using the evaluation function for this questions (note language below is `R`)
 ```{r}
@@ -303,10 +302,10 @@ evaluateFitness <- function(x1, x2) {
 ```
 
 
-* The probability fomula is the following:  $p=e^{\frac{-\left(f\left(s_{1}\right)-f\left(s_{2}\right)\right)}{T}}$    
+* The probability `p` of accepting a move uses the following formula: $p=e^{\frac{-\left(f\left(s_{1}\right)-f\left(s_{2}\right)\right)}{T}}$    
 
-* Where $f\left(s_{1}\right)$ is the current solution, and $f\left(s_{2}\right)$ 
-is the candidate solution since minimization.  
+* Where $f\left(s_{1}\right)$ is the `current` solution, and $f\left(s_{2}\right)$ 
+is the `candidate` solution since minimization. See calculation below (using evaluate function)
 
 ```{r}
 # Uses the evaluation function to return the probability (see above formula)
@@ -321,7 +320,7 @@ calculateProb <- function(temperature, currentPosition, newPosition) {
 }
 ```
 
-Now calculate the probability from the current to the candidate solutions  
+Now calculate the probability `p` from the `current` to the `candidate` solutions  
 ```{r}
 # What is the probability of accepting a move from 
 # (4, 0) to candidate neighbor solution (4, 1)? 
