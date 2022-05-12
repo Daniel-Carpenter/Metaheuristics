@@ -14,7 +14,7 @@
 * Neighborhood & Population Hueristics w/Knapsack: ([See Overview here](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/03%20-%20Projects/5%20-%20Neighborhood%20Metaheuristics/Assignment%20Instructions.pdf))
     - [Simulated Annealing](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects/5%20-%20Neighborhood%20Metaheuristics#1-question-1-simulated-annealing)
     - [Genetic Algorithm](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects/5%20-%20Neighborhood%20Metaheuristics#2-question-2-genetic-algorithm) 
-* [Particle Swarm Optimization to solve Schwefel Benchmark Function](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects/6%20-%20Particle%20Swarm%20Optimization#homework-6) ([See Overview here](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/03%20-%20Projects/6%20-%20Particle%20Swarm%20Optimization/Assignment%20Instructions.pdf))
+* [Particle Swarm Optimization to solve Schwefel Benchmark Function](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects/6%20-%20Particle%20Swarm%20Optimization#1-question-1-particle-swarm-optimization) ([See Overview here](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/03%20-%20Projects/6%20-%20Particle%20Swarm%20Optimization/Assignment%20Instructions.pdf))
 
 <br>
 
