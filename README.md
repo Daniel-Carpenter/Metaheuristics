@@ -4,25 +4,27 @@
 <!-- > DSA 5113-995   -->
 <!-- > Spring 2022   -->
 
-## [Interesting Projects](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects)
+## [Interesting Projects Below](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects)
 
 ### Linear Programming
-* [`Production Modeling` with Advanced Linear Programming](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects/2%20-%20Adv.%20LP%20and%20Network%20Flows#1---problem-1) ([See Overview Here](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/03%20-%20Projects/2%20-%20Adv.%20LP%20and%20Network%20Flows/Assignment%20Instructions.pdf))
-* [Citywide planning with Linear Programming](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/04%20-%20Exams/Final%20Exam#1---question-1-version-1) - [See overview here](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/04%20-%20Exams/Final%20Exam/PDF%20Submission/Assignment%20Instructions.pdf)
+* [`Production Modeling`](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects/2%20-%20Adv.%20LP%20and%20Network%20Flows#1---problem-1) - ([View problem context](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/03%20-%20Projects/2%20-%20Adv.%20LP%20and%20Network%20Flows/Assignment%20Instructions.pdf))
+* [Citywide Planning](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/04%20-%20Exams/Final%20Exam#1---question-1-version-1) - ([View problem context](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/04%20-%20Exams/Final%20Exam/PDF%20Submission/Assignment%20Instructions.pdf))
 * [Scheduling, Feed mix, multiperiod planning, and cutting stock problems](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/02%20-%20Notes/04%20-%20Advanced%20LP)
-*  [Minimize Transportation costs with `Advanced Network Flows`](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects/2%20-%20Adv.%20LP%20and%20Network%20Flows#3---problem-3) ([See Overview Here](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/03%20-%20Projects/2%20-%20Adv.%20LP%20and%20Network%20Flows/Assignment%20Instructions.pdf))
+
+### Advanced Network Flow Modeling
+*  [Minimize Transportation costs](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects/2%20-%20Adv.%20LP%20and%20Network%20Flows#3---problem-3) - ([View problem context](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/03%20-%20Projects/2%20-%20Adv.%20LP%20and%20Network%20Flows/Assignment%20Instructions.pdf))
 * [Generalized Network Flows to Model Decay](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/04%20-%20Exams/Exam%201#31-model-overview)
 
 ### Mixed Linear and Integer (and/or) Binary Programming 
-* [Choosing among various projects with `Advanced Mixed-Integer-Linear`](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects/3%20-%20Adv.%20Integer%20Programming#1---problem-1) ([See Overview here](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/03%20-%20Projects/3%20-%20Adv.%20Integer%20Programming/Assignment%20Instructions.pdf))
-* [Supplier choice with `Mixed-Binary-Programming` / `Piece-wise` programming](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects/3%20-%20Adv.%20Integer%20Programming#3---problem-3) ([See Overview here](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/03%20-%20Projects/3%20-%20Adv.%20Integer%20Programming/Assignment%20Instructions.pdf))
+* [Choosing among various projects with `Advanced Mixed-Binary-Linear`](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects/3%20-%20Adv.%20Integer%20Programming#1---problem-1) - ([View problem context](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/03%20-%20Projects/3%20-%20Adv.%20Integer%20Programming/Assignment%20Instructions.pdf))
+* [Supplier choice with `Mixed-Binary-Programming` / `Piece-wise` programming](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects/3%20-%20Adv.%20Integer%20Programming#3---problem-3) - ([View problem context](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/03%20-%20Projects/3%20-%20Adv.%20Integer%20Programming/Assignment%20Instructions.pdf))
 
-### Heuristic Approaches
-* [`Hill Climbing` Variants using Knapsack Problem (Best/first accept and random restarts/walk)](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects/4%20-%20Hill%20Climbing%20Variants#homework-4) ([See Overview here](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/03%20-%20Projects/4%20-%20Hill%20Climbing%20Variants/Assignment%20Instructions.pdf))
-* Neighborhood & Population Hueristics w/Knapsack: ([See Overview here](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/03%20-%20Projects/5%20-%20Neighborhood%20Metaheuristics/Assignment%20Instructions.pdf))
+### Heuristic & Metaheuristic Approaches
+* [`Hill Climbing` Variants using Knapsack Problem (Best/first accept and random restarts/walk)](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects/4%20-%20Hill%20Climbing%20Variants#homework-4) - ([View problem context](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/03%20-%20Projects/4%20-%20Hill%20Climbing%20Variants/Assignment%20Instructions.pdf))
+* Neighborhood & Population Hueristics w/Knapsack: ([View problem context](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/03%20-%20Projects/5%20-%20Neighborhood%20Metaheuristics/Assignment%20Instructions.pdf))
     - [Simulated Annealing](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects/5%20-%20Neighborhood%20Metaheuristics#1-question-1-simulated-annealing)
     - [Genetic Algorithm](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects/5%20-%20Neighborhood%20Metaheuristics#2-question-2-genetic-algorithm) 
-* [Particle Swarm Optimization to solve Schwefel Benchmark Function](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects/6%20-%20Particle%20Swarm%20Optimization#1-question-1-particle-swarm-optimization) ([See Overview here](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/03%20-%20Projects/6%20-%20Particle%20Swarm%20Optimization/Assignment%20Instructions.pdf))
+* [Particle Swarm Optimization to solve Schwefel Benchmark Function](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects/6%20-%20Particle%20Swarm%20Optimization#1-question-1-particle-swarm-optimization) - ([View problem context](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/03%20-%20Projects/6%20-%20Particle%20Swarm%20Optimization/Assignment%20Instructions.pdf))
 
 <br>
 
