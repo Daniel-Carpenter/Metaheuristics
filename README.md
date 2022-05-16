@@ -9,7 +9,7 @@
 ### Linear Programming
 * [`Production Modeling`](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects/2%20-%20Adv.%20LP%20and%20Network%20Flows#1---problem-1) - ([View problem context](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/03%20-%20Projects/2%20-%20Adv.%20LP%20and%20Network%20Flows/Assignment%20Instructions.pdf))
 * [Citywide Planning](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/04%20-%20Exams/Final%20Exam#1---question-1-version-1) - ([View problem context](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/04%20-%20Exams/Final%20Exam/PDF%20Submission/Assignment%20Instructions.pdf))
-* [`Scheduling`, Feed mix, `multiperiod` planning, and cutting `stock` problems](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/02%20-%20Notes/04%20-%20Advanced%20LP)
+* [`Scheduling`, `inventory` management, `multiperiod` planning, and cutting `stock` problems](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/02%20-%20Notes/04%20-%20Advanced%20LP)
 
 ### Advanced Network Flow Modeling
 *  [Minimize `Transportation` costs](https://github.com/Daniel-Carpenter/Metaheuristics/tree/main/03%20-%20Projects/2%20-%20Adv.%20LP%20and%20Network%20Flows#3---problem-3) - ([View problem context](https://github.com/Daniel-Carpenter/Metaheuristics/blob/main/03%20-%20Projects/2%20-%20Adv.%20LP%20and%20Network%20Flows/Assignment%20Instructions.pdf))
