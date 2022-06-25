@@ -80,7 +80,7 @@ def animate(i):
     gbest_plot.set_offsets(gbest.reshape(1,-1))
     return ax, pbest_plot, p_plot, p_arrow, gbest_plot
  
-anim = FuncAnimation(fig, animate, frames=list(range(1,50)), interval=500, blit=False, repeat=True)
+anim = FuncAnimation(fig, animate, frames=list(range(1,20)), interval=500, blit=False, repeat=True)
 anim.save("PSO.gif", dpi=120, writer="imagemagick")
  
 print("PSO found best solution at f({})={}".format(gbest, gbest_obj))
